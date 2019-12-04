@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -50,13 +51,23 @@ namespace PEClient
             //    clientId: "",
             //    clientSecret: "");
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+            string twitterConsumerKey = ConfigurationManager.AppSettings["auth-twitter-consumerKey"];
+            string twitterConsumerSecret = ConfigurationManager.AppSettings["auth-twitter-consumerSecret"];
+            if (!string.IsNullOrEmpty(twitterConsumerKey) && !string.IsNullOrEmpty(twitterConsumerSecret))
+            {
+                app.UseTwitterAuthentication(
+                   consumerKey: twitterConsumerKey,
+                   consumerSecret: twitterConsumerSecret);
+            }
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            string facebookAppId = ConfigurationManager.AppSettings["auth-facebook-appId"];
+            string facebookAppSecret = ConfigurationManager.AppSettings["auth-facebook-appSecret"];
+            if (!string.IsNullOrEmpty(facebookAppId) && !string.IsNullOrEmpty(facebookAppSecret))
+            {
+                app.UseFacebookAuthentication(
+                   appId: facebookAppId,
+                   appSecret: facebookAppSecret);
+            }
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
