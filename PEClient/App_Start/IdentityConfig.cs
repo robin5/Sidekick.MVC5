@@ -11,15 +11,32 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using PEClient.Models;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace PEClient
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
+            string sendGridKey = "<place SendGrid API key here>";
+
+            var client = new SendGridClient(sendGridKey);
+
+            // Email address is from the address defined for SendGrid API key
+            var from = new EmailAddress("<place email of creator of API key here>", "<place name here>");
+            var subject = message.Subject;
+            var to = new EmailAddress(message.Destination, "New User");
+            var plainTextContent = message.Body;
+            var htmlContent = message.Body;
+
+            var email = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+
+            await client.SendEmailAsync(email);
+
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            // return Task.FromResult(0);
         }
     }
 
