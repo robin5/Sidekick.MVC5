@@ -2,12 +2,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <div class="wrapper" style="margin-top: 40px">
     <p>It's a <strong>3</strong> step process:</p>
     <ol style="margin-left: 0">
         <li><a href="#0">Create a peer evaluation template</a></li>
-        <li><a href="#0">Create peer groups</a></li>
+        <li>@Html.ActionLink("Create peer groups", "Index", "CreateTeam")</li>
         <li><a href="#0">Launch the survey</a></li>
     </ol>
     <hr>
@@ -21,7 +20,7 @@
     <hr>
 
     <div id="templates" class="collapse">
-        <p><a href="#0">Create a new <strong>Peer Evaluation Template</strong>...</a></p>
+        <p><a href="#0">Create a new peer evaluation template</a></p>
         <div style="display: flex; flex-wrap: wrap;">
 
             @* Generate survey instance cards *@
@@ -52,7 +51,7 @@
     <hr>
 
     <div id="teams" class="collapse">
-        <p><a href="#0">Create new <strong>Peer Groups</strong>...</a></p>
+        <p>@Html.ActionLink("Create a new peer group", "Index", "CreateTeam")</p>
         <div style="display: flex; flex-wrap: wrap;">
 
             @* Generate survey instance cards *@
@@ -83,7 +82,7 @@
     <hr>
 
     <div id="launched" class="collapse">
-        <p><a href="#0">Launch a new <strong>Peer Evaluation</strong>...</a></p>
+        <p><a href="#0">Launch a peer evaluation</a></p>
         <div style="display: flex; flex-wrap: wrap;">
 
             @* Generate survey instance cards *@
