@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h2>Launch Peer Evaluation</h2>
+
+    <form action="dashboard.php" method="post">
+        <div id="div-post-survey">
+            <label for="instance-name" class="lbl-post-survey">Instance Name:</label>
+            <input id="instance-name" type="text" class="form-control" name="instance-name" required />
+            <br>
+            <label for="select-review" class="lbl-post-survey">Peer Evaluation Template:</label>
+            <select id="select-review" class="form-control" name="survey-id">
+                <option>-- select a survey --</option>
+                <option value="115">Survey-1</option>
+                <option value="117">Survey-2</option>
+                <option value="123">No Questions</option>
+                <option value="125">Survey-3</option>
+                <option value="126">CTEC-227 Class Survey</option>
+                <option value="128">Final Test</option>
+            </select>
+            <br>
+            <label for="select-team" class="lbl-post-survey">Peer Group:</label>
+            <select id="select-team" class="form-control" name="team-ids[]" multiple>
+                <option value="58">Celeb Team</option>
+                <option value="46">Team-1</option>
+                <option value="47">Team-2</option>
+                <option value="48">Team-3</option>
+                <option value="49">Team-4</option>
+            </select>
+            <br>
+            <label for="start-date-time" class="lbl-post-survey">Start Date:</label>
+            <input id="start-date-time" class="form-control" name="survey-start" required />
+            <br>
+            <label for="end-date-time" class="lbl-post-survey">End Date:</label>
+            <input id="end-date-time" class="form-control" name="survey-end" required />
+            <hr>
+
+            <button id="post-survey" type="submit" name="action" value="start-survey" class="btn btn-primary">Launch Peer Evaluation</button>
+            &nbsp;|&nbsp;
+
+            <!-- Cancel Button -->
+            <a id="btn-cancel" href="@Url.Action("Index","Dashboard")" class="btn btn-danger">
+                Cancel
+            </a>
+
+        </div>
+        <div id="div-reg-button">
+        </div>
+    </form>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#start-date-time').datetimepicker();
+            $('#end-date-time').datetimepicker();
+        })
+
+        // fill in required fields with some data
+        function fakeFillLaunchSurveyFields() {
+            $('input').val(" ");
+            return true;
+        }
+    </script>
+}

@@ -7,7 +7,7 @@
     <ol style="margin-left: 0">
         <li>@Html.ActionLink("Create a peer evaluation template", "Index", "CreateTemplate")</li>
         <li>@Html.ActionLink("Create peer groups", "Index", "CreateTeam")</li>
-        <li><a href="#0">Launch the survey</a></li>
+        <li>@Html.ActionLink("Launch the Peer Evaluation", "Index", "Launch")</li>
     </ol>
     <hr>
 
@@ -82,7 +82,9 @@
     <hr>
 
     <div id="launched" class="collapse">
-        <p><a href="#0">Launch a peer evaluation</a></p>
+
+        <p>@Html.ActionLink("Launch a peer evaluation", "Index", "Launch")</p>
+
         <div style="display: flex; flex-wrap: wrap;">
 
             @* Generate survey instance cards *@

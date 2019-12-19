@@ -209,6 +209,7 @@
     <Compile Include="Controllers\CreateTemplateController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LaunchController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -283,6 +284,7 @@
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\CreateTeam\Index.cshtml" />
     <Content Include="Views\CreateTemplate\Index.cshtml" />
+    <Content Include="Views\Launch\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
