@@ -1,28 +1,45 @@
-﻿
+﻿@model  PEClient.Models.LaunchViewModel
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
-    <h2>Launch Peer Evaluation</h2>
+    <div>
+        <h2>Launch Peer Evaluation</h2>
 
-    <form action="dashboard.php" method="post">
-        <div id="div-post-survey">
-            <label for="instance-name" class="lbl-post-survey">Instance Name:</label>
-            <input id="instance-name" type="text" class="form-control" name="instance-name" required />
+        @using (Html.BeginForm("Index", "Launch",
+            new { ReturnUrl = Request.QueryString["ReturnUrl"] },
+            FormMethod.Post, new { @class = "form-launch" }))
+        {
+            <!-- Alert Message -->
+            if (IsPost)
+            {
+                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+            }
+
+            <!-- Launch Name-->
+            @Html.LabelFor(m => m.LaunchName, "Launch Name", new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.LaunchName,
+                new
+                     {
+                         @class = "form-control",
+                    title = "Enter a descriptive name for the this peer evaluation cycle",
+                    autofocus = "",
+                         required = true
+                })
             <br>
-            <label for="select-review" class="lbl-post-survey">Peer Evaluation Template:</label>
-            <select id="select-review" class="form-control" name="survey-id">
-                <option>-- select a survey --</option>
-                <option value="115">Survey-1</option>
-                <option value="117">Survey-2</option>
-                <option value="123">No Questions</option>
-                <option value="125">Survey-3</option>
-                <option value="126">CTEC-227 Class Survey</option>
-                <option value="128">Final Test</option>
-            </select>
+
+            <!-- Templates list-->
+            @Html.LabelFor(m => m.TemplateNames, "Peer Evaluation Form", new { @class = "control-label" })
+            @Html.DropDownListFor(m => m.TemplateNames, new SelectList(Model.TemplateNames), "-- select a survey --", new { @class = "form-control" })
             <br>
+
+            <!-- Peer Groups list-->
+            @Html.LabelFor(m => m.SelectedPeerGroups, "Peer Group", new { @class = "control-label" })
+            @Html.ListBoxFor(m => m.SelectedPeerGroups, Model.PeerGroups, new { @class = "form-control" })
+
+            @*
             <label for="select-team" class="lbl-post-survey">Peer Group:</label>
             <select id="select-team" class="form-control" name="team-ids[]" multiple>
                 <option value="58">Celeb Team</option>
@@ -31,27 +48,30 @@
                 <option value="48">Team-3</option>
                 <option value="49">Team-4</option>
             </select>
+            *@
             <br>
-            <label for="start-date-time" class="lbl-post-survey">Start Date:</label>
-            <input id="start-date-time" class="form-control" name="survey-start" required />
+
+            <!-- Start DateTime-->
+            @Html.LabelFor(m => m.StartDateTime, "Start date and time", new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.StartDateTime, new { id = "start-date-time", @class = "form-control", required = true })
             <br>
-            <label for="end-date-time" class="lbl-post-survey">End Date:</label>
-            <input id="end-date-time" class="form-control" name="survey-end" required />
+
+            <!-- End DateTime-->
+            @Html.LabelFor(m => m.EndDateTime, "End date and time", new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.EndDateTime, new { id = "end-date-time", @class = "form-control", required = true })
             <hr>
 
+            <!-- Launch Button -->
             <button id="post-survey" type="submit" name="action" value="start-survey" class="btn btn-primary">Launch Peer Evaluation</button>
-            &nbsp;|&nbsp;
+            <span>&nbsp;| &nbsp;</span>
 
             <!-- Cancel Button -->
             <a id="btn-cancel" href="@Url.Action("Index","Dashboard")" class="btn btn-danger">
                 Cancel
             </a>
+        }
 
-        </div>
-        <div id="div-reg-button">
-        </div>
-    </form>
-</div>
+    </div>
 @section scripts{
     <script>
         $(document).ready(function () {
