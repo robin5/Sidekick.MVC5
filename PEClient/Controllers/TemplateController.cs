@@ -2,7 +2,7 @@
 // * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: CreateTemplateController.cs
+// * File: TemplateController.cs
 // *
 // * Author: Robin Murray
 // *
