@@ -1,137 +1,170 @@
-﻿
+﻿@*
+    **********************************************************************************
+    * Copyright (c) 2019 Robin Murray
+    **********************************************************************************
+    *
+    * File: Index.cshtml
+    *
+    * Description: View for  CreateTeamController
+    *
+    * Author: Robin Murray
+    *
+    **********************************************************************************
+    *
+    * Granting License: The MIT License (MIT)
+    *
+    *   Permission is hereby granted, free of charge, to any person obtaining a copy
+    *   of this software and associated documentation files (the "Software"), to deal
+    *   in the Software without restriction, including without limitation the rights
+    *   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    *   copies of the Software, and to permit persons to whom the Software is
+    *   furnished to do so, subject to the following conditions:
+    *   The above copyright notice and this permission notice shall be included in
+    *   all copies or substantial portions of the Software.
+    *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    *   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    *   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    *   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    *   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    *   THE SOFTWARE.
+    *
+    **********************************************************************************
+*@
+
 @{
     ViewBag.Title = "CreateTeam";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    @{ 
-        if (string.IsNullOrWhiteSpace(ViewBag.TeamName))
+@{
+    if (string.IsNullOrWhiteSpace(ViewBag.TeamName))
+    {
+        ViewBag.TeamName = "";
+    }
+}
+
+<main>
+    <h2>CreateTeam</h2>
+
+    <label class="lbl-create-team" for="input-team-name">Team Name:</label>
+    <input id="input-team-name"
+           class="form-control"
+           name="team-name"
+           type="text"
+           oninput="updateTeamName();"
+           value="@ViewBag.TeamName" required
+           placeholder="Enter name of team" />
+    <br>
+
+    <!-- Select -->
+    <select class="form-control" id="sel-user-id" name="user-id" style="display: inline-block">
+        <option value="-1" selected>--Select a student--</option>
+        @foreach (var student in ViewBag.Students)
         {
-            ViewBag.TeamName = "";
+            <option data-username="@student.UserName" data-firstlast="@student.Name" value="@student.id">@(student.UserName)&nbsp;&nbsp;(@student.Name)</option>
+        }
+    </select>
+
+    <!-- Add User Button -->
+    <button type="button" id="btn-add-team" class="btn btn-primary" name="action" value="add-user" onclick="addBlankRow();" style="margin-left: 5px">
+        Add
+    </button>
+
+    <hr />
+
+    <table id="tbl-edit-team">
+        <tr>
+            <td colspan="4"><h4 id="table-team-name" style="text-decoration:underline"></h4></td>
+        </tr>
+        <tr>
+            <th style="padding: 0 20px 10px 0px">Name</th>
+            <th style="padding: 0 20px 10px 0px">Username</th>
+            <th style="padding: 0 20px 10px 0px"></th>
+        </tr>
+    </table>
+    <form action="@Request.Url.PathAndQuery" method="post" onsubmit="collectTeamMembers();">
+        <div id="div-entries">
+
+            <!--input id="team-id" type="hidden" name="team_id" value="" /-->
+            <input id="team-name" type="hidden" name="team_name" value="" />
+            <input id="team-user-ids" type="hidden" name="team_user_ids" value="" />
+
+            <hr />
+
+            <!-- Alert Message -->
+            @if (IsPost)
+            {
+                <div class="alert alert-danger">@ViewBag.Message</div>
+            }
+
+            <!-- Save & Exit Button -->
+            <button id="btn-create-team" name="action" type="submit" class="btn btn-success"
+                    value="create-team">
+                Create
+            </button>
+
+            &nbsp;|&nbsp;
+
+            <!-- Cancel Button -->
+            <a id="btn-cancel" href="@Url.Action("Index","Dashboard")" class="btn btn-danger">
+                Cancel
+            </a>
+        </div>
+    </form>
+</main>
+
+<script>
+    function collectTeamMembers() {
+
+        // Get user IDs from <td> elements in table
+        var userIds = [];
+        $('td[data-user-id]').each(function () {
+            // Add userId values to an array
+            userIds.push($(this).attr('data-user-id'));
+        });
+
+        // Copy user IDs to hidden control's value attribute
+        $('#team-user-ids').val(userIds.toString());
+
+        // Copy the team's name to hidden control's value attribute
+        $('#team-name').val($('#input-team-name').val());
+    }
+
+    function updateTeamName() {
+        $('#table-team-name').text($('#input-team-name').val());
+    }
+
+    function addBlankRow() {
+        var userId = $("#sel-user-id").val();
+
+        if (-1 != userId) {
+            var userName = $("#sel-user-id option:selected").attr('data-username');
+            var firstLast = $("#sel-user-id option:selected").attr('data-firstlast');
+            if ($('td[data-user-id = ' + userId + ']').length > 0) {
+                alert(firstLast + " is already a member of the team!");
+            } else {
+                $('table').append(getNextRow(userId, userName, firstLast));
+            }
         }
     }
 
-    <main>
-        <h2>CreateTeam</h2>
+    function getNextRow(userId, userName, firstLast) {
+        var row = '<tr id="row-id-' + userId + '">';
+        //row += '<td class="td-user-id" style="display:none;">' + userId + '</td>';
+        row += '<td style="padding: 3px 20px 0 0" data-user-id="' + userId + '">' + userName + '</td>';
+        row += '<td style="padding: 3px 20px 0 0">' + firstLast + '</td>';
+        row += '<td style="padding: 3px 20px 0 0"><span class="badge"><a data-row-id=\"' + userId + '\" href=\"#\" onclick=\"deleteRow(event)\" style="color: white">delete</a></span></td></tr>'
+        console.log(row);
+        return row;
+    }
 
-        <label class="lbl-create-team" for="input-team-name">Team Name:</label>
-        <input id="input-team-name"
-               class="form-control"
-               name="team-name"
-               type="text"
-               oninput="updateTeamName();"
-               value="@ViewBag.TeamName" required 
-                placeholder="Enter name of team"/>
-        <br>
-
-        <!-- Select -->
-        <select class="form-control" id="sel-user-id" name="user-id" style="display: inline-block">
-            <option value="-1" selected>--Select a student--</option>
-            @foreach (var student in ViewBag.Students)
-            {
-                <option data-username="@student.UserName" data-firstlast="@student.Name" value="@student.id">@(student.UserName)&nbsp;&nbsp;(@student.Name)</option>
-            }
-        </select>
-
-        <!-- Add User Button -->
-        <button type="button" id="btn-add-team" class="btn btn-primary" name="action" value="add-user" onclick="addBlankRow();" style="margin-left: 5px">
-            Add
-        </button>
-
-        <hr />
-
-        <table id="tbl-edit-team">
-            <tr>
-                <td colspan="4"><h4 id="table-team-name" style="text-decoration:underline"></h4></td>
-            </tr>
-            <tr>
-                <th style="padding: 0 20px 10px 0px">Name</th>
-                <th style="padding: 0 20px 10px 0px">Username</th>
-                <th style="padding: 0 20px 10px 0px"></th>
-            </tr>
-        </table>
-        <form action="@Request.Url.PathAndQuery" method="post" onsubmit="collectTeamMembers();">
-            <div id="div-entries">
-
-                <!--input id="team-id" type="hidden" name="team_id" value="" /-->
-                <input id="team-name" type="hidden" name="team_name" value="" />
-                <input id="team-user-ids" type="hidden" name="team_user_ids" value="" />
-
-                <hr />
-
-                <!-- Alert Message -->
-                @if (IsPost)
-                {
-                    <div class="alert alert-danger">@ViewBag.Message</div>
-                }
-
-                <!-- Save & Exit Button -->
-                <button id="btn-create-team" name="action" type="submit" class="btn btn-success"
-                        value="create-team">
-                    Create
-                </button>
-
-                &nbsp;|&nbsp;
-
-                <!-- Cancel Button -->
-                <a id="btn-cancel" href="@Url.Action("Index","Dashboard")" class="btn btn-danger">
-                    Cancel
-                </a>
-            </div>
-        </form>
-    </main>
-
-<script>
-		function collectTeamMembers() {
-
-			// Get user IDs from <td> elements in table
-			var userIds = [];
-			$('td[data-user-id]').each(function(){
-				// Add userId values to an array
-				userIds.push($(this).attr('data-user-id'));
-			});
-			
-			// Copy user IDs to hidden control's value attribute
-			$('#team-user-ids').val(userIds.toString());
-			
-			// Copy the team's name to hidden control's value attribute
-			$('#team-name').val($('#input-team-name').val());
-		}
-		
-		function updateTeamName() {
-			$('#table-team-name').text($('#input-team-name').val());
-		}
-		
-		function addBlankRow() {
-			var userId = $( "#sel-user-id").val();
-			
-			if (-1 != userId) {
-				var userName = $( "#sel-user-id option:selected" ).attr('data-username');
-				var firstLast = $( "#sel-user-id option:selected" ).attr('data-firstlast');
-				if ($('td[data-user-id = ' + userId + ']').length > 0) {
-					alert(firstLast + " is already a member of the team!");
-				} else {
-					$('table').append(getNextRow(userId, userName, firstLast));
-				}
-			}
-		}
-		
-		function getNextRow(userId, userName, firstLast) {
-			var row = '<tr id="row-id-' + userId + '">';
-			//row += '<td class="td-user-id" style="display:none;">' + userId + '</td>';
-			row += '<td style="padding: 3px 20px 0 0" data-user-id="' + userId + '">' + userName + '</td>';
-			row += '<td style="padding: 3px 20px 0 0">' + firstLast + '</td>';
-			row += '<td style="padding: 3px 20px 0 0"><span class="badge"><a data-row-id=\"' + userId + '\" href=\"#\" onclick=\"deleteRow(event)\" style="color: white">delete</a></span></td></tr>'
-			console.log(row);
-			return row;
-		}
-		
-		// Deletes a row from the table and prevents the anchor from firing.
-		function deleteRow(event) {
-			var rowToDelete = "#row-id-" + event.target.getAttribute('data-row-id');
-			$(rowToDelete).remove();
-			event.preventDefault();
-		}
-	</script>
+    // Deletes a row from the table and prevents the anchor from firing.
+    function deleteRow(event) {
+        var rowToDelete = "#row-id-" + event.target.getAttribute('data-row-id');
+        $(rowToDelete).remove();
+        event.preventDefault();
+    }
+</script>
 
 
