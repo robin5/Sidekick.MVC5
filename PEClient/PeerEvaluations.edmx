@@ -1,0 +1,1067 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PeerEvaluationsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblGrade">
+          <Key>
+            <PropertyRef Name="GradeId" />
+          </Key>
+          <Property Name="GradeId" Type="tinyint" Nullable="false" />
+          <Property Name="Text" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="tblQuestion">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="Text" Type="varchar" MaxLength="512" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblRole">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="tinyint" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tblSubmissionStatus">
+          <Key>
+            <PropertyRef Name="SubmissionId" />
+          </Key>
+          <Property Name="SubmissionId" Type="tinyint" Nullable="false" />
+          <Property Name="Text" Type="varchar" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="tblSurvey">
+          <Key>
+            <PropertyRef Name="SurveyId" />
+          </Key>
+          <Property Name="SurveyId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="OwnerId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="InstanceId" Type="decimal" Precision="10" Scale="0" />
+        </EntityType>
+        <EntityType Name="tblSurveyComplete">
+          <Key>
+            <PropertyRef Name="SurveyCompleteId" />
+          </Key>
+          <Property Name="SurveyCompleteId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SurveyId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="Reviewee" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="Reviewer" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="SubmissionId" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblSurveyInstance">
+          <Key>
+            <PropertyRef Name="InstanceId" />
+          </Key>
+          <Property Name="InstanceId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+          <Property Name="Released" Type="decimal" Precision="1" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblSurveyQuestion">
+          <Key>
+            <PropertyRef Name="SurveyQuestionId" />
+          </Key>
+          <Property Name="SurveyQuestionId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="SurveyId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="QuestionId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="QsIndex" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblSurveyResponse">
+          <Key>
+            <PropertyRef Name="ResponseId" />
+          </Key>
+          <Property Name="ResponseId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="Reviewee" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="Reviewer" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="Text" Type="varchar" MaxLength="512" Nullable="false" />
+          <Property Name="GradeId" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblTeam">
+          <Key>
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="TeamId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="OwnerId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="InstanceId" Type="decimal" Precision="10" Scale="0" />
+        </EntityType>
+        <EntityType Name="tblTeamUser">
+          <Key>
+            <PropertyRef Name="TeamUserId" />
+          </Key>
+          <Property Name="TeamUserId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeamId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="UserId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblUserRole">
+          <Key>
+            <PropertyRef Name="UserRoleId" />
+          </Key>
+          <Property Name="UserRoleId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="RoleId" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tblSurvey__Grade__571DF1D5">
+          <End Role="tblGrade" Type="Self.tblGrade" Multiplicity="1" />
+          <End Role="tblSurveyResponse" Type="Self.tblSurveyResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblGrade">
+              <PropertyRef Name="GradeId" />
+            </Principal>
+            <Dependent Role="tblSurveyResponse">
+              <PropertyRef Name="GradeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Insta__2F10007B">
+          <End Role="tblSurveyInstance" Type="Self.tblSurveyInstance" Multiplicity="0..1" />
+          <End Role="tblSurvey" Type="Self.tblSurvey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSurveyInstance">
+              <PropertyRef Name="InstanceId" />
+            </Principal>
+            <Dependent Role="tblSurvey">
+              <PropertyRef Name="InstanceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Owner__2E1BDC42">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblSurvey" Type="Self.tblSurvey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblSurvey">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Quest__440B1D61">
+          <End Role="tblQuestion" Type="Self.tblQuestion" Multiplicity="1" />
+          <End Role="tblSurveyQuestion" Type="Self.tblSurveyQuestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblQuestion">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="tblSurveyQuestion">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Quest__5441852A">
+          <End Role="tblQuestion" Type="Self.tblQuestion" Multiplicity="1" />
+          <End Role="tblSurveyResponse" Type="Self.tblSurveyResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblQuestion">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="tblSurveyResponse">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Revie__3D5E1FD2">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblSurveyComplete" Type="Self.tblSurveyComplete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblSurveyComplete">
+              <PropertyRef Name="Reviewee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Revie__3E52440B">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblSurveyComplete" Type="Self.tblSurveyComplete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblSurveyComplete">
+              <PropertyRef Name="Reviewer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Revie__5535A963">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblSurveyResponse" Type="Self.tblSurveyResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblSurveyResponse">
+              <PropertyRef Name="Reviewee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Revie__5629CD9C">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblSurveyResponse" Type="Self.tblSurveyResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblSurveyResponse">
+              <PropertyRef Name="Reviewer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Submi__3F466844">
+          <End Role="tblSubmissionStatus" Type="Self.tblSubmissionStatus" Multiplicity="1" />
+          <End Role="tblSurveyComplete" Type="Self.tblSurveyComplete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSubmissionStatus">
+              <PropertyRef Name="SubmissionId" />
+            </Principal>
+            <Dependent Role="tblSurveyComplete">
+              <PropertyRef Name="SubmissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Surve__3C69FB99">
+          <End Role="tblSurvey" Type="Self.tblSurvey" Multiplicity="1" />
+          <End Role="tblSurveyComplete" Type="Self.tblSurveyComplete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSurvey">
+              <PropertyRef Name="SurveyId" />
+            </Principal>
+            <Dependent Role="tblSurveyComplete">
+              <PropertyRef Name="SurveyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Surve__403A8C7D">
+          <End Role="tblSurvey" Type="Self.tblSurvey" Multiplicity="1" />
+          <End Role="tblSurveyQuestion" Type="Self.tblSurveyQuestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSurvey">
+              <PropertyRef Name="SurveyId" />
+            </Principal>
+            <Dependent Role="tblSurveyQuestion">
+              <PropertyRef Name="SurveyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Surve__4316F928">
+          <End Role="tblSurvey" Type="Self.tblSurvey" Multiplicity="1" />
+          <End Role="tblSurveyQuestion" Type="Self.tblSurveyQuestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSurvey">
+              <PropertyRef Name="SurveyId" />
+            </Principal>
+            <Dependent Role="tblSurveyQuestion">
+              <PropertyRef Name="SurveyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblTeam__Instanc__619B8048">
+          <End Role="tblSurveyInstance" Type="Self.tblSurveyInstance" Multiplicity="0..1" />
+          <End Role="tblTeam" Type="Self.tblTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSurveyInstance">
+              <PropertyRef Name="InstanceId" />
+            </Principal>
+            <Dependent Role="tblTeam">
+              <PropertyRef Name="InstanceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblTeam__OwnerId__60A75C0F">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblTeam" Type="Self.tblTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblTeam">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblTeamUs__TeamI__6477ECF3">
+          <End Role="tblTeam" Type="Self.tblTeam" Multiplicity="1" />
+          <End Role="tblTeamUser" Type="Self.tblTeamUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTeam">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="tblTeamUser">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblTeamUs__UserI__656C112C">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblTeamUser" Type="Self.tblTeamUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblTeamUser">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblUserRo__RoleI__70DDC3D8">
+          <End Role="tblRole" Type="Self.tblRole" Multiplicity="1" />
+          <End Role="tblUserRole" Type="Self.tblUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRole">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="tblUserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblUserRo__UserI__6C190EBB">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblUserRole" Type="Self.tblUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblUserRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PeerEvaluationsModelStoreContainer">
+          <EntitySet Name="tblGrade" EntityType="Self.tblGrade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblQuestion" EntityType="Self.tblQuestion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRole" EntityType="Self.tblRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSubmissionStatus" EntityType="Self.tblSubmissionStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSurvey" EntityType="Self.tblSurvey" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSurveyComplete" EntityType="Self.tblSurveyComplete" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSurveyInstance" EntityType="Self.tblSurveyInstance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSurveyQuestion" EntityType="Self.tblSurveyQuestion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSurveyResponse" EntityType="Self.tblSurveyResponse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTeam" EntityType="Self.tblTeam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTeamUser" EntityType="Self.tblTeamUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUserRole" EntityType="Self.tblUserRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tblSurvey__Grade__571DF1D5" Association="Self.FK__tblSurvey__Grade__571DF1D5">
+            <End Role="tblGrade" EntitySet="tblGrade" />
+            <End Role="tblSurveyResponse" EntitySet="tblSurveyResponse" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Insta__2F10007B" Association="Self.FK__tblSurvey__Insta__2F10007B">
+            <End Role="tblSurveyInstance" EntitySet="tblSurveyInstance" />
+            <End Role="tblSurvey" EntitySet="tblSurvey" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Owner__2E1BDC42" Association="Self.FK__tblSurvey__Owner__2E1BDC42">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblSurvey" EntitySet="tblSurvey" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Quest__440B1D61" Association="Self.FK__tblSurvey__Quest__440B1D61">
+            <End Role="tblQuestion" EntitySet="tblQuestion" />
+            <End Role="tblSurveyQuestion" EntitySet="tblSurveyQuestion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Quest__5441852A" Association="Self.FK__tblSurvey__Quest__5441852A">
+            <End Role="tblQuestion" EntitySet="tblQuestion" />
+            <End Role="tblSurveyResponse" EntitySet="tblSurveyResponse" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Revie__3D5E1FD2" Association="Self.FK__tblSurvey__Revie__3D5E1FD2">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblSurveyComplete" EntitySet="tblSurveyComplete" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Revie__3E52440B" Association="Self.FK__tblSurvey__Revie__3E52440B">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblSurveyComplete" EntitySet="tblSurveyComplete" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Revie__5535A963" Association="Self.FK__tblSurvey__Revie__5535A963">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblSurveyResponse" EntitySet="tblSurveyResponse" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Revie__5629CD9C" Association="Self.FK__tblSurvey__Revie__5629CD9C">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblSurveyResponse" EntitySet="tblSurveyResponse" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Submi__3F466844" Association="Self.FK__tblSurvey__Submi__3F466844">
+            <End Role="tblSubmissionStatus" EntitySet="tblSubmissionStatus" />
+            <End Role="tblSurveyComplete" EntitySet="tblSurveyComplete" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Surve__3C69FB99" Association="Self.FK__tblSurvey__Surve__3C69FB99">
+            <End Role="tblSurvey" EntitySet="tblSurvey" />
+            <End Role="tblSurveyComplete" EntitySet="tblSurveyComplete" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Surve__403A8C7D" Association="Self.FK__tblSurvey__Surve__403A8C7D">
+            <End Role="tblSurvey" EntitySet="tblSurvey" />
+            <End Role="tblSurveyQuestion" EntitySet="tblSurveyQuestion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Surve__4316F928" Association="Self.FK__tblSurvey__Surve__4316F928">
+            <End Role="tblSurvey" EntitySet="tblSurvey" />
+            <End Role="tblSurveyQuestion" EntitySet="tblSurveyQuestion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblTeam__Instanc__619B8048" Association="Self.FK__tblTeam__Instanc__619B8048">
+            <End Role="tblSurveyInstance" EntitySet="tblSurveyInstance" />
+            <End Role="tblTeam" EntitySet="tblTeam" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblTeam__OwnerId__60A75C0F" Association="Self.FK__tblTeam__OwnerId__60A75C0F">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblTeam" EntitySet="tblTeam" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblTeamUs__TeamI__6477ECF3" Association="Self.FK__tblTeamUs__TeamI__6477ECF3">
+            <End Role="tblTeam" EntitySet="tblTeam" />
+            <End Role="tblTeamUser" EntitySet="tblTeamUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblTeamUs__UserI__656C112C" Association="Self.FK__tblTeamUs__UserI__656C112C">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblTeamUser" EntitySet="tblTeamUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblUserRo__RoleI__70DDC3D8" Association="Self.FK__tblUserRo__RoleI__70DDC3D8">
+            <End Role="tblRole" EntitySet="tblRole" />
+            <End Role="tblUserRole" EntitySet="tblUserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblUserRo__UserI__6C190EBB" Association="Self.FK__tblUserRo__UserI__6C190EBB">
+            <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblUserRole" EntitySet="tblUserRole" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PeerEvaluationsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblGrade">
+          <Key>
+            <PropertyRef Name="GradeId" />
+          </Key>
+          <Property Name="GradeId" Type="Byte" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="tblSurveyResponses" Relationship="Self.FK__tblSurvey__Grade__571DF1D5" FromRole="tblGrade" ToRole="tblSurveyResponse" />
+        </EntityType>
+        <EntityType Name="tblQuestion">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="512" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblSurveyQuestions" Relationship="Self.FK__tblSurvey__Quest__440B1D61" FromRole="tblQuestion" ToRole="tblSurveyQuestion" />
+          <NavigationProperty Name="tblSurveyResponses" Relationship="Self.FK__tblSurvey__Quest__5441852A" FromRole="tblQuestion" ToRole="tblSurveyResponse" />
+        </EntityType>
+        <EntityType Name="tblRole">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Byte" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblUserRoles" Relationship="Self.FK__tblUserRo__RoleI__70DDC3D8" FromRole="tblRole" ToRole="tblUserRole" />
+        </EntityType>
+        <EntityType Name="tblSubmissionStatu">
+          <Key>
+            <PropertyRef Name="SubmissionId" />
+          </Key>
+          <Property Name="SubmissionId" Type="Byte" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblSurveyCompletes" Relationship="Self.FK__tblSurvey__Submi__3F466844" FromRole="tblSubmissionStatus" ToRole="tblSurveyComplete" />
+        </EntityType>
+        <EntityType Name="tblSurvey">
+          <Key>
+            <PropertyRef Name="SurveyId" />
+          </Key>
+          <Property Name="SurveyId" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OwnerId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="InstanceId" Type="Decimal" Precision="10" Scale="0" />
+          <NavigationProperty Name="tblSurveyInstance" Relationship="Self.FK__tblSurvey__Insta__2F10007B" FromRole="tblSurvey" ToRole="tblSurveyInstance" />
+          <NavigationProperty Name="tblUser" Relationship="Self.FK__tblSurvey__Owner__2E1BDC42" FromRole="tblSurvey" ToRole="tblUser" />
+          <NavigationProperty Name="tblSurveyCompletes" Relationship="Self.FK__tblSurvey__Surve__3C69FB99" FromRole="tblSurvey" ToRole="tblSurveyComplete" />
+          <NavigationProperty Name="tblSurveyQuestions" Relationship="Self.FK__tblSurvey__Surve__403A8C7D" FromRole="tblSurvey" ToRole="tblSurveyQuestion" />
+          <NavigationProperty Name="tblSurveyQuestions1" Relationship="Self.FK__tblSurvey__Surve__4316F928" FromRole="tblSurvey" ToRole="tblSurveyQuestion" />
+        </EntityType>
+        <EntityType Name="tblSurveyComplete">
+          <Key>
+            <PropertyRef Name="SurveyCompleteId" />
+          </Key>
+          <Property Name="SurveyCompleteId" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SurveyId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="Reviewee" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="Reviewer" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="SubmissionId" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="tblSubmissionStatu" Relationship="Self.FK__tblSurvey__Submi__3F466844" FromRole="tblSurveyComplete" ToRole="tblSubmissionStatus" />
+          <NavigationProperty Name="tblSurvey" Relationship="Self.FK__tblSurvey__Surve__3C69FB99" FromRole="tblSurveyComplete" ToRole="tblSurvey" />
+          <NavigationProperty Name="tblUser" Relationship="Self.FK__tblSurvey__Revie__3D5E1FD2" FromRole="tblSurveyComplete" ToRole="tblUser" />
+          <NavigationProperty Name="tblUser1" Relationship="Self.FK__tblSurvey__Revie__3E52440B" FromRole="tblSurveyComplete" ToRole="tblUser" />
+        </EntityType>
+        <EntityType Name="tblSurveyInstance">
+          <Key>
+            <PropertyRef Name="InstanceId" />
+          </Key>
+          <Property Name="InstanceId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Released" Type="Decimal" Precision="1" Scale="0" Nullable="false" />
+          <NavigationProperty Name="tblSurveys" Relationship="Self.FK__tblSurvey__Insta__2F10007B" FromRole="tblSurveyInstance" ToRole="tblSurvey" />
+          <NavigationProperty Name="tblTeams" Relationship="Self.FK__tblTeam__Instanc__619B8048" FromRole="tblSurveyInstance" ToRole="tblTeam" />
+        </EntityType>
+        <EntityType Name="tblSurveyQuestion">
+          <Key>
+            <PropertyRef Name="SurveyQuestionId" />
+          </Key>
+          <Property Name="SurveyQuestionId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="SurveyId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="QuestionId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="QsIndex" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <NavigationProperty Name="tblQuestion" Relationship="Self.FK__tblSurvey__Quest__440B1D61" FromRole="tblSurveyQuestion" ToRole="tblQuestion" />
+          <NavigationProperty Name="tblSurvey" Relationship="Self.FK__tblSurvey__Surve__403A8C7D" FromRole="tblSurveyQuestion" ToRole="tblSurvey" />
+          <NavigationProperty Name="tblSurvey1" Relationship="Self.FK__tblSurvey__Surve__4316F928" FromRole="tblSurveyQuestion" ToRole="tblSurvey" />
+        </EntityType>
+        <EntityType Name="tblSurveyResponse">
+          <Key>
+            <PropertyRef Name="ResponseId" />
+          </Key>
+          <Property Name="ResponseId" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="Reviewee" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="Reviewer" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="512" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="GradeId" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="tblGrade" Relationship="Self.FK__tblSurvey__Grade__571DF1D5" FromRole="tblSurveyResponse" ToRole="tblGrade" />
+          <NavigationProperty Name="tblQuestion" Relationship="Self.FK__tblSurvey__Quest__5441852A" FromRole="tblSurveyResponse" ToRole="tblQuestion" />
+          <NavigationProperty Name="tblUser" Relationship="Self.FK__tblSurvey__Revie__5535A963" FromRole="tblSurveyResponse" ToRole="tblUser" />
+          <NavigationProperty Name="tblUser1" Relationship="Self.FK__tblSurvey__Revie__5629CD9C" FromRole="tblSurveyResponse" ToRole="tblUser" />
+        </EntityType>
+        <EntityType Name="tblTeam">
+          <Key>
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="TeamId" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OwnerId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="InstanceId" Type="Decimal" Precision="10" Scale="0" />
+          <NavigationProperty Name="tblSurveyInstance" Relationship="Self.FK__tblTeam__Instanc__619B8048" FromRole="tblTeam" ToRole="tblSurveyInstance" />
+          <NavigationProperty Name="tblUser" Relationship="Self.FK__tblTeam__OwnerId__60A75C0F" FromRole="tblTeam" ToRole="tblUser" />
+          <NavigationProperty Name="tblTeamUsers" Relationship="Self.FK__tblTeamUs__TeamI__6477ECF3" FromRole="tblTeam" ToRole="tblTeamUser" />
+        </EntityType>
+        <EntityType Name="tblTeamUser">
+          <Key>
+            <PropertyRef Name="TeamUserId" />
+          </Key>
+          <Property Name="TeamUserId" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeamId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="UserId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <NavigationProperty Name="tblTeam" Relationship="Self.FK__tblTeamUs__TeamI__6477ECF3" FromRole="tblTeamUser" ToRole="tblTeam" />
+          <NavigationProperty Name="tblUser" Relationship="Self.FK__tblTeamUs__UserI__656C112C" FromRole="tblTeamUser" ToRole="tblUser" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblSurveys" Relationship="Self.FK__tblSurvey__Owner__2E1BDC42" FromRole="tblUser" ToRole="tblSurvey" />
+          <NavigationProperty Name="tblSurveyCompletes" Relationship="Self.FK__tblSurvey__Revie__3D5E1FD2" FromRole="tblUser" ToRole="tblSurveyComplete" />
+          <NavigationProperty Name="tblSurveyCompletes1" Relationship="Self.FK__tblSurvey__Revie__3E52440B" FromRole="tblUser" ToRole="tblSurveyComplete" />
+          <NavigationProperty Name="tblSurveyResponses" Relationship="Self.FK__tblSurvey__Revie__5535A963" FromRole="tblUser" ToRole="tblSurveyResponse" />
+          <NavigationProperty Name="tblSurveyResponses1" Relationship="Self.FK__tblSurvey__Revie__5629CD9C" FromRole="tblUser" ToRole="tblSurveyResponse" />
+          <NavigationProperty Name="tblTeams" Relationship="Self.FK__tblTeam__OwnerId__60A75C0F" FromRole="tblUser" ToRole="tblTeam" />
+          <NavigationProperty Name="tblTeamUsers" Relationship="Self.FK__tblTeamUs__UserI__656C112C" FromRole="tblUser" ToRole="tblTeamUser" />
+          <NavigationProperty Name="tblUserRoles" Relationship="Self.FK__tblUserRo__UserI__6C190EBB" FromRole="tblUser" ToRole="tblUserRole" />
+        </EntityType>
+        <EntityType Name="tblUserRole">
+          <Key>
+            <PropertyRef Name="UserRoleId" />
+          </Key>
+          <Property Name="UserRoleId" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="RoleId" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="tblRole" Relationship="Self.FK__tblUserRo__RoleI__70DDC3D8" FromRole="tblUserRole" ToRole="tblRole" />
+          <NavigationProperty Name="tblUser" Relationship="Self.FK__tblUserRo__UserI__6C190EBB" FromRole="tblUserRole" ToRole="tblUser" />
+        </EntityType>
+        <Association Name="FK__tblSurvey__Grade__571DF1D5">
+          <End Role="tblGrade" Type="Self.tblGrade" Multiplicity="1" />
+          <End Role="tblSurveyResponse" Type="Self.tblSurveyResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblGrade">
+              <PropertyRef Name="GradeId" />
+            </Principal>
+            <Dependent Role="tblSurveyResponse">
+              <PropertyRef Name="GradeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Quest__440B1D61">
+          <End Role="tblQuestion" Type="Self.tblQuestion" Multiplicity="1" />
+          <End Role="tblSurveyQuestion" Type="Self.tblSurveyQuestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblQuestion">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="tblSurveyQuestion">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Quest__5441852A">
+          <End Role="tblQuestion" Type="Self.tblQuestion" Multiplicity="1" />
+          <End Role="tblSurveyResponse" Type="Self.tblSurveyResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblQuestion">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="tblSurveyResponse">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblUserRo__RoleI__70DDC3D8">
+          <End Role="tblRole" Type="Self.tblRole" Multiplicity="1" />
+          <End Role="tblUserRole" Type="Self.tblUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRole">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="tblUserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Submi__3F466844">
+          <End Role="tblSubmissionStatus" Type="Self.tblSubmissionStatu" Multiplicity="1" />
+          <End Role="tblSurveyComplete" Type="Self.tblSurveyComplete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSubmissionStatus">
+              <PropertyRef Name="SubmissionId" />
+            </Principal>
+            <Dependent Role="tblSurveyComplete">
+              <PropertyRef Name="SubmissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Insta__2F10007B">
+          <End Role="tblSurveyInstance" Type="Self.tblSurveyInstance" Multiplicity="0..1" />
+          <End Role="tblSurvey" Type="Self.tblSurvey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSurveyInstance">
+              <PropertyRef Name="InstanceId" />
+            </Principal>
+            <Dependent Role="tblSurvey">
+              <PropertyRef Name="InstanceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Owner__2E1BDC42">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblSurvey" Type="Self.tblSurvey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblSurvey">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Surve__3C69FB99">
+          <End Role="tblSurvey" Type="Self.tblSurvey" Multiplicity="1" />
+          <End Role="tblSurveyComplete" Type="Self.tblSurveyComplete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSurvey">
+              <PropertyRef Name="SurveyId" />
+            </Principal>
+            <Dependent Role="tblSurveyComplete">
+              <PropertyRef Name="SurveyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Surve__403A8C7D">
+          <End Role="tblSurvey" Type="Self.tblSurvey" Multiplicity="1" />
+          <End Role="tblSurveyQuestion" Type="Self.tblSurveyQuestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSurvey">
+              <PropertyRef Name="SurveyId" />
+            </Principal>
+            <Dependent Role="tblSurveyQuestion">
+              <PropertyRef Name="SurveyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Surve__4316F928">
+          <End Role="tblSurvey" Type="Self.tblSurvey" Multiplicity="1" />
+          <End Role="tblSurveyQuestion" Type="Self.tblSurveyQuestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSurvey">
+              <PropertyRef Name="SurveyId" />
+            </Principal>
+            <Dependent Role="tblSurveyQuestion">
+              <PropertyRef Name="SurveyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Revie__3D5E1FD2">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblSurveyComplete" Type="Self.tblSurveyComplete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblSurveyComplete">
+              <PropertyRef Name="Reviewee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Revie__3E52440B">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblSurveyComplete" Type="Self.tblSurveyComplete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblSurveyComplete">
+              <PropertyRef Name="Reviewer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblTeam__Instanc__619B8048">
+          <End Role="tblSurveyInstance" Type="Self.tblSurveyInstance" Multiplicity="0..1" />
+          <End Role="tblTeam" Type="Self.tblTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblSurveyInstance">
+              <PropertyRef Name="InstanceId" />
+            </Principal>
+            <Dependent Role="tblTeam">
+              <PropertyRef Name="InstanceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Revie__5535A963">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblSurveyResponse" Type="Self.tblSurveyResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblSurveyResponse">
+              <PropertyRef Name="Reviewee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSurvey__Revie__5629CD9C">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblSurveyResponse" Type="Self.tblSurveyResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblSurveyResponse">
+              <PropertyRef Name="Reviewer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblTeam__OwnerId__60A75C0F">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblTeam" Type="Self.tblTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblTeam">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblTeamUs__TeamI__6477ECF3">
+          <End Role="tblTeam" Type="Self.tblTeam" Multiplicity="1" />
+          <End Role="tblTeamUser" Type="Self.tblTeamUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTeam">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="tblTeamUser">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblTeamUs__UserI__656C112C">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblTeamUser" Type="Self.tblTeamUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblTeamUser">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblUserRo__UserI__6C190EBB">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
+          <End Role="tblUserRole" Type="Self.tblUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblUserRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StudentReviewsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblGrades" EntityType="Self.tblGrade" />
+          <EntitySet Name="tblQuestions" EntityType="Self.tblQuestion" />
+          <EntitySet Name="tblRoles" EntityType="Self.tblRole" />
+          <EntitySet Name="tblSubmissionStatus" EntityType="Self.tblSubmissionStatu" />
+          <EntitySet Name="tblSurveys" EntityType="Self.tblSurvey" />
+          <EntitySet Name="tblSurveyCompletes" EntityType="Self.tblSurveyComplete" />
+          <EntitySet Name="tblSurveyInstances" EntityType="Self.tblSurveyInstance" />
+          <EntitySet Name="tblSurveyQuestions" EntityType="Self.tblSurveyQuestion" />
+          <EntitySet Name="tblSurveyResponses" EntityType="Self.tblSurveyResponse" />
+          <EntitySet Name="tblTeams" EntityType="Self.tblTeam" />
+          <EntitySet Name="tblTeamUsers" EntityType="Self.tblTeamUser" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+          <EntitySet Name="tblUserRoles" EntityType="Self.tblUserRole" />
+          <AssociationSet Name="FK__tblSurvey__Grade__571DF1D5" Association="Self.FK__tblSurvey__Grade__571DF1D5">
+            <End Role="tblGrade" EntitySet="tblGrades" />
+            <End Role="tblSurveyResponse" EntitySet="tblSurveyResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Quest__440B1D61" Association="Self.FK__tblSurvey__Quest__440B1D61">
+            <End Role="tblQuestion" EntitySet="tblQuestions" />
+            <End Role="tblSurveyQuestion" EntitySet="tblSurveyQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Quest__5441852A" Association="Self.FK__tblSurvey__Quest__5441852A">
+            <End Role="tblQuestion" EntitySet="tblQuestions" />
+            <End Role="tblSurveyResponse" EntitySet="tblSurveyResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblUserRo__RoleI__70DDC3D8" Association="Self.FK__tblUserRo__RoleI__70DDC3D8">
+            <End Role="tblRole" EntitySet="tblRoles" />
+            <End Role="tblUserRole" EntitySet="tblUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Submi__3F466844" Association="Self.FK__tblSurvey__Submi__3F466844">
+            <End Role="tblSubmissionStatus" EntitySet="tblSubmissionStatus" />
+            <End Role="tblSurveyComplete" EntitySet="tblSurveyCompletes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Insta__2F10007B" Association="Self.FK__tblSurvey__Insta__2F10007B">
+            <End Role="tblSurveyInstance" EntitySet="tblSurveyInstances" />
+            <End Role="tblSurvey" EntitySet="tblSurveys" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Owner__2E1BDC42" Association="Self.FK__tblSurvey__Owner__2E1BDC42">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblSurvey" EntitySet="tblSurveys" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Surve__3C69FB99" Association="Self.FK__tblSurvey__Surve__3C69FB99">
+            <End Role="tblSurvey" EntitySet="tblSurveys" />
+            <End Role="tblSurveyComplete" EntitySet="tblSurveyCompletes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Surve__403A8C7D" Association="Self.FK__tblSurvey__Surve__403A8C7D">
+            <End Role="tblSurvey" EntitySet="tblSurveys" />
+            <End Role="tblSurveyQuestion" EntitySet="tblSurveyQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Surve__4316F928" Association="Self.FK__tblSurvey__Surve__4316F928">
+            <End Role="tblSurvey" EntitySet="tblSurveys" />
+            <End Role="tblSurveyQuestion" EntitySet="tblSurveyQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Revie__3D5E1FD2" Association="Self.FK__tblSurvey__Revie__3D5E1FD2">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblSurveyComplete" EntitySet="tblSurveyCompletes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Revie__3E52440B" Association="Self.FK__tblSurvey__Revie__3E52440B">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblSurveyComplete" EntitySet="tblSurveyCompletes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblTeam__Instanc__619B8048" Association="Self.FK__tblTeam__Instanc__619B8048">
+            <End Role="tblSurveyInstance" EntitySet="tblSurveyInstances" />
+            <End Role="tblTeam" EntitySet="tblTeams" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Revie__5535A963" Association="Self.FK__tblSurvey__Revie__5535A963">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblSurveyResponse" EntitySet="tblSurveyResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSurvey__Revie__5629CD9C" Association="Self.FK__tblSurvey__Revie__5629CD9C">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblSurveyResponse" EntitySet="tblSurveyResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblTeam__OwnerId__60A75C0F" Association="Self.FK__tblTeam__OwnerId__60A75C0F">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblTeam" EntitySet="tblTeams" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblTeamUs__TeamI__6477ECF3" Association="Self.FK__tblTeamUs__TeamI__6477ECF3">
+            <End Role="tblTeam" EntitySet="tblTeams" />
+            <End Role="tblTeamUser" EntitySet="tblTeamUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblTeamUs__UserI__656C112C" Association="Self.FK__tblTeamUs__UserI__656C112C">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblTeamUser" EntitySet="tblTeamUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblUserRo__UserI__6C190EBB" Association="Self.FK__tblUserRo__UserI__6C190EBB">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblUserRole" EntitySet="tblUserRoles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PeerEvaluationsModelStoreContainer" CdmEntityContainer="StudentReviewsEntities">
+          <EntitySetMapping Name="tblGrades">
+            <EntityTypeMapping TypeName="PeerEvaluationsModel.tblGrade">
+              <MappingFragment StoreEntitySet="tblGrade">
+                <ScalarProperty Name="GradeId" ColumnName="GradeId" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblQuestions">
+            <EntityTypeMapping TypeName="PeerEvaluationsModel.tblQuestion">
+              <MappingFragment StoreEntitySet="tblQuestion">
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRoles">
+            <EntityTypeMapping TypeName="PeerEvaluationsModel.tblRole">
+              <MappingFragment StoreEntitySet="tblRole">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSubmissionStatus">
+            <EntityTypeMapping TypeName="PeerEvaluationsModel.tblSubmissionStatu">
+              <MappingFragment StoreEntitySet="tblSubmissionStatus">
+                <ScalarProperty Name="SubmissionId" ColumnName="SubmissionId" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSurveys">
+            <EntityTypeMapping TypeName="PeerEvaluationsModel.tblSurvey">
+              <MappingFragment StoreEntitySet="tblSurvey">
+                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="InstanceId" ColumnName="InstanceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSurveyCompletes">
+            <EntityTypeMapping TypeName="PeerEvaluationsModel.tblSurveyComplete">
+              <MappingFragment StoreEntitySet="tblSurveyComplete">
+                <ScalarProperty Name="SurveyCompleteId" ColumnName="SurveyCompleteId" />
+                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
+                <ScalarProperty Name="Reviewee" ColumnName="Reviewee" />
+                <ScalarProperty Name="Reviewer" ColumnName="Reviewer" />
+                <ScalarProperty Name="SubmissionId" ColumnName="SubmissionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSurveyInstances">
+            <EntityTypeMapping TypeName="PeerEvaluationsModel.tblSurveyInstance">
+              <MappingFragment StoreEntitySet="tblSurveyInstance">
+                <ScalarProperty Name="InstanceId" ColumnName="InstanceId" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Released" ColumnName="Released" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSurveyQuestions">
+            <EntityTypeMapping TypeName="PeerEvaluationsModel.tblSurveyQuestion">
+              <MappingFragment StoreEntitySet="tblSurveyQuestion">
+                <ScalarProperty Name="SurveyQuestionId" ColumnName="SurveyQuestionId" />
+                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="QsIndex" ColumnName="QsIndex" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSurveyResponses">
+            <EntityTypeMapping TypeName="PeerEvaluationsModel.tblSurveyResponse">
+              <MappingFragment StoreEntitySet="tblSurveyResponse">
+                <ScalarProperty Name="ResponseId" ColumnName="ResponseId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="Reviewee" ColumnName="Reviewee" />
+                <ScalarProperty Name="Reviewer" ColumnName="Reviewer" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="GradeId" ColumnName="GradeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTeams">
+            <EntityTypeMapping TypeName="PeerEvaluationsModel.tblTeam">
+              <MappingFragment StoreEntitySet="tblTeam">
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="InstanceId" ColumnName="InstanceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTeamUsers">
+            <EntityTypeMapping TypeName="PeerEvaluationsModel.tblTeamUser">
+              <MappingFragment StoreEntitySet="tblTeamUser">
+                <ScalarProperty Name="TeamUserId" ColumnName="TeamUserId" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="PeerEvaluationsModel.tblUser">
+              <MappingFragment StoreEntitySet="tblUser">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUserRoles">
+            <EntityTypeMapping TypeName="PeerEvaluationsModel.tblUserRole">
+              <MappingFragment StoreEntitySet="tblUserRole">
+                <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

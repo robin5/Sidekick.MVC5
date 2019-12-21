@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -8,39 +9,68 @@ namespace PEClient.Models
 {
     public class LaunchViewModel
     {
+        private int? _userId;
         private List<string> _templateNames = new List<string>();
+        private List<SelectListItem> _peerGroups = new List<SelectListItem>();
+        private IEnumerable<SelectListItem> _selectedPeerGroups = new List<SelectListItem>();
         public string LaunchName { get; set; }
         public List<string> TemplateNames
         { 
             get { return _templateNames; }
         }
-        public IEnumerable<SelectListItem> SelectedPeerGroups { get; set; }
-        public IEnumerable<SelectListItem> PeerGroups { get; set; }
-
+        public IEnumerable<SelectListItem> PeerGroups 
+        { 
+            get { return _peerGroups; } 
+        }
+        public IEnumerable<SelectListItem> SelectedPeerGroups 
+        {
+            get { return _selectedPeerGroups; }
+            set { _selectedPeerGroups = value; } 
+        }
         public string StartDateTime { get; set; }
         public string EndDateTime { get; set; }
-
-        public LaunchViewModel()
+        public LaunchViewModel() { }
+        public LaunchViewModel(int userId)
         {
-            _templateNames.Add("Survey-1");
-            _templateNames.Add("Survey-2");
-            _templateNames.Add("Survey-3");
-            _templateNames.Add("No Questions");
-            _templateNames.Add("CTEC-227 Class Survey");
-            _templateNames.Add("Final Test");
+            UserId = userId;
+        }
+        public int? UserId
+        {
+            get 
+            { 
+                return _userId; 
+            }
 
-            List<SelectListItem> _peerGroups = new List<SelectListItem>();
-            _peerGroups.Add(new SelectListItem { Text = "Team #1", Value = "1" });
-            _peerGroups.Add(new SelectListItem { Text = "Team #2", Value = "2" });
-            _peerGroups.Add(new SelectListItem { Text = "Team #3", Value = "3" });
-            _peerGroups.Add(new SelectListItem { Text = "Team #4", Value = "4" });
-            _peerGroups.Add(new SelectListItem { Text = "Team #5", Value = "5" });
-            _peerGroups.Add(new SelectListItem { Text = "Team Celeb", Value = "6" });
-            PeerGroups = _peerGroups;
+            set
+            {
+                _userId = value;
 
-            List<SelectListItem> _selectedPeerGroups = new List<SelectListItem>();
-            //_selectedPeerGroups.Add(new SelectListItem { Text = "Team #2", Value = "2" });
-            SelectedPeerGroups = _selectedPeerGroups;
+                // Load table data associated with this user
+                using (var db = new StudentReviewsEntities())
+                {
+                    // Enumerate templates
+                    var surveys = from s in db.tblSurveys
+                                  where s.OwnerId == _userId
+                                  orderby s.SurveyId
+                                  select s;
+
+                    foreach (var survey in surveys)
+                    {
+                        _templateNames.Add(survey.Name);
+                    }
+
+                    // Enumerate teams
+                    var teams = from t in db.tblTeams
+                                where t.OwnerId == _userId
+                                orderby t.TeamId
+                                select t;
+
+                    foreach (var team in teams)
+                    {
+                        _peerGroups.Add(new SelectListItem { Text = team.Name, Value = team.TeamId.ToString() });
+                    }
+                }
+            }
         }
     }
 }

@@ -12,23 +12,23 @@ namespace PEClient.Controllers
         // GET: Launch
         public ActionResult Index()
         {
-            return View(new LaunchViewModel());
+            return View(new LaunchViewModel(1));
         }
 
         // POST: Launch
         [HttpPost]
-        public ActionResult Index(LaunchViewModel request)
+        public ActionResult Index(LaunchViewModel model)
         {
             // Validate user input fields
-            if (string.IsNullOrWhiteSpace(request.LaunchName))
+            if (string.IsNullOrWhiteSpace(model.LaunchName))
             {
                 ViewBag.ErrorMessage = "Invalid submission:  Please enter a name for the launch.";
             }
-            else if (request.StartDateTime == null)
+            else if (model.StartDateTime == null)
             {
                 ViewBag.ErrorMessage = "Invalid submission:  Please enter the start date and time of the launch.";
             }
-            else if (request.EndDateTime == null)
+            else if (model.EndDateTime == null)
             {
                 ViewBag.ErrorMessage = "Invalid submission:  Please enter the end date and time of the launch.";
             }
@@ -36,7 +36,8 @@ namespace PEClient.Controllers
             // If any error message exist
             if (ViewBag.ErrorMessage != null)
             {
-                return View(request);
+                model.UserId = 1;
+                return View(model);
             }
 
             return RedirectToAction("Index", "Dashboard");
