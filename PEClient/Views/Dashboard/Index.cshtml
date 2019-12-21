@@ -39,7 +39,7 @@
 <div class="wrapper" style="margin-top: 40px">
     <p>It's a <strong>3</strong> step process:</p>
     <ol style="margin-left: 0">
-        <li>@Html.ActionLink("Create a peer evaluation template", "Index", "CreateTemplate")</li>
+        <li>@Html.ActionLink("Create a peer evaluation survey", "Index", "Template")</li>
         <li>@Html.ActionLink("Create peer groups", "Index", "CreateTeam")</li>
         <li>@Html.ActionLink("Launch the Peer Evaluation", "Index", "Launch")</li>
     </ol>
@@ -54,7 +54,7 @@
     <hr>
 
     <div id="templates" class="collapse">
-        <p><a href="#0">Create a new peer evaluation template</a></p>
+        <p>@Html.ActionLink("Create a peer evaluation survey", "Index", "Template")</p>
         <div style="display: flex; flex-wrap: wrap;">
 
             @* Generate survey instance cards *@

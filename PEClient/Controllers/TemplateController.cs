@@ -36,7 +36,7 @@ using System.Web.Mvc;
 
 namespace PEClient.Controllers
 {
-    public class CreateTemplateController : Controller
+    public class TemplateController : Controller
     {
         // GET: CreateTemplate
         public ActionResult Index()
