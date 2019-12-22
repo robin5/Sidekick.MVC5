@@ -2,7 +2,9 @@
 // * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: TemplateController.cs
+// * File: TemplateViewModel.cs
+// *
+// * Description: View model for the Template controller and view
 // *
 // * Author: Robin Murray
 // *
@@ -30,53 +32,48 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using PEClient.Models;
 
-namespace PEClient.Controllers
+namespace PEClient.Models
 {
-    public class TemplateController : Controller
+    public class TemplateViewModel
     {
-        // GET: CreateTemplate
-        public ActionResult Index()
-        {
-            return View(new TemplateViewModel());
-        }
+        private string _templateName;
+        private List<string> _questions = new List<string>();
 
-        [HttpPost]
-        public ActionResult Index(TemplateViewModel model)
+        public TemplateViewModel()
         {
-            // Validate user input fields
-            if (string.IsNullOrWhiteSpace(model.TemplateName))
+            //_questions.Add("Hello");
+            //_questions.Add("World");
+        }
+        public string TemplateName 
+        { 
+            get { return _templateName; } 
+            set
             {
-                ViewBag.ErrorMessage = "Invalid submission:  Please enter a name for the survey.";
+                // Remove white space from beginning and end of the template's name
+                _templateName = value.Trim();
             }
-            else if ((model.Questions == null) || (model.Questions.Count == 0))
+        }
+        public List<string> Questions 
+        {
+            get
             {
-                ViewBag.ErrorMessage = "Invalid submission:  A survey must have at least one question.";
-            } 
-            else
+                return _questions;
+            }
+            set
             {
+                _questions = value;
+
                 // Remove white space from beginning and end of each template question
-                foreach (var question in model.Questions)
+                for (int i = 0; i < _questions.Count; ++i)
                 {
-                    if (string.IsNullOrWhiteSpace(question))
-                    {
-                        ViewBag.ErrorMessage = "Invalid submission:  A template question cannot be blank.";
-                        break;
-                    }
+                    _questions[i] = _questions[i].Trim();
                 }
             }
-
-            // If any error message exist
-            if (ViewBag.ErrorMessage != null)
-            {
-                return View(model);
-            }
-
-            return RedirectToAction("Index", "Dashboard");
         }
     }
 }

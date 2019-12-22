@@ -225,6 +225,7 @@
     <Compile Include="Models\EvaluationInstance.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Team.cs" />
+    <Compile Include="Models\TemplateViewModel.cs" />
     <Compile Include="PeerEvaluations.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

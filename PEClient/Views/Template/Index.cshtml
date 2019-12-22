@@ -32,42 +32,54 @@
     **********************************************************************************
 *@
 
+@model  PEClient.Models.TemplateViewModel
+
 @{
-    ViewBag.Title = "CreateTemplate";
+    ViewBag.Title = "Create Survey";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div>
-    <h2>Create Peer Evaluation Template</h2>
+    <h2>Create Peer Evaluation Survey</h2>
     <br>
 
-    <form id="form-survey" action="@Request.Url.PathAndQuery" method="post" onsubmit="enumerateQuestions();">
+    <!-- Alert Message -->
+    @if (IsPost)
+    {
+        <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+    }
 
-        <label for="template_name">Template Name:</label>
-        <input id="template_name"
-               name="template_name"
-               type="text"
-               value="@ViewBag.TemplateName"
-               required
-               class="form-control"
-               placeholder="Enter name of template" />
+    <!--form id="form-survey" action="@Request.Url.PathAndQuery" method="post" onsubmit="enumerateQuestions();" -->
+    <form id="form-survey" action="@Request.Url.PathAndQuery" method="post">
+
+        <!-- Survey Name-->
+        @Html.LabelFor(m => m.TemplateName, "Peer Evaluatuion Survey Name", new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.TemplateName,
+            new
+                {
+                    title = "Enter a descriptive name for the this peer evaluation cycle",
+                  @class = "form-control",
+                    autofocus = "",
+                    required = true
+                })
+
         <hr />
         <!-- input id="survey-id" name="survey-id" type="hidden" value="" -->
 
-        <p><strong>Questions:</strong></p>
+        <label class="control-label">Questions</label>
         <table>
 
-            @if (ViewBag.TemplateQuestions != null)
+            @if (Model != null && Model.Questions != null)
             {
                 int rowId = 0;
-                foreach (string question in ViewBag.TemplateQuestions)
+                foreach (string question in Model.Questions)
                 {
-                    <tr id="row-id-@(rowId)" class="question-row">
-                        <td>
-                            <textarea class="question" cols="50" style="max-width: 100%;" name="template_questions[@rowId]" required>@(question)</textarea>
+                    <tr id="row-id-@(rowId)">
+                        <td style="padding-bottom: 10px">
+                            <textarea id="Questions_@(rowId)__Id" class="q-textarea form-control" cols="50" style="max-width: 100%;" name="Questions[@(rowId)]" required>@(question)</textarea>
                         </td>
                         <td style="padding-left: 20px">
-                            <a href="#" data-row-id="@rowId" onclick="deleteRow(event)">delete</a>
+                            <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>
                         </td>
                     </tr>
 
@@ -85,12 +97,6 @@
             </button>
         </div>
         <hr />
-
-        <!-- Alert Message -->
-        @if (IsPost)
-        {
-            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
-        }
 
         <!-- Create Template Button -->
         <button id="create-survey" class="btn btn-primary" type="submit">
@@ -113,7 +119,8 @@
     var rowId = -1;
 
     function addBlankRow() {
-        $('#tr-add').before(getNextRowId());
+        $('table').append(getNextRowId());
+        enumerateQuestions();
     }
 
     function getNextRowId() {
@@ -123,8 +130,8 @@
         }
 
         rowId++;
-        var tr = '<tr id=row-id-' + rowId + ' class="question-row">';
-        tr += '<td><textarea class="question" cols="50" style="max-width: 100%;" name="template_questions[' + rowId + ']" required></textarea></td>';
+        var tr = '<tr id=row-id-' + rowId + '>';
+        tr += '<td style="padding-bottom: 10px"><textarea class="q-textarea form-control" cols="50" style="max-width: 100%;" required></textarea></td>';
         tr += '<td style="padding-left: 20px"><a href="#" data-row-id="' + rowId + '" onclick="deleteRow(event)">delete</a></td></tr>';
         return tr;
     }
@@ -134,6 +141,7 @@
         var rowToDelete = "#row-id-" + event.target.getAttribute('data-row-id');
         $(rowToDelete).remove();
         event.preventDefault();
+        enumerateQuestions();
     }
 
     // fill in required fields with some data
@@ -149,8 +157,9 @@
 
         var qid = 0;
 
-        $('.question').each(function () {
-            $(this).attr("name", "template_questions[" + qid + "]");
+        $('.q-textarea').each(function () {
+            $(this).attr("name", "Questions[" + qid + "]");
+            $(this).attr("id", "Questions_" + qid + "__Id");
             ++qid;
         });
     }
