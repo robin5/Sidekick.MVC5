@@ -48,30 +48,7 @@ namespace PEClient.Controllers
         [HttpPost]
         public ActionResult Index(TemplateViewModel model)
         {
-            // Validate user input fields
-            if (string.IsNullOrWhiteSpace(model.TemplateName))
-            {
-                ViewBag.ErrorMessage = "Invalid submission:  Please enter a name for the survey.";
-            }
-            else if ((model.Questions == null) || (model.Questions.Count == 0))
-            {
-                ViewBag.ErrorMessage = "Invalid submission:  A survey must have at least one question.";
-            } 
-            else
-            {
-                // Remove white space from beginning and end of each template question
-                foreach (var question in model.Questions)
-                {
-                    if (string.IsNullOrWhiteSpace(question))
-                    {
-                        ViewBag.ErrorMessage = "Invalid submission:  A template question cannot be blank.";
-                        break;
-                    }
-                }
-            }
-
-            // If any error message exist
-            if (ViewBag.ErrorMessage != null)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }

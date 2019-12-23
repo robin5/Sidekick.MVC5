@@ -282,6 +282,8 @@
     <Compile Include="tblUserRole.cs">
       <DependentUpon>PeerEvaluations.tt</DependentUpon>
     </Compile>
+    <Compile Include="Validation\MinCount.cs" />
+    <Compile Include="Validation\NonNullEmptyOrWhiteSpaceAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

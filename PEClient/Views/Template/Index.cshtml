@@ -46,72 +46,80 @@
     <!-- Alert Message -->
     @if (IsPost)
     {
-        <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+        <div class="alert alert-danger">@Html.ValidationSummary()</div>
     }
 
     <!--form id="form-survey" action="@Request.Url.PathAndQuery" method="post" onsubmit="enumerateQuestions();" -->
-    <form id="form-survey" action="@Request.Url.PathAndQuery" method="post">
+<form id="form-survey" action="@Request.Url.PathAndQuery" method="post">
 
-        <!-- Survey Name-->
-        @Html.LabelFor(m => m.TemplateName, "Peer Evaluatuion Survey Name", new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.TemplateName,
-            new
-                {
-                    title = "Enter a descriptive name for the this peer evaluation cycle",
-                  @class = "form-control",
-                    autofocus = "",
-                    required = true
-                })
+    <!-- Survey Name-->
+    @Html.LabelFor(m => m.TemplateName, "Peer Evaluatuion Survey Name", new { @class = "control-label" })
+    @Html.TextBoxFor(m => m.TemplateName,
+        new
+        {
+            title = "Enter a descriptive name for the this peer evaluation cycle",
+            @class = "form-control",
+            autofocus = "",
+            required = true
+        })
+    @Html.ValidationMessageFor(m => m.TemplateName)
+    @*
+        @{ var errorMsg = Html.ValidationMessageFor(m => m.TemplateName).ToString(); }
+        @if (errorMsg.Length > 0)
+        {
+            <span class="alert alert-danger">@errorMsg</span>
+        }*@
 
-        <hr />
-        <!-- input id="survey-id" name="survey-id" type="hidden" value="" -->
+    <hr />
+    <!-- input id="survey-id" name="survey-id" type="hidden" value="" -->
 
-        <label class="control-label">Questions</label>
-        <table>
+    <label class="control-label">Questions</label><br>
+    @Html.ValidationMessageFor(m => m.Questions)
+    <table>
 
-            @if (Model != null && Model.Questions != null)
+        @if (Model != null && Model.Questions != null)
+        {
+            int rowId = 0;
+            foreach (string question in Model.Questions)
             {
-                int rowId = 0;
-                foreach (string question in Model.Questions)
-                {
-                    <tr id="row-id-@(rowId)">
-                        <td style="padding-bottom: 10px">
-                            <textarea id="Questions_@(rowId)__Id" class="q-textarea form-control" cols="50" style="max-width: 100%;" name="Questions[@(rowId)]" required>@(question)</textarea>
-                        </td>
-                        <td style="padding-left: 20px">
-                            <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>
-                        </td>
-                    </tr>
+                <tr id="row-id-@(rowId)">
+                    <td style="padding-bottom: 10px">
+                        <textarea id="Questions_@(rowId)__Id" class="q-textarea form-control" cols="50" style="max-width: 100%;" name="Questions[@(rowId)]" required>@(question)</textarea>
+                    </td>
+                    <td style="padding-left: 20px">
+                        <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>
+                    </td>
+                </tr>
 
-                    rowId++;
-                }
-
+                rowId++;
             }
 
-        </table>
+        }
 
-        <div id="tr-add" style="padding-top: 5px">
-            <button type="button" form-survey id="add-question" class="btn btn-primary" value="add-question" onclick="addBlankRow()">
-                <!-- <span style="font-size: 1.5em;">Add Question</span> -->
-                Add Question
-            </button>
-        </div>
-        <hr />
+    </table>
 
-        <!-- Create Template Button -->
-        <button id="create-survey" class="btn btn-primary" type="submit">
-            <!-- <span style="font-size: 1.5em">Save & Exit</span> -->
-            Save Template
+    <div id="tr-add" style="padding-top: 5px">
+        <button type="button" form-survey id="add-question" class="btn btn-primary" value="add-question" onclick="addBlankRow()">
+            <!-- <span style="font-size: 1.5em;">Add Question</span> -->
+            Add Question
         </button>
+    </div>
+    <hr />
 
-        &nbsp;|&nbsp;
+    <!-- Create Template Button -->
+    <button id="create-survey" class="btn btn-primary" type="submit">
+        <!-- <span style="font-size: 1.5em">Save & Exit</span> -->
+        Save Template
+    </button>
 
-        <!-- Cancel Button -->
-        <a id="btn-cancel" href="@Url.Action("Index","Dashboard")" class="btn btn-danger">
-            Cancel
-        </a>
+    &nbsp;|&nbsp;
 
-    </form>
+    <!-- Cancel Button -->
+    <a id="btn-cancel" href="@Url.Action("Index","Dashboard")" class="btn btn-danger">
+        Cancel
+    </a>
+
+</form>
     <!-- button class="btn btn-primary" type="button" onclick="enumerateQuestions();">Change Names</!--button -->
 </div>
 <script>

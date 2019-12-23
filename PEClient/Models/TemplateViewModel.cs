@@ -32,10 +32,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PEClient.Validation;
 
 namespace PEClient.Models
 {
@@ -49,6 +51,9 @@ namespace PEClient.Models
             //_questions.Add("Hello");
             //_questions.Add("World");
         }
+        
+        //[Required(ErrorMessage = "Surveys must have a name.")]
+        [NonNullEmptyOrWhiteSpace(ErrorMessage = "A Survey's name cannot be blank.")]
         public string TemplateName 
         { 
             get { return _templateName; } 
@@ -58,6 +63,10 @@ namespace PEClient.Models
                 _templateName = value.Trim();
             }
         }
+
+        [Required(ErrorMessage = "Questions missing.")]
+        [MinCount(1, "Peer Evaluations must have at least one question")]
+        [NonNullEmptyOrWhiteSpace(ErrorMessage = "A Survey question cannot be blank.")]
         public List<string> Questions 
         {
             get
