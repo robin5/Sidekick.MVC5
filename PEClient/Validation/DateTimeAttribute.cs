@@ -2,7 +2,9 @@
 // * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: LaunchController.cs
+// * File: DateTimeAttribute.cs
+// *
+// * Description: Attribute for validating DateTime parameters
 // *
 // * Author: Robin Murray
 // *
@@ -28,30 +30,40 @@
 // * 
 // **********************************************************************************
 
-using System.Web.Mvc;
-using PEClient.Models;
+using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace PEClient.Controllers
+namespace PEClient.Validation
 {
-    public class LaunchController : Controller
+    public class DateTimeAttribute : ValidationAttribute
     {
-        // GET: Launch
-        public ActionResult Index()
+        private string _errorMessage = null;
+        public DateTimeAttribute(string errorMessage = null)
         {
-            return View(new LaunchViewModel(1));
+            _errorMessage = errorMessage ?? base.ErrorMessage;
         }
-
-        // POST: Launch
-        [HttpPost]
-        public ActionResult Index(LaunchViewModel model)
+        public override bool IsValid(object value)
         {
-            if (!ModelState.IsValid)
+            string sDateTime;
+            DateTime dateTime;
+
+            if (null == (sDateTime = value as string)) 
             {
-                model.UserId = 1;
-                return View(model);
+                _errorMessage = "DateTime value is missing";
+                return false; 
             }
 
-            return RedirectToAction("Index", "Dashboard");
+            if (DateTime.TryParse(sDateTime, out dateTime))
+            {
+                _errorMessage = "DateTime value is invalid";
+                return true;
+            }
+            return false;
+        }
+
+        public override string FormatErrorMessage(string name)
+        {
+            return _errorMessage ?? $"{name} is invalid";
         }
     }
 }

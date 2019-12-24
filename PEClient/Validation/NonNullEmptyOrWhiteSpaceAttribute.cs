@@ -10,9 +10,9 @@ namespace PEClient.Validation
     public class NonNullEmptyOrWhiteSpaceAttribute:ValidationAttribute
     {
         private string _errorMessage = null;
-        public NonNullEmptyOrWhiteSpaceAttribute(string errorMessage = null)
+        public NonNullEmptyOrWhiteSpaceAttribute(string ErrorMessage = null)
         {
-            _errorMessage = errorMessage;
+            _errorMessage = ErrorMessage;
         }
 
         public override bool IsValid(object value)

@@ -34,32 +34,48 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PEClient.Validation;
 
 namespace PEClient.Models
 {
     public class LaunchViewModel
     {
         private int? _userId;
+
         private List<string> _templateNames = new List<string>();
+
         private List<SelectListItem> _peerGroups = new List<SelectListItem>();
-        private IEnumerable<SelectListItem> _selectedPeerGroups = new List<SelectListItem>();
+        private IEnumerable<int> _selectedPeerGroups = new List<int>();
+
+        // Constructors
+        public LaunchViewModel() { }
+
+        [NonNullEmptyOrWhiteSpace(ErrorMessage: "Please enter a Launch Name.")]
         public string LaunchName { get; set; }
+
+        [NonNullEmptyOrWhiteSpace(ErrorMessage: "Please enter a start date and time.")]
+        [DateTime]
+        public string StartDateTime { get; set; }
+
+        [NonNullEmptyOrWhiteSpace(ErrorMessage: "Please enter an end date and time.")]
+        [DateTime]
+        public string EndDateTime { get; set; }
+
         public List<string> TemplateNames
         { 
             get { return _templateNames; }
         }
+        
+        [NonNullEmptyOrWhiteSpace(ErrorMessage: "Please select a Peer Evaluation Form")]
+        public string SelectedTemplateName { get; set; }
+
         public IEnumerable<SelectListItem> PeerGroups 
         { 
             get { return _peerGroups; } 
         }
-        public IEnumerable<SelectListItem> SelectedPeerGroups 
-        {
-            get { return _selectedPeerGroups; }
-            set { _selectedPeerGroups = value; } 
-        }
-        public string StartDateTime { get; set; }
-        public string EndDateTime { get; set; }
-        public LaunchViewModel() { }
+
+        [MinCount(1, ErrorMessage: "Please select one or more Peer Groups.")]
+        public IEnumerable<int> SelectedPeerGroups { get; set; }
         public LaunchViewModel(int userId)
         {
             UserId = userId;
@@ -86,6 +102,7 @@ namespace PEClient.Models
 
                     foreach (var survey in surveys)
                     {
+                        //_templateNames.Add(survey.Name);
                         _templateNames.Add(survey.Name);
                     }
 

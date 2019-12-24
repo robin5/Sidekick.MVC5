@@ -282,6 +282,7 @@
     <Compile Include="tblUserRole.cs">
       <DependentUpon>PeerEvaluations.tt</DependentUpon>
     </Compile>
+    <Compile Include="Validation\DateTimeAttribute.cs" />
     <Compile Include="Validation\MinCount.cs" />
     <Compile Include="Validation\NonNullEmptyOrWhiteSpaceAttribute.cs" />
   </ItemGroup>

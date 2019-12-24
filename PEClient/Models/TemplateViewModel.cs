@@ -53,7 +53,7 @@ namespace PEClient.Models
         }
         
         //[Required(ErrorMessage = "Surveys must have a name.")]
-        [NonNullEmptyOrWhiteSpace(ErrorMessage = "A Survey's name cannot be blank.")]
+        [NonNullEmptyOrWhiteSpace(ErrorMessage: "A Survey's name cannot be blank.")]
         public string TemplateName 
         { 
             get { return _templateName; } 
@@ -66,7 +66,7 @@ namespace PEClient.Models
 
         [Required(ErrorMessage = "Questions missing.")]
         [MinCount(1, "Peer Evaluations must have at least one question")]
-        [NonNullEmptyOrWhiteSpace(ErrorMessage = "A Survey question cannot be blank.")]
+        [NonNullEmptyOrWhiteSpace(ErrorMessage: "A Survey question cannot be blank.")]
         public List<string> Questions 
         {
             get
