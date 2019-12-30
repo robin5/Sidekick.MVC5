@@ -53,6 +53,8 @@ namespace PEClient.Controllers
                 return View(model);
             }
 
+            TempData.SuccessMessage($"Successfully added {model.TemplateName} to peer evaluation templates.");
+
             return RedirectToAction("Index", "Dashboard");
         }
     }

@@ -35,7 +35,7 @@
 @model  PEClient.Models.LaunchViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Launch Peer Evaluation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -43,66 +43,67 @@
         <h2>Launch Peer Evaluation</h2>
         <br />
 
-        <!-- Alert Message -->
+        @* -- Validation Summary -- *@
+
         @if (IsPost)
         {
             <div class="alert alert-danger">@Html.ValidationSummary()</div>
         }
 
-        @using (Html.BeginForm("Index", "Launch",
-            new { ReturnUrl = Request.QueryString["ReturnUrl"] },
-            FormMethod.Post, new { @class = "form-launch" }))
+        @using (Html.BeginForm("Index", "Launch", FormMethod.Post, new { @class = "form-launch" }))
         {
-            <!-- Launch Name-->
+            @* -- Launch Name -- *@
+
             @Html.LabelFor(m => m.LaunchName, "Launch Name", new { @class = "control-label" })
-            @Html.TextBoxFor(m => m.LaunchName,
-                new
-                     {
-                         @class = "form-control",
-                    title = "Enter a descriptive name for the this peer evaluation cycle",
-                    autofocus = "",
-                         required = true
-                })
-            @Html.ValidationMessageFor(m => m.LaunchName)
+            @Html.TextBoxFor(m => m.LaunchName, new
+            {
+                @class = "form-control",
+                title = "Enter a descriptive name for the this peer evaluation cycle",
+                autofocus = "",
+                required = true
+            })
+            @Html.ValidationMessageFor(m => m.LaunchName, "", new { @class = "alert-danger" })
             <br>
 
-            <!-- Templates list-->
+            @* -- Templates list -- *@
+
             @Html.LabelFor(m => m.SelectedTemplateName, "Peer Evaluation Form", new { @class = "control-label" })
             @Html.DropDownListFor(m => m.SelectedTemplateName, new SelectList(Model.TemplateNames), "-- select a survey --", new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.SelectedTemplateName)
+            @Html.ValidationMessageFor(m => m.SelectedTemplateName, "", new { @class = "alert-danger" })
             <br>
 
-            <!-- Peer Groups list-->
-            @Html.LabelFor(m => m.SelectedPeerGroups, "Peer Group", new { @class = "control-label" })
-            @Html.ListBoxFor(m => m.SelectedPeerGroups, Model.PeerGroups, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.SelectedPeerGroups)
-            <br>
+            @* -- Start DateTime -- *@
 
-            <!-- Start DateTime-->
             @Html.LabelFor(m => m.StartDateTime, "Start date and time", new { @class = "control-label" })
             @Html.TextBoxFor(m => m.StartDateTime, new { id = "start-date-time", @class = "form-control", required = true })
-            @Html.ValidationMessageFor(m => m.StartDateTime)
+            @Html.ValidationMessageFor(m => m.StartDateTime, "", new { @class = "alert-danger" })
             <br>
 
-            <!-- End DateTime-->
+            @* -- End DateTime -- *@
+
             @Html.LabelFor(m => m.EndDateTime, "End date and time", new { @class = "control-label" })
             @Html.TextBoxFor(m => m.EndDateTime, new { id = "end-date-time", @class = "form-control", required = true })
-            @Html.ValidationMessageFor(m => m.EndDateTime)
+            @Html.ValidationMessageFor(m => m.EndDateTime, "", new { @class = "alert-danger" })
             <hr>
 
-            <!-- Launch Button -->
-            <button id="post-survey" type="submit" name="action" value="start-survey" class="btn btn-primary">Launch Peer Evaluation</button>
-            <span>&nbsp;| &nbsp;</span>
+            @* -- Peer Groups list -- *@
 
-            <!-- Cancel Button -->
-            <a id="btn-cancel" href="@Url.Action("Index","Dashboard")" class="btn btn-danger">
-                Cancel
-            </a>
+            @Html.LabelFor(m => m.SelectedPeerGroups, "Peer Group", new { @class = "control-label" })
+            @Html.ListBoxFor(m => m.SelectedPeerGroups, Model.PeerGroups, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.SelectedPeerGroups, "", new { @class = "alert-danger" })
+            <br>
+
+            @* -- Submit and Cancel buttons -- *@
+
+            @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml")
         }
 
     </div>
+
 @section scripts{
+
     <script>
+
         $(document).ready(function () {
             $('#start-date-time').datetimepicker();
             $('#end-date-time').datetimepicker();

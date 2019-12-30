@@ -51,6 +51,8 @@ namespace PEClient.Controllers
                 return View(model);
             }
 
+            TempData.SuccessMessage($"Successfully launched {model.LaunchName}.");
+
             return RedirectToAction("Index", "Dashboard");
         }
     }

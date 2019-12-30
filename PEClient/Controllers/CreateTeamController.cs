@@ -60,7 +60,7 @@ namespace PEClient.Controllers
                 return View(model);
             }
 
-            TempData.SuccessMessage($"Successfully added {model.TeamName} to defined peer groups.");
+            TempData.SuccessMessage($"Successfully added {model.TeamName} to peer groups.");
 
             return RedirectToAction("Index", "Dashboard");
         }

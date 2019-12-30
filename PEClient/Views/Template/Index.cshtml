@@ -43,133 +43,112 @@
     <h2>Create Peer Evaluation Survey</h2>
     <br>
 
-    <!-- Alert Message -->
+    @* -- Validation Summary -- *@
+
     @if (IsPost)
     {
         <div class="alert alert-danger">@Html.ValidationSummary()</div>
     }
 
-    <!--form id="form-survey" action="@Request.Url.PathAndQuery" method="post" onsubmit="enumerateQuestions();" -->
-<form id="form-survey" action="@Request.Url.PathAndQuery" method="post">
+    @using (Html.BeginForm("Index", "Template", FormMethod.Post, new { @class = "form-launch" }))
+    {
+        @* -- Survey Name -- *@
 
-    <!-- Survey Name-->
-    @Html.LabelFor(m => m.TemplateName, "Peer Evaluatuion Survey Name", new { @class = "control-label" })
-    @Html.TextBoxFor(m => m.TemplateName,
-        new
+        @Html.LabelFor(m => m.TemplateName, "Survey Name", new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.TemplateName, new
         {
             title = "Enter a descriptive name for the this peer evaluation cycle",
             @class = "form-control",
             autofocus = "",
             required = true
         })
-    @Html.ValidationMessageFor(m => m.TemplateName)
-    @*
-        @{ var errorMsg = Html.ValidationMessageFor(m => m.TemplateName).ToString(); }
-        @if (errorMsg.Length > 0)
-        {
-            <span class="alert alert-danger">@errorMsg</span>
-        }*@
+        @Html.ValidationMessageFor(m => m.TemplateName, "", new { @class = "alert-danger" })
+        <br />
 
-    <hr />
-    <!-- input id="survey-id" name="survey-id" type="hidden" value="" -->
+        <label class="control-label">Questions</label><br>
+        @Html.ValidationMessageFor(m => m.Questions, "", new { @class = "alert-danger" })
 
-    <label class="control-label">Questions</label><br>
-    @Html.ValidationMessageFor(m => m.Questions)
-    <table>
+        <table>
 
-        @if (Model != null && Model.Questions != null)
-        {
-            int rowId = 0;
-            foreach (string question in Model.Questions)
+            @if (Model != null && Model.Questions != null)
             {
-                <tr id="row-id-@(rowId)">
-                    <td style="padding-bottom: 10px">
-                        <textarea id="Questions_@(rowId)__Id" class="q-textarea form-control" cols="50" style="max-width: 100%;" name="Questions[@(rowId)]" required>@(question)</textarea>
-                    </td>
-                    <td style="padding-left: 20px">
-                        <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>
-                    </td>
-                </tr>
+                int rowId = 0;
+                foreach (string question in Model.Questions)
+                {
+                    <tr id="row-id-@(rowId)">
+                        <td style="padding-bottom: 10px">
+                            <textarea id="Questions_@(rowId)__Id" class="q-textarea form-control" cols="50" style="max-width: 100%;" name="Questions[@(rowId)]" required>@(question)</textarea>
+                        </td>
+                        <td style="padding-left: 20px">
+                            <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>
+                        </td>
+                    </tr>
 
-                rowId++;
+                    rowId++;
+                }
             }
 
-        }
+        </table>
 
-    </table>
+        <div id="tr-add" style="padding-top: 5px">
+            <button type="button" form-survey id="add-question" class="btn btn-primary" value="add-question" onclick="addBlankRow()">
+                Add Question
+            </button>
+        </div>
+        <hr />
 
-    <div id="tr-add" style="padding-top: 5px">
-        <button type="button" form-survey id="add-question" class="btn btn-primary" value="add-question" onclick="addBlankRow()">
-            <!-- <span style="font-size: 1.5em;">Add Question</span> -->
-            Add Question
-        </button>
-    </div>
-    <hr />
+        @* -- Submit and Cancel buttons -- *@
 
-    <!-- Create Template Button -->
-    <button id="create-survey" class="btn btn-primary" type="submit">
-        <!-- <span style="font-size: 1.5em">Save & Exit</span> -->
-        Save Template
-    </button>
+        @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml")
+    }
 
-    &nbsp;|&nbsp;
-
-    <!-- Cancel Button -->
-    <a id="btn-cancel" href="@Url.Action("Index","Dashboard")" class="btn btn-danger">
-        Cancel
-    </a>
-
-</form>
     <!-- button class="btn btn-primary" type="button" onclick="enumerateQuestions();">Change Names</!--button -->
 </div>
-<script>
 
-    var rowId = -1;
+@section scripts{
 
-    function addBlankRow() {
-        $('table').append(getNextRowId());
-        enumerateQuestions();
-    }
+    <script>
 
-    function getNextRowId() {
+        var rowId = -1;
 
-        if (rowId == -1) {
-            rowId = $('.question-row').length - 1;
+        function addBlankRow() {
+            $('table').append(getNextRowId());
+            enumerateQuestions();
         }
 
-        rowId++;
-        var tr = '<tr id=row-id-' + rowId + '>';
-        tr += '<td style="padding-bottom: 10px"><textarea class="q-textarea form-control" cols="50" style="max-width: 100%;" required></textarea></td>';
-        tr += '<td style="padding-left: 20px"><a href="#" data-row-id="' + rowId + '" onclick="deleteRow(event)">delete</a></td></tr>';
-        return tr;
-    }
+        function getNextRowId() {
 
-    // Deletes a row from the table and prevents the anchor from firing.
-    function deleteRow(event) {
-        var rowToDelete = "#row-id-" + event.target.getAttribute('data-row-id');
-        $(rowToDelete).remove();
-        event.preventDefault();
-        enumerateQuestions();
-    }
+            if (rowId == -1) {
+                rowId = $('.question-row').length - 1;
+            }
 
-    // fill in required fields with some data
-    function fakeFillFields() {
-        $('textarea').val(" ");
-        $('#template_name').val(" ");
-        return true;
-    }
+            rowId++;
+            var tr = '<tr id=row-id-' + rowId + '>';
+            tr += '<td style="padding-bottom: 10px"><textarea class="q-textarea form-control" cols="50" style="max-width: 100%;" required></textarea></td>';
+            tr += '<td style="padding-left: 20px"><a href="#" data-row-id="' + rowId + '" onclick="deleteRow(event)">delete</a></td></tr>';
+            return tr;
+        }
 
-    // Enumerates the question input elements so they will be transmitted
-    // as an array that is zero indexed and not sparse
-    function enumerateQuestions() {
+        // Deletes a row from the table and prevents the anchor from firing.
+        function deleteRow(event) {
+            var rowToDelete = "#row-id-" + event.target.getAttribute('data-row-id');
+            $(rowToDelete).remove();
+            event.preventDefault();
+            enumerateQuestions();
+        }
 
-        var qid = 0;
+        // Enumerates the question input elements so they will be transmitted
+        // as an array that is zero indexed and not sparse
+        function enumerateQuestions() {
 
-        $('.q-textarea').each(function () {
-            $(this).attr("name", "Questions[" + qid + "]");
-            $(this).attr("id", "Questions_" + qid + "__Id");
-            ++qid;
-        });
-    }
+            var qid = 0;
 
-</script>
+            $('.q-textarea').each(function () {
+                $(this).attr("name", "Questions[" + qid + "]");
+                $(this).attr("id", "Questions_" + qid + "__Id");
+                ++qid;
+            });
+        }
+
+    </script>
+}

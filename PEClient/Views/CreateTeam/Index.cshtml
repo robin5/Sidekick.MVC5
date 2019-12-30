@@ -43,13 +43,12 @@
     <h2>Create Peer Group</h2>
     <br />
 
-    <!-- Alert Message -->
+    @* -- Validation Summary -- *@
+
     @if (IsPost)
     {
         <div class="alert alert-danger">@Html.ValidationSummary()</div>
     }
-
-    <!--form action="@Request.Url.PathAndQuery" method="post" -->
 
     @using (Html.BeginForm("Index", "CreateTeam", FormMethod.Post, new { @class = "form-launch" }))
     {
@@ -65,7 +64,7 @@
             required = true
         });
         @Html.ValidationMessageFor(m => m.TeamName, "", new { @class = "alert-danger" });
-        <br>
+        <br />
 
         @* -- Add User DropDown -- *@
 
@@ -106,10 +105,12 @@
                 </tr>
             }
         </table>
+
+        @* -- Submit and Cancel buttons -- *@
+
         @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml")
     }
 
-    <!-- /form -->
 </div>
 
 @section scripts{
