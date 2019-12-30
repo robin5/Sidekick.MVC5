@@ -214,10 +214,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LaunchController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Extensions\TempDataExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CreateTeamModel.cs" />
     <Compile Include="Models\EvaluationTemplate.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LaunchViewModel.cs" />
@@ -364,6 +366,7 @@
     <Content Include="Views\CreateTeam\Index.cshtml" />
     <Content Include="Views\Template\Index.cshtml" />
     <Content Include="Views\Launch\Index.cshtml" />
+    <Content Include="Views\Shared\_SubmitAndCancel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

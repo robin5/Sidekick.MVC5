@@ -32,139 +32,139 @@
     **********************************************************************************
 *@
 
+@model  PEClient.Models.CreateTeamModel
+
 @{
-    ViewBag.Title = "CreateTeam";
+    ViewBag.Title = "Create Peer Group";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{
-    if (string.IsNullOrWhiteSpace(ViewBag.TeamName))
+<div>
+    <h2>Create Peer Group</h2>
+    <br />
+
+    <!-- Alert Message -->
+    @if (IsPost)
     {
-        ViewBag.TeamName = "";
+        <div class="alert alert-danger">@Html.ValidationSummary()</div>
     }
-}
 
-<main>
-    <h2>CreateTeam</h2>
+    <!--form action="@Request.Url.PathAndQuery" method="post" -->
 
-    <label class="lbl-create-team" for="input-team-name">Team Name:</label>
-    <input id="input-team-name"
-           class="form-control"
-           name="team-name"
-           type="text"
-           oninput="updateTeamName();"
-           value="@ViewBag.TeamName" required
-           placeholder="Enter name of team" />
-    <br>
+    @using (Html.BeginForm("Index", "CreateTeam", FormMethod.Post, new { @class = "form-launch" }))
+    {
+        @* -- Team Name -- *@
 
-    <!-- Select -->
-    <select class="form-control" id="sel-user-id" name="user-id" style="display: inline-block">
-        <option value="-1" selected>--Select a student--</option>
-        @foreach (var student in ViewBag.Students)
+        @Html.LabelFor(m => m.TeamName, "Team Name", new { @class = "control-label" });
+        @Html.TextBoxFor(m => m.TeamName, new
         {
-            <option data-username="@student.UserName" data-firstlast="@student.Name" value="@student.id">@(student.UserName)&nbsp;&nbsp;(@student.Name)</option>
-        }
-    </select>
+            @class = "form-control",
+            title = "Enter a name for this peer group",
+            autofocus = "",
+            placeholder = "Enter name of team",
+            required = true
+        });
+        @Html.ValidationMessageFor(m => m.TeamName, "", new { @class = "alert-danger" });
+        <br>
 
-    <!-- Add User Button -->
-    <button type="button" id="btn-add-team" class="btn btn-primary" name="action" value="add-user" onclick="addBlankRow();" style="margin-left: 5px">
-        Add
-    </button>
+        @* -- Add User DropDown -- *@
 
-    <hr />
+        @Html.LabelFor(m => m.CandidateSelection, "Students", new { @class = "control-label" })<br />
+        @Html.DropDownListFor(m => m.CandidateSelection, Model.Candidates, "-- select a student --", new { @class = "form-control", style = "display: inline-block" })
 
-    <table id="tbl-edit-team">
-        <tr>
-            <td colspan="4"><h4 id="table-team-name" style="text-decoration:underline"></h4></td>
-        </tr>
-        <tr>
-            <th style="padding: 0 20px 10px 0px">Name</th>
-            <th style="padding: 0 20px 10px 0px">Username</th>
-            <th style="padding: 0 20px 10px 0px"></th>
-        </tr>
-    </table>
-    <form action="@Request.Url.PathAndQuery" method="post" onsubmit="collectTeamMembers();">
-        <div id="div-entries">
+        @* -- Add User Button -- *@
 
-            <!--input id="team-id" type="hidden" name="team_id" value="" /-->
-            <input id="team-name" type="hidden" name="team_name" value="" />
-            <input id="team-user-ids" type="hidden" name="team_user_ids" value="" />
+        <button type="button" id="btn-add-team" class="btn btn-primary" name="action" value="add-user" onclick="ShowRow();" style="margin-left: 5px">
+            Add
+        </button>
+        <br />
 
-            <hr />
+        @* -- Hidden Peer Group listbox -- *@
 
-            <!-- Alert Message -->
-            @if (IsPost)
+        @Html.ListBoxFor(m => m.PeerSelection, Model.Peers, new { @class = "form-control", style = "display: none" })
+        @Html.ValidationMessageFor(m => m.PeerSelection, "", new { @class = "alert-danger" })
+
+        <table id="tbl-edit-team" style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; margin-top: 20px; margin-bottom: 20px;">
+            <tr>
+                <td colspan="4"><h4 id="table-team-name" style="text-decoration:underline"></h4></td>
+            </tr>
+            <tr>
+                <th class="table-header">Name</th>
+                <th class="table-header">Username</th>
+                <th class="table-header-badge"></th>
+            </tr>
+            @foreach (var peer in Model.PeerDetails)
             {
-                <div class="alert alert-danger">@ViewBag.Message</div>
+                <tr id="tr-@(peer.id)" style="display: none">
+                    <td class="table-data">@peer.Name</td>
+                    <td class="table-data">@peer.UserName</td>
+                    <td class="table-data-badge">
+                        <span class="badge">
+                            <a data-row-id="@(peer.id)" href="#0" onclick="deleteRow(event)" style="color: white">delete</a>
+                        </span>
+                    </td>
+                </tr>
             }
+        </table>
+        @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml")
+    }
 
-            <!-- Save & Exit Button -->
-            <button id="btn-create-team" name="action" type="submit" class="btn btn-success"
-                    value="create-team">
-                Create
-            </button>
+    <!-- /form -->
+</div>
 
-            &nbsp;|&nbsp;
+@section scripts{
 
-            <!-- Cancel Button -->
-            <a id="btn-cancel" href="@Url.Action("Index","Dashboard")" class="btn btn-danger">
-                Cancel
-            </a>
-        </div>
-    </form>
-</main>
+    <script>
 
-<script>
-    function collectTeamMembers() {
-
-        // Get user IDs from <td> elements in table
-        var userIds = [];
-        $('td[data-user-id]').each(function () {
-            // Add userId values to an array
-            userIds.push($(this).attr('data-user-id'));
+        $(document).ready(function () {
+            //
+            UpdateTableFromListbox();
         });
 
-        // Copy user IDs to hidden control's value attribute
-        $('#team-user-ids').val(userIds.toString());
+        // Transfers model data from hidden listbox into
+        // table containing peers who have been selected
+        function UpdateTableFromListbox() {
+            // Cycle through selected listbox items
+            $("#PeerSelection option:selected").each(function () {
+                // Use the peers user ID to denote a row in the table
+                var userId = $(this).val();
+                $(`#tr-${userId}`).css("display", "table-row");
+            });
+        }
 
-        // Copy the team's name to hidden control's value attribute
-        $('#team-name').val($('#input-team-name').val());
-    }
+        // Shows the row corresponding to a selected peers user ID
+        function ShowRow() {
 
-    function updateTeamName() {
-        $('#table-team-name').text($('#input-team-name').val());
-    }
+            var userId = $("#CandidateSelection").val();
 
-    function addBlankRow() {
-        var userId = $("#sel-user-id").val();
+            if ("" != userId) {
 
-        if (-1 != userId) {
-            var userName = $("#sel-user-id option:selected").attr('data-username');
-            var firstLast = $("#sel-user-id option:selected").attr('data-firstlast');
-            if ($('td[data-user-id = ' + userId + ']').length > 0) {
-                alert(firstLast + " is already a member of the team!");
-            } else {
-                $('table').append(getNextRow(userId, userName, firstLast));
+                var tableRow = $(`#tr-${userId}`);
+
+                if (tableRow.css("display") == "table-row") {
+                    var name = $(`#CandidateSelection option[value='${userId}']`).text();
+                    alert(name + " is already a member of the team!");
+                    return;
+                }
+
+                tableRow.css("display", "table-row");
+
+                // Select the list item in the hidden listbox specified by User ID
+                $(`#PeerSelection option[value='${userId}']`).prop("selected", true);
             }
         }
-    }
 
-    function getNextRow(userId, userName, firstLast) {
-        var row = '<tr id="row-id-' + userId + '">';
-        //row += '<td class="td-user-id" style="display:none;">' + userId + '</td>';
-        row += '<td style="padding: 3px 20px 0 0" data-user-id="' + userId + '">' + userName + '</td>';
-        row += '<td style="padding: 3px 20px 0 0">' + firstLast + '</td>';
-        row += '<td style="padding: 3px 20px 0 0"><span class="badge"><a data-row-id=\"' + userId + '\" href=\"#\" onclick=\"deleteRow(event)\" style="color: white">delete</a></span></td></tr>'
-        console.log(row);
-        return row;
-    }
+        // Deletes a row from the table and prevents the anchor from firing.
+        function deleteRow(event) {
 
-    // Deletes a row from the table and prevents the anchor from firing.
-    function deleteRow(event) {
-        var rowToDelete = "#row-id-" + event.target.getAttribute('data-row-id');
-        $(rowToDelete).remove();
-        event.preventDefault();
-    }
-</script>
+            var userId = event.target.getAttribute('data-row-id');
+            var rowToDelete = `#tr-${userId}`;
+            $(rowToDelete).css("display", "none");
+            event.preventDefault();
 
+            // Deselect the list item in the hidden listbox specified by User ID
+            $(`#PeerSelection option[value='${userId}']`).prop("selected", false);
+        }
+    </script>
+}
 

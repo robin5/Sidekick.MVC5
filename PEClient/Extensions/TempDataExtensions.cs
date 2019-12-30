@@ -2,7 +2,7 @@
 // * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: CreateTeamController.cs
+// * File: TempDataExtensions.cs
 // *
 // * Author: Robin Murray
 // *
@@ -28,41 +28,35 @@
 // * 
 // **********************************************************************************
 
-using System.Web.Mvc;
-using PEClient.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
-namespace PEClient.Controllers
+namespace PEClient
 {
-    public class CreateTeamController : Controller
+    public static class TempDataExtensions
     {
+        const string KEY_SUCCESS_MESSAGE = "SuccesMessage";
+
         /// <summary>
-        /// Temporary function to return a User ID value of 1
+        /// Sets the success message in TempData
         /// </summary>
-        /// <returns>1</returns>
-        private int GetUserId()
+        /// <param name="tempData"></param>
+        /// <param name="successMessage"></param>
+        public static void SuccessMessage(this System.Web.Mvc.TempDataDictionary tempData, string successMessage)
         {
-            return 1;
+            tempData[KEY_SUCCESS_MESSAGE] = successMessage;
         }
 
-        // GET: CreateTeam
-        public ActionResult Index()
+        /// <summary>
+        /// Retrieves the success message from TempData
+        /// </summary>
+        /// <param name="tempData"></param>
+        /// <returns></returns>
+        public static string SuccessMessage(this System.Web.Mvc.TempDataDictionary tempData)
         {
-            return View(new CreateTeamModel(GetUserId()));
-        }
-
-        // POST: CreateTeam
-        [HttpPost]
-        public ActionResult Index(CreateTeamModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                model.UserId = GetUserId();
-                return View(model);
-            }
-
-            TempData.SuccessMessage($"Successfully added {model.TeamName} to defined peer groups.");
-
-            return RedirectToAction("Index", "Dashboard");
+            return tempData[KEY_SUCCESS_MESSAGE] as string;
         }
     }
 }

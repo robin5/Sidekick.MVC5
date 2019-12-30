@@ -36,120 +36,135 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="wrapper" style="margin-top: 40px">
-    <p>It's a <strong>3</strong> step process:</p>
-    <ol style="margin-left: 0">
-        <li>@Html.ActionLink("Create a peer evaluation survey", "Index", "Template")</li>
-        <li>@Html.ActionLink("Create peer groups", "Index", "CreateTeam")</li>
-        <li>@Html.ActionLink("Launch the Peer Evaluation", "Index", "Launch")</li>
-    </ol>
-    <hr>
+    <div class="wrapper" style="margin-top: 40px">
 
-    <!-------------------------------------------------->
+        <!-------------------------------------------------->
 
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#templates" aria-expanded="false" aria-controls="collapseExample">
-        <h4>Peer Evaluation Templates</h4>
-    </button>
+        @if (TempData.SuccessMessage() != null)
+        {
+            <div class="alert alert-success alert-dismissible" role="alert">
+                @TempData.SuccessMessage()
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
 
-    <hr>
+        <!-------------------------------------------------->
 
-    <div id="templates" class="collapse">
-        <p>@Html.ActionLink("Create a peer evaluation survey", "Index", "Template")</p>
-        <div style="display: flex; flex-wrap: wrap;">
-
-            @* Generate survey instance cards *@
-
-            @if (ViewBag.evaluationTemplates.Length > 0)
-            {
-                foreach (var template in ViewBag.evaluationTemplates)
-                {
-                    <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
-                        <div class="card" style="">
-                            <h4>@(template.Name)</h4>
-                            <p>
-                                <a href="#0">Edit</a>&nbsp;&nbsp;&nbsp;<a href="#0">Delete</a>
-                            </p>
-                        </div><!-- card -->
-                    </div><!-- col -->
-                }
-            }
-        </div><!-- flex row -->
+        <p>It's a <strong>3</strong> step process:</p>
+        <ol style="margin-left: 0">
+            <li>@Html.ActionLink("Create a peer evaluation survey", "Index", "Template")</li>
+            <li>@Html.ActionLink("Create peer groups", "Index", "CreateTeam")</li>
+            <li>@Html.ActionLink("Launch the Peer Evaluation", "Index", "Launch")</li>
+        </ol>
         <hr>
-    </div><!-- collapse -->
-    <!-------------------------------------------------->
 
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#teams" aria-expanded="false" aria-controls="collapseExample">
-        <h4>Peer Groups</h4>
-    </button>
+        <!-------------------------------------------------->
 
-    <hr>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#templates" aria-expanded="false" aria-controls="collapseExample">
+            <h4>Peer Evaluation Templates</h4>
+        </button>
 
-    <div id="teams" class="collapse">
-        <p>@Html.ActionLink("Create a new peer group", "Index", "CreateTeam")</p>
-        <div style="display: flex; flex-wrap: wrap;">
-
-            @* Generate survey instance cards *@
-
-            @if (ViewBag.teams.Length > 0)
-            {
-                foreach (var team in ViewBag.teams)
-                {
-                    <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
-                        <div class="card" style="">
-                            <h4>@(team.Name)</h4>
-                            <p>
-                                <a href="#0">Edit</a>&nbsp;&nbsp;&nbsp;<a href="#0">Delete</a>
-                            </p>
-                        </div><!-- card -->
-                    </div><!-- col -->
-                }
-            }
-        </div><!-- flex row -->
         <hr>
-    </div><!-- collapse -->
-    <!-------------------------------------------------->
 
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#launched" aria-expanded="false" aria-controls="collapseExample">
-        <h4>Launched Peer Evaluations</h4>
-    </button>
+        <div id="templates" class="collapse">
+            <p>@Html.ActionLink("Create a peer evaluation survey", "Index", "Template")</p>
+            <div style="display: flex; flex-wrap: wrap;">
 
-    <hr>
+                @* Generate survey instance cards *@
 
-    <div id="launched" class="collapse">
-
-        <p>@Html.ActionLink("Launch a peer evaluation", "Index", "Launch")</p>
-
-        <div style="display: flex; flex-wrap: wrap;">
-
-            @* Generate survey instance cards *@
-
-            @if (ViewBag.SurveyInstances.Length > 0)
-            {
-                foreach (var surveyInstance in ViewBag.SurveyInstances)
+                @if (ViewBag.evaluationTemplates.Length > 0)
                 {
-                    <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
-                        <div class="card" style="">
-                            <h4>@(surveyInstance.Name)</h4>
-                            <p style="line-height: 1.5em;">
-                                <strong>Start Date: </strong><br><span>@(surveyInstance.Start)</span><br />
-                                <strong>End Date: </strong><br><span>@(surveyInstance.End)</span><br />
-                                <strong>Status: </strong><br><span>@(surveyInstance.Status)</span><br />
-                            </p>
-                            <p>
-                                <hr />
-                                <a href="#0">View Results</a><br />
-                                <a href="#0">Release Results</a>
-                            </p>
-                        </div><!-- card -->
-                    </div><!-- col -->
+                    foreach (var template in ViewBag.evaluationTemplates)
+                    {
+                        <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
+                            <div class="card" style="">
+                                <h4>@(template.Name)</h4>
+                                <p>
+                                    <a href="#0">Edit</a>&nbsp;&nbsp;&nbsp;<a href="#0">Delete</a>
+                                </p>
+                            </div><!-- card -->
+                        </div><!-- col -->
+                    }
                 }
-            }
-        </div><!-- flex row -->
-        <hr>
-    </div><!-- collapse -->
-    <!-------------------------------------------------->
+            </div><!-- flex row -->
+            <hr>
+        </div><!-- collapse -->
+        <!-------------------------------------------------->
 
-</div><!-- Wrapper -->
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#teams" aria-expanded="false" aria-controls="collapseExample">
+            <h4>Peer Groups</h4>
+        </button>
+
+        <hr>
+
+        <div id="teams" class="collapse">
+            <p>@Html.ActionLink("Create a new peer group", "Index", "CreateTeam")</p>
+            <div style="display: flex; flex-wrap: wrap;">
+
+                @* Generate survey instance cards *@
+
+                @if (ViewBag.teams.Length > 0)
+                {
+                    foreach (var team in ViewBag.teams)
+                    {
+                        <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
+                            <div class="card" style="">
+                                <h4>@(team.Name)</h4>
+                                <p>
+                                    <a href="#0">Edit</a>&nbsp;&nbsp;&nbsp;<a href="#0">Delete</a>
+                                </p>
+                            </div><!-- card -->
+                        </div><!-- col -->
+                    }
+                }
+            </div><!-- flex row -->
+            <hr>
+        </div><!-- collapse -->
+        <!-------------------------------------------------->
+
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#launched" aria-expanded="false" aria-controls="collapseExample">
+            <h4>Launched Peer Evaluations</h4>
+        </button>
+
+        <hr>
+
+        <div id="launched" class="collapse">
+
+            <p>@Html.ActionLink("Launch a peer evaluation", "Index", "Launch")</p>
+
+            <div style="display: flex; flex-wrap: wrap;">
+
+                @* Generate survey instance cards *@
+
+                @if (ViewBag.SurveyInstances.Length > 0)
+                {
+                    foreach (var surveyInstance in ViewBag.SurveyInstances)
+                    {
+                        <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
+                            <div class="card" style="">
+                                <h4>@(surveyInstance.Name)</h4>
+                                <p style="line-height: 1.5em;">
+                                    <strong>Start Date: </strong><br><span>@(surveyInstance.Start)</span><br />
+                                    <strong>End Date: </strong><br><span>@(surveyInstance.End)</span><br />
+                                    <strong>Status: </strong><br><span>@(surveyInstance.Status)</span><br />
+                                </p>
+                                <p>
+                                    <hr />
+                                    <a href="#0">View Results</a><br />
+                                    <a href="#0">Release Results</a>
+                                </p>
+                            </div><!-- card -->
+                        </div><!-- col -->
+                    }
+                }
+            </div><!-- flex row -->
+            <hr>
+        </div><!-- collapse -->
+        <!-------------------------------------------------->
+
+    </div><!-- Wrapper -->
 </div>
 <script>
     function areYouSure() {

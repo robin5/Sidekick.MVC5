@@ -43,9 +43,7 @@ namespace PEClient.Models
         private int? _userId;
 
         private List<string> _templateNames = new List<string>();
-
         private List<SelectListItem> _peerGroups = new List<SelectListItem>();
-        private IEnumerable<int> _selectedPeerGroups = new List<int>();
 
         // Constructors
         public LaunchViewModel() { }
