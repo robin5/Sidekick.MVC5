@@ -1,0 +1,69 @@
+﻿@model PEClient.Models.SurveySummaryViewModel
+
+@{
+    ViewBag.Title = "Survey Summary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="margin: 30px 0 30px 0;">Survey Results for @Model.Name</h2>
+
+@{
+    var id = 1;
+}
+
+@foreach (PEClient.Models.SurveySummaryTeam team in Model.Teams)
+{
+    <div class="sr-team">
+        <div>
+            <h3 class="sr-team-title" style="">@team.Name</h3>
+        </div>
+
+        @foreach (PEClient.Models.SurveySummaryStudent student in team.Students)
+        {
+        <div id="sr-student-card-@(id)" class="sr-student-card" style="width: auto;">
+            <div class="reviewee-content" style="margin-left: 40px; margin-top: 60px; padding: 10px; float: left;">
+                <h4><span class="sr-student-name">@(student.Name) - @(student.UserName)</span></h4>
+
+                <p><a href="#0">See comments about @(student.Name)</a></p>
+                <p><a href="#0">Review @student.Name's surveys: @(100 * @student.Complete)% complete</a></p>
+            </div>
+            <div id="pie-chart-@(id)" class="pie-chart" data="[['A',2],['B',3],['Not Available',2]]" style="width: 200px; Height: 200px; padding: 10px; float: left;">
+                <figure class="highcharts-figure">
+                    <div id="container-@(id)"></div>
+                </figure>
+            </div>
+            <div style="clear: left;"></div>
+        </div>
+        id = id + 1;
+        }
+    </div>
+}
+
+@section scripts{
+
+    <script>
+
+        $(function () {
+            // Set the pie chart data for each chart
+            $('.pie-chart').each(function () {
+                // Get the chart data from the chart's div data attribute
+                pieData = eval($(this).attr('data'));
+                // Create the chart using the retrieved data
+                createPieChart($(this).attr('id'), pieData);
+            });
+
+            // Find the width of the largest content div
+            var maxDivWidth = 0;
+            $('.reviewee-content').each(function () {
+                if ($(this).width() > maxDivWidth) {
+                    maxDivWidth = $(this).width();
+                }
+            });
+            // Set all of the content widths to the largest content div width
+            $('.reviewee-content').width(maxDivWidth);
+
+
+        });
+
+    </script>
+}

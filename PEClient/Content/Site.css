@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #ebebeb;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -42,3 +43,44 @@ textarea {
     vertical-align: top;
 }
 
+/* SurveySummary page   */
+
+.sr-team-title {
+    width: 100%;
+    color: #fff;
+    background-color: #929292;
+    padding: 10px 0 10px 20px;
+    border-radius: 5px;
+}
+.sr-team {
+}
+
+.sr-student-card {
+    /*border: 1px solid black;*/
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 
+        0 2.8px 2.2px rgba(0, 0, 0, 0.034), 
+        0 6.7px 5.3px rgba(0, 0, 0, 0.048), 
+        0 12.5px 10px rgba(0, 0, 0, 0.06), 
+        0 22.3px 17.9px rgba(0, 0, 0, 0.072), 
+        0 41.8px 33.4px rgba(0, 0, 0, 0.086), 
+        0 100px 80px rgba(0, 0, 0, 0.12);
+}
+
+.sr-student-name {
+    display: inline-block;
+    text-decoration: underline;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+/*************************************
+ *              HighChart
+ *************************************/
+
+.highcharts-figure, .highcharts-data-table table {
+    min-width: 320px;
+    max-width: 500px;
+    margin: 1em auto;
+}

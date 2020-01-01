@@ -40,7 +40,9 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    @Scripts.Render("~/bundles/piechart")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
