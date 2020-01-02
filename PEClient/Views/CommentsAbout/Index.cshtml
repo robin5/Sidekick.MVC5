@@ -7,9 +7,12 @@
 
 <h2>Survey Comments about Richard Lint</h2>
 <div class="cb-tone-summary-box">
-    <button class="cb-tone-button" style="margin: 10px 0 0 10px;">Summary Tone</button>
+    <button class="btn btn-primary" style="margin: 10px 0 0 10px;">Summary Tone</button>
 </div>
 
+@{ 
+    var toneIndex = 0;
+}
 @foreach(PEClient.Models.PeerQuestionAnswers p in Model.PeerQuestionAnswers)
 {
     <div class="cb-question-group">
@@ -23,7 +26,24 @@
                 <div>
                     <p class="cb-peer-answer">@(peerAnswer.Answer)</p>
                 </div>
-                <button class="cb-tone-button">Tone Details</button>
+                <div>
+                    <div style="float: left; margin-right: 20px;">
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample@(toneIndex)" aria-expanded="false" aria-controls="collapseExample">
+                            Tone Details
+                        </button>
+                    </div>
+                    <div style="width: 70%; float: left;">
+                        <div class="collapse" id="collapseExample@(toneIndex)">
+                            <div class="card card-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear: left;"></div>
+                </div>
+                {
+                    toneIndex++;
+                }
             }
         </div>
     </div>
