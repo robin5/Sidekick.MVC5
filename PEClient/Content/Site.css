@@ -84,3 +84,41 @@ textarea {
     max-width: 500px;
     margin: 1em auto;
 }
+
+/*************************************
+ *           Comments About
+ *************************************/
+
+.cb-tone-summary-box {
+    min-height: 50px;
+    background-color: #774316;
+    background-color: rgba(77,43,16,.2);
+}
+.cb-question-group {
+    margin-bottom: 20px;
+    padding: 20px 0 20px 0;
+}
+.cb-question {
+    border-bottom: 1px solid black;
+    border-radius:3px;
+    padding: 6px 10px 5px 10px;
+    background-color: #4c4c4c;
+    color: white;
+    font-size: 1.3em;
+}
+.cb-answer-group {
+    padding: 0 20px 0 20px;
+}
+.cb-student-and-grade {
+    font-weight: bold;
+    margin-top: 25px;
+}
+.cb-peer-answer {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 10px;
+    border-radius: 4px;
+    background-color: white;
+}
+.cb-tone-button {
+    border-radius: 5px;
+}

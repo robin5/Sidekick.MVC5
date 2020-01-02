@@ -1,0 +1,30 @@
+﻿@model PEClient.Models.CommentsAboutViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Survey Comments about Richard Lint</h2>
+<div class="cb-tone-summary-box">
+    <button class="cb-tone-button" style="margin: 10px 0 0 10px;">Summary Tone</button>
+</div>
+
+@foreach(PEClient.Models.PeerQuestionAnswers p in Model.PeerQuestionAnswers)
+{
+    <div class="cb-question-group">
+        <div>
+            <p class="cb-question">@p.Question</p>
+        </div>
+        <div class="cb-answer-group">
+            @foreach (PEClient.Models.PeerAnswer peerAnswer in p.Answers)
+            {
+                <p class="cb-student-and-grade">@(peerAnswer.Peer) - Grade: @(peerAnswer.Grade)</p>
+                <div>
+                    <p class="cb-peer-answer">@(peerAnswer.Answer)</p>
+                </div>
+                <button class="cb-tone-button">Tone Details</button>
+            }
+        </div>
+    </div>
+}

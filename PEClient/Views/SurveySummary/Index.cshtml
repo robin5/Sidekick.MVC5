@@ -24,7 +24,7 @@
             <div class="reviewee-content" style="margin-left: 40px; margin-top: 60px; padding: 10px; float: left;">
                 <h4><span class="sr-student-name">@(student.Name) - @(student.UserName)</span></h4>
 
-                <p><a href="#0">See comments about @(student.Name)</a></p>
+                <p><a href="@Url.Action("Index", "CommentsAbout")">See comments about @(student.Name)</a></p>
                 <p><a href="#0">Review @student.Name's surveys: @(100 * @student.Complete)% complete</a></p>
             </div>
             <div id="pie-chart-@(id)" class="pie-chart" data="[['A',2],['B',3],['Not Available',2]]" style="width: 200px; Height: 200px; padding: 10px; float: left;">
