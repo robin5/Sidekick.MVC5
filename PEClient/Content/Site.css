@@ -122,3 +122,11 @@ textarea {
 .cb-tone-button {
     border-radius: 5px;
 }
+
+/*************************************
+ *           SurveyResponses
+ *************************************/
+
+.sur-survey{
+    padding: 20px;
+}

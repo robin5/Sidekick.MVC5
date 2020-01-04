@@ -210,6 +210,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommentsAboutController.cs" />
     <Compile Include="Controllers\CreateTeamController.cs" />
+    <Compile Include="Controllers\SurveyResponsesController.cs" />
     <Compile Include="Controllers\SurveySummaryController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -228,12 +229,14 @@
     <Compile Include="Models\LaunchViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\EvaluationInstance.cs" />
+    <Compile Include="Models\SurveyResponsesViewModel.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\SurveySummaryStudent.cs" />
     <Compile Include="Models\SurveySummaryTeam.cs" />
     <Compile Include="Models\SurveySummaryViewModel.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\TemplateViewModel.cs" />
+    <Compile Include="Models\ToneAnalysisViewModel.cs" />
     <Compile Include="PeerEvaluations.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -377,6 +380,8 @@
     <Content Include="Views\Shared\_SubmitAndCancel.cshtml" />
     <Content Include="Views\SurveySummary\Index.cshtml" />
     <Content Include="Views\CommentsAbout\Index.cshtml" />
+    <Content Include="Views\SurveyResponses\Index.cshtml" />
+    <Content Include="Views\Shared\_ToneAnalysis.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

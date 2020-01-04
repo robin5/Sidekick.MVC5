@@ -1,0 +1,51 @@
+﻿@model PEClient.Models.SurveyResponsesViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Richard Lint's Survey Responses</h2>
+
+@{
+    string active = "active";
+    int peerIndex = 0;
+
+    <ul class="nav nav-tabs">
+        @foreach (PEClient.Models.SurveyResponse sr in Model.SurveyResponses)
+        {
+            <li class="@active"><a href="#peer-@(peerIndex)" data-toggle="tab">@sr.Peer</a></li>
+            active = "";
+            peerIndex++;
+        }
+    </ul>
+}
+
+<div class="tab-content">
+    @{ 
+        peerIndex = 0;
+        active = "active";
+        int toneIndex = 0;
+    }
+
+   @foreach (PEClient.Models.SurveyResponse sr in Model.SurveyResponses)
+    {
+    <div id="peer-@(peerIndex)" class="sur-survey tab-pane fade in @(active)">
+        @foreach (PEClient.Models.QuestionAnswer qa in sr.QuestionsAnswers)
+        {
+            <p><strong>@(qa.Question)</strong></p>
+            <p><strong>Grade: <span class="badge">@(qa.Grade)</span></strong></p>
+            <div>
+                <p class="cb-peer-answer">@(qa.Answer)</p>
+            </div>
+
+            @Html.Partial("~/Views/Shared/_ToneAnalysis.cshtml", null, new ViewDataDictionary { { "ToneIndex", toneIndex.ToString() } });
+
+            <div style="margin: 30px"></div>
+            toneIndex++;
+        }
+    </div>
+        active = "";
+        peerIndex++;
+    }
+</div>
