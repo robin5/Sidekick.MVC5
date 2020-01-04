@@ -56,7 +56,10 @@ namespace PEClient.Models
             SurveyResponses.Add(p1);
             SurveyResponses.Add(p2);
             SurveyResponses.Add(p3);
+
+            Student = "Richard Lint";
         }
+        public string Student { get; private set; }
         public List<SurveyResponse> SurveyResponses { get; set; }
     }
 

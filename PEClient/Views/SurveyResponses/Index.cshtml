@@ -1,11 +1,11 @@
 ﻿@model PEClient.Models.SurveyResponsesViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Responses from " + Model.Student;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Richard Lint's Survey Responses</h2>
+<h2>Responses by @(Model.Student)</h2>
 
 @{
     string active = "active";

@@ -30,6 +30,7 @@ namespace PEClient.Models
     }
     public class CommentsAboutViewModel
     {
+        public string Student { get; private set; }
         public CommentsAboutViewModel()
         {
             PeerQuestionAnswers = new List<PeerQuestionAnswers>();
@@ -62,6 +63,8 @@ namespace PEClient.Models
 
             this.PeerQuestionAnswers.Add(pqa1);
             this.PeerQuestionAnswers.Add(pqa2);
+
+            Student = "Richard Lint";
         }
         public List<PeerQuestionAnswers> PeerQuestionAnswers 
         { 

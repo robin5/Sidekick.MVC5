@@ -95,16 +95,16 @@ textarea {
     background-color: rgba(77,43,16,.2);
 }
 .cb-question-group {
-    margin-bottom: 20px;
     padding: 20px 0 20px 0;
 }
 .cb-question {
     border-bottom: 1px solid black;
-    border-radius:3px;
-    padding: 6px 10px 5px 10px;
-    background-color: #4c4c4c;
-    color: white;
+    border-radius: 7px;
+    padding: 10px 10px 0 10px;
+    background-color: rgba(76,76,76,.1);
+    color: black;
     font-size: 1.3em;
+    text-align: left;
 }
 .cb-answer-group {
     padding: 0 20px 0 20px;
