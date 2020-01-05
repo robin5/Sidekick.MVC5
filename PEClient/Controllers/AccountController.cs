@@ -1,4 +1,35 @@
-﻿using System;
+﻿// **********************************************************************************
+// * Copyright (c) 2020 Robin Murray
+// **********************************************************************************
+// *
+// * File: AccountController.cs
+// *
+// * Author: Robin Murray
+// *
+// **********************************************************************************
+// *
+// * Granting License: The MIT License (MIT)
+// * 
+// *   Permission is hereby granted, free of charge, to any person obtaining a copy
+// *   of this software and associated documentation files (the "Software"), to deal
+// *   in the Software without restriction, including without limitation the rights
+// *   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// *   copies of the Software, and to permit persons to whom the Software is
+// *   furnished to do so, subject to the following conditions:
+// *   The above copyright notice and this permission notice shall be included in
+// *   all copies or substantial portions of the Software.
+// *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// *   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// *   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// *   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// *   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// *   THE SOFTWARE.
+// * 
+// **********************************************************************************
+
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -17,15 +48,29 @@ namespace PEClient.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationRoleManager roleManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            RoleManager = roleManager;
+        }
+
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
         }
 
         public ApplicationSignInManager SignInManager
@@ -34,9 +79,9 @@ namespace PEClient.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -150,6 +195,14 @@ namespace PEClient.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            // TODO: Replace this with a ViewModel
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach(var role in RoleManager.Roles)
+            {
+                // list.Add(new SelectListItem() { Value = role.Name, Text = role.Name });
+                list.Add(new SelectListItem() { Value = role.Name, Text = role.Name });
+            }
+            ViewBag.Roles = list;
             return View();
         }
 
@@ -166,18 +219,22 @@ namespace PEClient.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    // Comment out the next line because we don't want to automatically sign in the user.
-                    // instead we want to wait until email confirmation has happened
-                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    result = await UserManager.AddToRoleAsync(user.Id, model.RoleName);
+                    if (result.Succeeded)
+                    {
+                        // Comment out the next line because we don't want to automatically sign in the user.
+                        // instead we want to wait until email confirmation has happened
+                        //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
-                    //return RedirectToAction("Index", "Home");
-                    return View("Info");
+                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                        //return RedirectToAction("Index", "Home");
+                        return View("Info");
+                    }
                 }
                 AddErrors(result);
             }

@@ -210,6 +210,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommentsAboutController.cs" />
     <Compile Include="Controllers\CreateTeamController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SurveyResponsesController.cs" />
     <Compile Include="Controllers\SurveySummaryController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
@@ -221,6 +222,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912030716036_InitialCreate.cs" />
+    <Compile Include="Migrations\201912030716036_InitialCreate.designer.cs">
+      <DependentUpon>201912030716036_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001050204538_role.cs" />
+    <Compile Include="Migrations\202001050204538_role.designer.cs">
+      <DependentUpon>202001050204538_role.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommentsAboutViewModel.cs" />
     <Compile Include="Models\CreateTeamModel.cs" />
@@ -229,6 +239,7 @@
     <Compile Include="Models\LaunchViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\EvaluationInstance.cs" />
+    <Compile Include="Models\RoleViewModel.cs" />
     <Compile Include="Models\SurveyResponsesViewModel.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\SurveySummaryStudent.cs" />
@@ -382,6 +393,11 @@
     <Content Include="Views\CommentsAbout\Index.cshtml" />
     <Content Include="Views\SurveyResponses\Index.cshtml" />
     <Content Include="Views\Shared\_ToneAnalysis.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Role\Create.cshtml" />
+    <Content Include="Views\Role\Edit.cshtml" />
+    <Content Include="Views\Role\Details.cshtml" />
+    <Content Include="Views\Role\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -401,6 +417,14 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201912030716036_InitialCreate.resx">
+      <DependentUpon>201912030716036_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001050204538_role.resx">
+      <DependentUpon>202001050204538_role.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

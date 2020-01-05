@@ -33,6 +33,7 @@ using PEClient.Models;
 
 namespace PEClient.Controllers
 {
+    [Authorize(Roles = "Admin,Instructor")]
     public class CommentsAboutController : Controller
     {
         // GET: CommentsAbout

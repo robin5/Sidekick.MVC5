@@ -3,7 +3,7 @@
     * Copyright (c) 2020 Robin Murray
     **********************************************************************************
     *
-    * File: _Layout.cshtml
+    * File: Edit.cshtml
     *
     * Description: Main layout view for application
     *
@@ -32,35 +32,40 @@
     **********************************************************************************
 *@
 
-@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
-{
-    string greeting = User.Identity.GetUserName() + " (";
+@model PEClient.Models.RoleViewModel
 
-    if (User.IsInRole("Admin"))
-    {
-        greeting += "Admin";
-    }
-    if (User.IsInRole("Instructor")) { greeting += "Instructor"; }
-    if (User.IsInRole("Student")) { greeting += "Student"; }
-    greeting += ")";
-
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
-        @Html.AntiForgeryToken()
-
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink(greeting, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-        </ul>
-    }
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-else
+
+<h2>Edit Role</h2>
+
+@using (Html.BeginForm())
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
 }
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

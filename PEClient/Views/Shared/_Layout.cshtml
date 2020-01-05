@@ -61,6 +61,15 @@
                     <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+                            <div class="dropdown-menu">
+                                @Html.ActionLink("Roles", "index", "Role", null, new { @class = "dropdown-item", style="padding: 10px;" })<br />
+                            </div>
+                        </li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

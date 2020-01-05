@@ -18,6 +18,18 @@ namespace PEClient.Models
         }
     }
 
+    public class ApplicationRole : IdentityRole
+    {
+        public ApplicationRole() : base()
+        {
+
+        }
+        public ApplicationRole(string roleName) : base(roleName)
+        {
+
+        }
+    }
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
@@ -29,5 +41,7 @@ namespace PEClient.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<PEClient.Models.RoleViewModel> RoleViewModels { get; set; }
     }
 }

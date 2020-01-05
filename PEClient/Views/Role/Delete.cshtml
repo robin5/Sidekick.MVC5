@@ -3,7 +3,7 @@
     * Copyright (c) 2020 Robin Murray
     **********************************************************************************
     *
-    * File: _Layout.cshtml
+    * File: Delete.cshtml
     *
     * Description: Main layout view for application
     *
@@ -32,35 +32,36 @@
     **********************************************************************************
 *@
 
-@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
-{
-    string greeting = User.Identity.GetUserName() + " (";
+@model PEClient.Models.RoleViewModel
 
-    if (User.IsInRole("Admin"))
-    {
-        greeting += "Admin";
-    }
-    if (User.IsInRole("Instructor")) { greeting += "Instructor"; }
-    if (User.IsInRole("Student")) { greeting += "Student"; }
-    greeting += ")";
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+<h2>Delete Role</h2>
+
+<h3>Are you sure you want to delete this role?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink(greeting, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-        </ul>
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
     }
-}
-else
-{
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
-}
+</div>
