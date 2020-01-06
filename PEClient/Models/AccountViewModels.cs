@@ -49,6 +49,9 @@ namespace PEClient.Models
     public class LoginViewModel
     {
         [Required]
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
+
         [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
@@ -64,6 +67,12 @@ namespace PEClient.Models
 
     public class RegisterViewModel
     {
+        [Display(Name = "User Name"), Required]
+        public string UserName { get; set; }
+
+        [Display(Name = "Full Name"), Required]
+        public string FullName { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
