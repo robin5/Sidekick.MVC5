@@ -38,15 +38,16 @@ namespace PEClient
     public static class TempDataExtensions
     {
         const string KEY_SUCCESS_MESSAGE = "SuccesMessage";
+        const string KEY_ERROR_MESSAGE = "ErrorMessage";
 
         /// <summary>
         /// Sets the success message in TempData
         /// </summary>
         /// <param name="tempData"></param>
-        /// <param name="successMessage"></param>
-        public static void SuccessMessage(this System.Web.Mvc.TempDataDictionary tempData, string successMessage)
+        /// <param name="message"></param>
+        public static void SuccessMessage(this System.Web.Mvc.TempDataDictionary tempData, string message)
         {
-            tempData[KEY_SUCCESS_MESSAGE] = successMessage;
+            tempData[KEY_SUCCESS_MESSAGE] = message;
         }
 
         /// <summary>
@@ -57,6 +58,26 @@ namespace PEClient
         public static string SuccessMessage(this System.Web.Mvc.TempDataDictionary tempData)
         {
             return tempData[KEY_SUCCESS_MESSAGE] as string;
+        }
+        
+        /// <summary>
+        /// Sets the error message in TempData
+        /// </summary>
+        /// <param name="tempData"></param>
+        /// <param name="message"></param>
+        public static void ErrorMessage(this System.Web.Mvc.TempDataDictionary tempData, string message)
+        {
+            tempData[KEY_ERROR_MESSAGE] = message;
+        }
+        
+        /// <summary>
+        /// Retrieves the error message from TempData
+        /// </summary>
+        /// <param name="tempData"></param>
+        /// <returns></returns>
+        public static string ErrorMessage(this System.Web.Mvc.TempDataDictionary tempData)
+        {
+            return tempData[KEY_ERROR_MESSAGE] as string;
         }
     }
 }

@@ -30,6 +30,7 @@
 
 using System.Web.Mvc;
 using PEClient.Models;
+using Microsoft.AspNet.Identity;
 
 namespace PEClient.Controllers
 {
@@ -50,7 +51,15 @@ namespace PEClient.Controllers
                 return View(model);
             }
 
-            TempData.SuccessMessage($"Successfully added {model.TemplateName} to peer evaluation templates.");
+            model.Identity = User.Identity.GetUserId();
+            if (model.save())
+            {
+                TempData.SuccessMessage($"Successfully added {model.TemplateName} to peer evaluation templates.");
+            }
+            else
+            {
+                TempData.ErrorMessage($"Failed adding {model.TemplateName} to peer evaluation templates: " + model.SaveErrorMessage);
+            }
 
             return RedirectToAction("Index", "Dashboard");
         }

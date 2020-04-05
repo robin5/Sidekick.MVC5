@@ -13,10 +13,10 @@ namespace PEClient
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class StudentReviewsEntities : DbContext
+    public partial class PEClientContext : DbContext
     {
-        public StudentReviewsEntities()
-            : base("name=StudentReviewsEntities")
+        public PEClientContext()
+            : base("name=PEClientContext")
         {
         }
     
@@ -29,14 +29,14 @@ namespace PEClient
         public virtual DbSet<tblQuestion> tblQuestions { get; set; }
         public virtual DbSet<tblRole> tblRoles { get; set; }
         public virtual DbSet<tblSubmissionStatu> tblSubmissionStatus { get; set; }
-        public virtual DbSet<tblSurvey> tblSurveys { get; set; }
         public virtual DbSet<tblSurveyComplete> tblSurveyCompletes { get; set; }
         public virtual DbSet<tblSurveyInstance> tblSurveyInstances { get; set; }
         public virtual DbSet<tblSurveyQuestion> tblSurveyQuestions { get; set; }
-        public virtual DbSet<tblSurveyResponse> tblSurveyResponses { get; set; }
+        public virtual DbSet<tblSurveyResponse> tblSurveyResponses1 { get; set; }
+        public virtual DbSet<tblSurvey> tblSurveys { get; set; }
         public virtual DbSet<tblTeam> tblTeams { get; set; }
         public virtual DbSet<tblTeamUser> tblTeamUsers { get; set; }
-        public virtual DbSet<tblUser> tblUsers { get; set; }
         public virtual DbSet<tblUserRole> tblUserRoles { get; set; }
+        public virtual DbSet<tblUser> tblUsers { get; set; }
     }
 }

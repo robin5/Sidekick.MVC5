@@ -27,13 +27,13 @@ namespace PEClient
         public decimal OwnerId { get; set; }
         public Nullable<decimal> InstanceId { get; set; }
     
-        public virtual tblSurveyInstance tblSurveyInstance { get; set; }
-        public virtual tblUser tblUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSurveyComplete> tblSurveyCompletes { get; set; }
+        public virtual tblSurveyInstance tblSurveyInstance { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSurveyQuestion> tblSurveyQuestions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSurveyQuestion> tblSurveyQuestions1 { get; set; }
+        public virtual tblUser tblUser { get; set; }
     }
 }

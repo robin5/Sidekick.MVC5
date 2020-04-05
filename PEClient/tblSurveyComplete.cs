@@ -21,8 +21,8 @@ namespace PEClient
         public byte SubmissionId { get; set; }
     
         public virtual tblSubmissionStatu tblSubmissionStatu { get; set; }
-        public virtual tblSurvey tblSurvey { get; set; }
         public virtual tblUser tblUser { get; set; }
         public virtual tblUser tblUser1 { get; set; }
+        public virtual tblSurvey tblSurvey { get; set; }
     }
 }

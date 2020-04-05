@@ -36,10 +36,10 @@ namespace PEClient.Controllers
         // GET: Role
         public ActionResult Index()
         {
-            List<RoleViewModel> list = new List<RoleViewModel>();
+            List<Models.RoleViewModel> list = new List<Models.RoleViewModel>();
             foreach (var role in RoleManager.Roles)
             {
-                list.Add(new RoleViewModel(role));
+                list.Add(new Models.RoleViewModel(role));
             }
             return View(list);
         }
@@ -50,7 +50,7 @@ namespace PEClient.Controllers
         }
         
         [HttpPost]
-        public async Task<ActionResult> Create(RoleViewModel model)
+        public async Task<ActionResult> Create(Models.RoleViewModel model)
         {
             var role = new ApplicationRole() { Name = model.Name };
             await RoleManager.CreateAsync(role);
@@ -60,11 +60,11 @@ namespace PEClient.Controllers
         public async Task<ActionResult> Edit(string id)
         {
             var role = await RoleManager.FindByIdAsync(id);
-            return View(new RoleViewModel(role));
+            return View(new Models.RoleViewModel(role));
         }
         
         [HttpPost]
-        public async Task<ActionResult> Edit(RoleViewModel model)
+        public async Task<ActionResult> Edit(Models.RoleViewModel model)
         {
             var role = new ApplicationRole() { Id = model.Id, Name = model.Name };
             await RoleManager.UpdateAsync(role);
@@ -74,13 +74,13 @@ namespace PEClient.Controllers
         public async Task<ActionResult> Details(string id)
         {
             var role = await RoleManager.FindByIdAsync(id);
-            return View(new RoleViewModel(role));
+            return View(new Models.RoleViewModel(role));
         }
         
         public async Task<ActionResult> Delete(string id)
         {
             var role = await RoleManager.FindByIdAsync(id);
-            return View(new RoleViewModel(role));
+            return View(new Models.RoleViewModel(role));
         }
 
         [HttpPost, ActionName("Delete")]

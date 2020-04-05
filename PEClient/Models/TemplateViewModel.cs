@@ -43,14 +43,14 @@ namespace PEClient.Models
 {
     public class TemplateViewModel
     {
+        public string SaveErrorMessage { get; set; }
         private string _templateName;
         private List<string> _questions = new List<string>();
 
         public TemplateViewModel()
         {
-            //_questions.Add("Hello");
-            //_questions.Add("World");
         }
+        public string Identity { get; set; }
         
         //[Required(ErrorMessage = "Surveys must have a name.")]
         [NonNullEmptyOrWhiteSpace(ErrorMessage: "A Survey's name cannot be blank.")]
@@ -82,6 +82,68 @@ namespace PEClient.Models
                 {
                     _questions[i] = _questions[i].Trim();
                 }
+            }
+        }
+
+        public bool save()
+        {
+            try
+            {
+                SaveErrorMessage = "";
+
+                using (var db = new PEClientContext())
+                {
+                    var user = db.tblUsers.Where(g => g.Identity == Identity).FirstOrDefault<tblUser>();
+
+                    if (user == null)
+                    {
+                        SaveErrorMessage = "Unknown user.  Please Log in.";
+                        return false;
+                    }
+
+                    // Create a new tblSurvey entry
+                    tblSurvey s = new tblSurvey();
+                    s.Name = _templateName;
+                    s.InstanceId = null;
+                    s.OwnerId = user.UserId;
+                    db.tblSurveys.Add(s);
+                    db.SaveChanges();
+
+                    // Add questions to tblQuestions
+                    tblQuestion q;
+                    tblSurveyQuestion sq;
+                    int index = 0;
+
+                    foreach (string question in _questions)
+                    {
+                        q = new tblQuestion();
+                        q.Text = question;
+                        db.tblQuestions.Add(q);
+                        db.SaveChanges();
+
+                        sq = new tblSurveyQuestion();
+                        sq.SurveyId = s.SurveyId;
+                        sq.QuestionId = q.QuestionId;
+                        sq.QsIndex = index;
+                        db.tblSurveyQuestions.Add(sq);
+                        db.SaveChanges();
+
+                        index++;
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                SaveErrorMessage = ex.Message;
+
+                Exception innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    SaveErrorMessage += ("\n" + ex.InnerException.Message);
+                    innerException = innerException.InnerException;
+                }
+                    return false;
             }
         }
     }

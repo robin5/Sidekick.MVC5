@@ -90,7 +90,7 @@ namespace PEClient.Models
                 _userId = value;
 
                 // Load table data associated with this user
-                using (var db = new StudentReviewsEntities())
+                using (var db = new PEClientContext())
                 {
                     // Enumerate templates
                     var surveys = from s in db.tblSurveys

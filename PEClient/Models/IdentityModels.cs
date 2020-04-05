@@ -37,6 +37,7 @@ namespace PEClient.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
+            //: base("StudentReviewsEntities", throwIfV1Schema: false)
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
@@ -46,6 +47,6 @@ namespace PEClient.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<PEClient.Models.RoleViewModel> RoleViewModels { get; set; }
+        public System.Data.Entity.DbSet<Models.RoleViewModel> RoleViewModels { get; set; }
     }
 }
