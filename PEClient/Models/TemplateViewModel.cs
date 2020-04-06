@@ -93,8 +93,12 @@ namespace PEClient.Models
 
                 using (var db = new PEClientContext())
                 {
-                    var user = db.tblUsers.Where(g => g.Identity == Identity).FirstOrDefault<tblUser>();
+                    // var user = db.tblUsers.Where(g => g.Identity == Identity).FirstOrDefault<tblUser>();
 
+
+                    db.sp_CreateSurvey(Identity, _templateName);
+                    db.SaveChanges();
+/*
                     if (user == null)
                     {
                         SaveErrorMessage = "Unknown user.  Please Log in.";
@@ -130,6 +134,7 @@ namespace PEClient.Models
 
                         index++;
                     }
+*/
                 }
                 return true;
             }
