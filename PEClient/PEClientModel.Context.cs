@@ -40,18 +40,5 @@ namespace PEClient
         public virtual DbSet<tblTeamUser> tblTeamUsers { get; set; }
         public virtual DbSet<tblUserRole> tblUserRoles { get; set; }
         public virtual DbSet<tblUser> tblUsers { get; set; }
-    
-        public virtual int sp_CreateSurvey(string id, string surveyName)
-        {
-            var idParameter = id != null ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(string));
-    
-            var surveyNameParameter = surveyName != null ?
-                new ObjectParameter("SurveyName", surveyName) :
-                new ObjectParameter("SurveyName", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_CreateSurvey", idParameter, surveyNameParameter);
-        }
     }
 }

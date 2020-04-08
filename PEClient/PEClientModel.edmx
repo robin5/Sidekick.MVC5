@@ -16,7 +16,7 @@
           <Key>
             <PropertyRef Name="QuestionId" />
           </Key>
-          <Property Name="QuestionId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="QuestionId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Text" Type="varchar" MaxLength="512" Nullable="false" />
         </EntityType>
         <EntityType Name="tblRoles">
@@ -56,7 +56,7 @@
           <Key>
             <PropertyRef Name="SurveyQuestionId" />
           </Key>
-          <Property Name="SurveyQuestionId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="SurveyQuestionId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SurveyId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
           <Property Name="QuestionId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
           <Property Name="QsIndex" Type="decimal" Precision="10" Scale="0" Nullable="false" />
@@ -894,6 +894,14 @@
             <Parameter Name="Id" Mode="In" Type="String" />
             <Parameter Name="SurveyName" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_CreateSurveyTemplate">
+            <Parameter Name="Id" Mode="In" Type="String" />
+            <Parameter Name="SurveyName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_CreateSurvey1">
+            <Parameter Name="Id" Mode="In" Type="String" />
+            <Parameter Name="SurveyName" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -1023,7 +1031,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_CreateSurvey" FunctionName="PEClientModel.Store.sp_CreateSurvey" />
+          <FunctionImportMapping FunctionImportName="sp_CreateSurvey1" FunctionName="PEClientModel.Store.sp_CreateSurvey" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

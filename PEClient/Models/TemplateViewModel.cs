@@ -38,6 +38,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PEClient.Validation;
+using System.Collections.Specialized;
+using Microsoft.SqlServer.Server;
+using System.Data;
+using System.Data.SqlClient;
+using System.Data.Entity;
 
 namespace PEClient.Models
 {
@@ -93,49 +98,77 @@ namespace PEClient.Models
 
                 using (var db = new PEClientContext())
                 {
-                    // var user = db.tblUsers.Where(g => g.Identity == Identity).FirstOrDefault<tblUser>();
-
-
-                    db.sp_CreateSurvey(Identity, _templateName);
-                    db.SaveChanges();
-/*
-                    if (user == null)
-                    {
-                        SaveErrorMessage = "Unknown user.  Please Log in.";
-                        return false;
-                    }
-
-                    // Create a new tblSurvey entry
-                    tblSurvey s = new tblSurvey();
-                    s.Name = _templateName;
-                    s.InstanceId = null;
-                    s.OwnerId = user.UserId;
-                    db.tblSurveys.Add(s);
-                    db.SaveChanges();
-
-                    // Add questions to tblQuestions
-                    tblQuestion q;
-                    tblSurveyQuestion sq;
-                    int index = 0;
-
-                    foreach (string question in _questions)
-                    {
-                        q = new tblQuestion();
-                        q.Text = question;
-                        db.tblQuestions.Add(q);
-                        db.SaveChanges();
-
-                        sq = new tblSurveyQuestion();
-                        sq.SurveyId = s.SurveyId;
-                        sq.QuestionId = q.QuestionId;
-                        sq.QsIndex = index;
-                        db.tblSurveyQuestions.Add(sq);
-                        db.SaveChanges();
-
-                        index++;
-                    }
-*/
+                    db.sp_CreateSurvey(Identity, _templateName, _questions);
                 }
+
+                //using (var db = new PEClientContext())
+                //{
+                //    // var user = db.tblUsers.Where(g => g.Identity == Identity).FirstOrDefault<tblUser>();
+
+
+                //    //Build your record
+                //    var tableSchema = new List<SqlMetaData>(1) {
+                //        new SqlMetaData("QsIndex", SqlDbType.Int),
+                //        new SqlMetaData("QsText", SqlDbType.Text)
+                //    }.ToArray();
+
+                //    //And a table as a list of those records
+                //    var table = new List<SqlDataRecord>();
+
+                //    // Add rows to table
+                //    int i = 1;
+                //    foreach (string question in _questions)
+                //    {
+                //        var tableRow = new SqlDataRecord(tableSchema);
+                //        tableRow.SetSqlInt32(0, i++);
+                //        tableRow.SetSqlString(1, question);
+                //        table.Add(tableRow);
+                //    }
+
+                //    //Parameters for your query
+                //    SqlParameter[] parameters =
+                //    {
+                //        // UserId
+                //        new SqlParameter
+                //        {
+                //            //SqlDbType = SqlDbType.UniqueIdentifier,
+                //            SqlDbType = SqlDbType.NVarChar,
+                //            Size = 128,
+                //            Direction = ParameterDirection.Input, // output!
+                //            ParameterName = "Id",
+                //            Value = Identity
+                //        },
+                //        // SurveyName
+                //        new SqlParameter
+                //        {
+                //            SqlDbType = SqlDbType.VarChar,
+                //            Size = 40,
+                //            Direction = ParameterDirection.Input, // output!
+                //            ParameterName = "SurveyName",
+                //            Value = _templateName
+                //        },
+                //        // Questions List (Table)
+                //        new SqlParameter
+                //        {
+                //            SqlDbType = SqlDbType.Structured,
+                //            Direction = ParameterDirection.Input,
+                //            ParameterName = "Questions",
+                //            TypeName = "[dbo].[QuestionList]", //Don't forget this one!
+                //            Value = table
+                //        }
+                //};
+
+
+                //    // Do not forget to use "DoNotEnsureTransaction" because if you don't EF will start 
+                //    // it's own transaction for your SP.  In that case you don't need internal transaction 
+                //    // in DB or you must detect it with @@trancount and/or XACT_STATE() and change your logic
+                //    db.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction,
+                //        "exec sp_CreateSurvey @Id, @SurveyName, @Questions", parameters);
+
+
+                //    // db.sp_CreateSurvey(Identity, _templateName);
+                //    // db.SaveChanges();
+                //}
                 return true;
             }
             catch (Exception ex)

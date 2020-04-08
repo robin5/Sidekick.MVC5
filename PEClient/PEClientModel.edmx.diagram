@@ -6,14 +6,14 @@
     <edmx:Diagrams>
       <Diagram DiagramId="79044c8701d74a31bd6d8088e58ec2b0" Name="Diagram1">
         <EntityTypeShape EntityType="PEClientModel.tblGrade" Width="1.5" PointX="3.75" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PEClientModel.tblQuestion" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PEClientModel.tblQuestion" Width="2.25" PointX="0.5" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="PEClientModel.tblRole" Width="1.5" PointX="3.75" PointY="15.875" IsExpanded="true" />
         <EntityTypeShape EntityType="PEClientModel.tblSubmissionStatu" Width="1.5" PointX="0.75" PointY="12.875" IsExpanded="true" />
         <EntityTypeShape EntityType="PEClientModel.tblSurveyComplete" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="PEClientModel.tblSurveyInstance" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="PEClientModel.tblSurveyQuestion" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PEClientModel.tblSurveyQuestion" Width="1.5" PointX="3.625" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="PEClientModel.tblSurveyResponse" Width="1.5" PointX="6" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PEClientModel.tblSurvey" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PEClientModel.tblSurvey" Width="1.5" PointX="7.625" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PEClientModel.tblTeam" Width="1.5" PointX="3" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="PEClientModel.tblTeamUser" Width="1.5" PointX="5.25" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="PEClientModel.tblUserRole" Width="1.5" PointX="6" PointY="4.625" IsExpanded="true" />
