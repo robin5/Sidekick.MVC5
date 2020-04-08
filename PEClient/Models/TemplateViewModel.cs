@@ -92,83 +92,15 @@ namespace PEClient.Models
 
         public bool save()
         {
+            SaveErrorMessage = "";
+
             try
             {
-                SaveErrorMessage = "";
-
                 using (var db = new PEClientContext())
                 {
                     db.sp_CreateSurvey(Identity, _templateName, _questions);
                 }
 
-                //using (var db = new PEClientContext())
-                //{
-                //    // var user = db.tblUsers.Where(g => g.Identity == Identity).FirstOrDefault<tblUser>();
-
-
-                //    //Build your record
-                //    var tableSchema = new List<SqlMetaData>(1) {
-                //        new SqlMetaData("QsIndex", SqlDbType.Int),
-                //        new SqlMetaData("QsText", SqlDbType.Text)
-                //    }.ToArray();
-
-                //    //And a table as a list of those records
-                //    var table = new List<SqlDataRecord>();
-
-                //    // Add rows to table
-                //    int i = 1;
-                //    foreach (string question in _questions)
-                //    {
-                //        var tableRow = new SqlDataRecord(tableSchema);
-                //        tableRow.SetSqlInt32(0, i++);
-                //        tableRow.SetSqlString(1, question);
-                //        table.Add(tableRow);
-                //    }
-
-                //    //Parameters for your query
-                //    SqlParameter[] parameters =
-                //    {
-                //        // UserId
-                //        new SqlParameter
-                //        {
-                //            //SqlDbType = SqlDbType.UniqueIdentifier,
-                //            SqlDbType = SqlDbType.NVarChar,
-                //            Size = 128,
-                //            Direction = ParameterDirection.Input, // output!
-                //            ParameterName = "Id",
-                //            Value = Identity
-                //        },
-                //        // SurveyName
-                //        new SqlParameter
-                //        {
-                //            SqlDbType = SqlDbType.VarChar,
-                //            Size = 40,
-                //            Direction = ParameterDirection.Input, // output!
-                //            ParameterName = "SurveyName",
-                //            Value = _templateName
-                //        },
-                //        // Questions List (Table)
-                //        new SqlParameter
-                //        {
-                //            SqlDbType = SqlDbType.Structured,
-                //            Direction = ParameterDirection.Input,
-                //            ParameterName = "Questions",
-                //            TypeName = "[dbo].[QuestionList]", //Don't forget this one!
-                //            Value = table
-                //        }
-                //};
-
-
-                //    // Do not forget to use "DoNotEnsureTransaction" because if you don't EF will start 
-                //    // it's own transaction for your SP.  In that case you don't need internal transaction 
-                //    // in DB or you must detect it with @@trancount and/or XACT_STATE() and change your logic
-                //    db.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction,
-                //        "exec sp_CreateSurvey @Id, @SurveyName, @Questions", parameters);
-
-
-                //    // db.sp_CreateSurvey(Identity, _templateName);
-                //    // db.SaveChanges();
-                //}
                 return true;
             }
             catch (Exception ex)
@@ -181,7 +113,7 @@ namespace PEClient.Models
                     SaveErrorMessage += ("\n" + ex.InnerException.Message);
                     innerException = innerException.InnerException;
                 }
-                    return false;
+                return false;
             }
         }
     }
