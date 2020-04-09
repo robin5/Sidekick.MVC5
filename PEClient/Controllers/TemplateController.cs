@@ -51,8 +51,7 @@ namespace PEClient.Controllers
                 return View(model);
             }
 
-            model.Identity = User.Identity.GetUserId();
-            if (model.save())
+            if (model.save(User.Identity.GetUserId()))
             {
                 TempData.SuccessMessage($"Successfully added {model.TemplateName} to peer evaluation templates.");
             }

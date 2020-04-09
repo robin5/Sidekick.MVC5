@@ -55,8 +55,7 @@ namespace PEClient.Models
         public TemplateViewModel()
         {
         }
-        public string Identity { get; set; }
-        
+
         //[Required(ErrorMessage = "Surveys must have a name.")]
         [NonNullEmptyOrWhiteSpace(ErrorMessage: "A Survey's name cannot be blank.")]
         public string TemplateName 
@@ -90,7 +89,7 @@ namespace PEClient.Models
             }
         }
 
-        public bool save()
+        public bool save(string identity)
         {
             SaveErrorMessage = "";
 
@@ -98,7 +97,7 @@ namespace PEClient.Models
             {
                 using (var db = new PEClientContext())
                 {
-                    db.sp_CreateSurvey(Identity, _templateName, _questions);
+                    db.sp_CreateSurvey(identity, _templateName, _questions);
                 }
 
                 return true;
