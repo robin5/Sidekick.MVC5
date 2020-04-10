@@ -12,23 +12,18 @@ namespace PEClient
     using System;
     using System.Collections.Generic;
     
-    public partial class tblSurveyInstance
+    public partial class tblGrades
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblSurveyInstance()
+        public tblGrades()
         {
-            this.tblSurveys = new HashSet<tblSurvey>();
-            this.tblTeams = new HashSet<tblTeam>();
+            this.tblSurveyResponses = new HashSet<tblSurveyResponses>();
         }
     
-        public decimal InstanceId { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime EndDate { get; set; }
-        public decimal Released { get; set; }
+        public byte GradeId { get; set; }
+        public string Text { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSurvey> tblSurveys { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblTeam> tblTeams { get; set; }
+        public virtual ICollection<tblSurveyResponses> tblSurveyResponses { get; set; }
     }
 }

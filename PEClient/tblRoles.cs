@@ -12,18 +12,18 @@ namespace PEClient
     using System;
     using System.Collections.Generic;
     
-    public partial class tblGrade
+    public partial class tblRoles
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblGrade()
+        public tblRoles()
         {
-            this.tblSurveyResponses = new HashSet<tblSurveyResponse>();
+            this.tblUserRoles = new HashSet<tblUserRoles>();
         }
     
-        public byte GradeId { get; set; }
-        public string Text { get; set; }
+        public byte RoleId { get; set; }
+        public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSurveyResponse> tblSurveyResponses { get; set; }
+        public virtual ICollection<tblUserRoles> tblUserRoles { get; set; }
     }
 }

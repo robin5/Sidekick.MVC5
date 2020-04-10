@@ -202,8 +202,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspNetUsers.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CommentsAboutViewModel.cs" />
     <Compile Include="Models\CreateTeamModel.cs" />
+    <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\EvaluationInstance.cs" />
     <Compile Include="Models\EvaluationTemplate.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -274,43 +278,43 @@
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\TemplateViewModel.cs" />
     <Compile Include="Models\ToneAnalysisViewModel.cs" />
-    <Compile Include="tblGrade.cs">
+    <Compile Include="tblGrades.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblQuestion.cs">
+    <Compile Include="tblQuestions.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblRole.cs">
+    <Compile Include="tblRoles.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblSubmissionStatu.cs">
+    <Compile Include="tblSubmissionStatus.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblSurvey.cs">
+    <Compile Include="tblSurveyCompletes.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblSurveyComplete.cs">
+    <Compile Include="tblSurveyInstances.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblSurveyInstance.cs">
+    <Compile Include="tblSurveyQuestions.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblSurveyQuestion.cs">
+    <Compile Include="tblSurveyResponses.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblSurveyResponse.cs">
+    <Compile Include="tblSurveys.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblTeam.cs">
+    <Compile Include="tblTeams.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblTeamUser.cs">
+    <Compile Include="tblTeamUsers.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblUser.cs">
+    <Compile Include="tblUserRoles.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblUserRole.cs">
+    <Compile Include="tblUsers.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Validation\DateTimeAttribute.cs" />

@@ -12,14 +12,14 @@ namespace PEClient
     using System;
     using System.Collections.Generic;
     
-    public partial class tblSurvey
+    public partial class tblSurveys
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblSurvey()
+        public tblSurveys()
         {
-            this.tblSurveyCompletes = new HashSet<tblSurveyComplete>();
-            this.tblSurveyQuestions = new HashSet<tblSurveyQuestion>();
-            this.tblSurveyQuestions1 = new HashSet<tblSurveyQuestion>();
+            this.tblSurveyCompletes = new HashSet<tblSurveyCompletes>();
+            this.tblSurveyQuestions = new HashSet<tblSurveyQuestions>();
+            this.tblSurveyQuestions1 = new HashSet<tblSurveyQuestions>();
         }
     
         public decimal SurveyId { get; set; }
@@ -28,12 +28,11 @@ namespace PEClient
         public Nullable<decimal> InstanceId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSurveyComplete> tblSurveyCompletes { get; set; }
-        public virtual tblSurveyInstance tblSurveyInstance { get; set; }
+        public virtual ICollection<tblSurveyCompletes> tblSurveyCompletes { get; set; }
+        public virtual tblSurveyInstances tblSurveyInstances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSurveyQuestion> tblSurveyQuestions { get; set; }
+        public virtual ICollection<tblSurveyQuestions> tblSurveyQuestions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSurveyQuestion> tblSurveyQuestions1 { get; set; }
-        public virtual tblUser tblUser { get; set; }
+        public virtual ICollection<tblSurveyQuestions> tblSurveyQuestions1 { get; set; }
     }
 }

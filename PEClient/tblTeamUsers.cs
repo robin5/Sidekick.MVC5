@@ -12,13 +12,13 @@ namespace PEClient
     using System;
     using System.Collections.Generic;
     
-    public partial class tblUserRole
+    public partial class tblTeamUsers
     {
-        public decimal UserRoleId { get; set; }
+        public decimal TeamUserId { get; set; }
+        public decimal TeamId { get; set; }
         public decimal UserId { get; set; }
-        public byte RoleId { get; set; }
     
-        public virtual tblRole tblRole { get; set; }
-        public virtual tblUser tblUser { get; set; }
+        public virtual tblTeams tblTeams { get; set; }
+        public virtual tblUsers tblUsers { get; set; }
     }
 }

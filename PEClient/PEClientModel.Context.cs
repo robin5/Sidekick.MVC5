@@ -12,8 +12,6 @@ namespace PEClient
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Core.Objects;
-    using System.Linq;
     
     public partial class PEClientContext : DbContext
     {
@@ -27,18 +25,19 @@ namespace PEClient
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<tblGrade> tblGrades { get; set; }
-        public virtual DbSet<tblQuestion> tblQuestions { get; set; }
-        public virtual DbSet<tblRole> tblRoles { get; set; }
-        public virtual DbSet<tblSubmissionStatu> tblSubmissionStatus { get; set; }
-        public virtual DbSet<tblSurveyComplete> tblSurveyCompletes { get; set; }
-        public virtual DbSet<tblSurveyInstance> tblSurveyInstances { get; set; }
-        public virtual DbSet<tblSurveyQuestion> tblSurveyQuestions { get; set; }
-        public virtual DbSet<tblSurveyResponse> tblSurveyResponses1 { get; set; }
-        public virtual DbSet<tblSurvey> tblSurveys { get; set; }
-        public virtual DbSet<tblTeam> tblTeams { get; set; }
-        public virtual DbSet<tblTeamUser> tblTeamUsers { get; set; }
-        public virtual DbSet<tblUserRole> tblUserRoles { get; set; }
-        public virtual DbSet<tblUser> tblUsers { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<tblGrades> tblGrades { get; set; }
+        public virtual DbSet<tblQuestions> tblQuestions { get; set; }
+        public virtual DbSet<tblRoles> tblRoles { get; set; }
+        public virtual DbSet<tblSubmissionStatus> tblSubmissionStatus { get; set; }
+        public virtual DbSet<tblSurveyCompletes> tblSurveyCompletes { get; set; }
+        public virtual DbSet<tblSurveyInstances> tblSurveyInstances { get; set; }
+        public virtual DbSet<tblSurveyQuestions> tblSurveyQuestions { get; set; }
+        public virtual DbSet<tblSurveyResponses> tblSurveyResponses { get; set; }
+        public virtual DbSet<tblSurveys> tblSurveys { get; set; }
+        public virtual DbSet<tblTeams> tblTeams { get; set; }
+        public virtual DbSet<tblTeamUsers> tblTeamUsers { get; set; }
+        public virtual DbSet<tblUserRoles> tblUserRoles { get; set; }
+        public virtual DbSet<tblUsers> tblUsers { get; set; }
     }
 }

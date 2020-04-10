@@ -12,19 +12,17 @@ namespace PEClient
     using System;
     using System.Collections.Generic;
     
-    public partial class tblUser
+    public partial class tblUsers
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblUser()
+        public tblUsers()
         {
-            this.tblSurveyCompletes = new HashSet<tblSurveyComplete>();
-            this.tblSurveyCompletes1 = new HashSet<tblSurveyComplete>();
-            this.tblSurveyResponses = new HashSet<tblSurveyResponse>();
-            this.tblSurveyResponses1 = new HashSet<tblSurveyResponse>();
-            this.tblSurveys = new HashSet<tblSurvey>();
-            this.tblTeams = new HashSet<tblTeam>();
-            this.tblTeamUsers = new HashSet<tblTeamUser>();
-            this.tblUserRoles = new HashSet<tblUserRole>();
+            this.tblSurveyCompletes = new HashSet<tblSurveyCompletes>();
+            this.tblSurveyCompletes1 = new HashSet<tblSurveyCompletes>();
+            this.tblSurveyResponses = new HashSet<tblSurveyResponses>();
+            this.tblSurveyResponses1 = new HashSet<tblSurveyResponses>();
+            this.tblTeamUsers = new HashSet<tblTeamUsers>();
+            this.tblUserRoles = new HashSet<tblUserRoles>();
         }
     
         public decimal UserId { get; set; }
@@ -32,20 +30,16 @@ namespace PEClient
         public string FullName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSurveyComplete> tblSurveyCompletes { get; set; }
+        public virtual ICollection<tblSurveyCompletes> tblSurveyCompletes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSurveyComplete> tblSurveyCompletes1 { get; set; }
+        public virtual ICollection<tblSurveyCompletes> tblSurveyCompletes1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSurveyResponse> tblSurveyResponses { get; set; }
+        public virtual ICollection<tblSurveyResponses> tblSurveyResponses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSurveyResponse> tblSurveyResponses1 { get; set; }
+        public virtual ICollection<tblSurveyResponses> tblSurveyResponses1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSurvey> tblSurveys { get; set; }
+        public virtual ICollection<tblTeamUsers> tblTeamUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblTeam> tblTeams { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblTeamUser> tblTeamUsers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblUserRole> tblUserRoles { get; set; }
+        public virtual ICollection<tblUserRoles> tblUserRoles { get; set; }
     }
 }

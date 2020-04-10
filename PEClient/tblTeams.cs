@@ -12,13 +12,19 @@ namespace PEClient
     using System;
     using System.Collections.Generic;
     
-    public partial class tblTeamUser
+    public partial class tblTeams
     {
-        public decimal TeamUserId { get; set; }
-        public decimal TeamId { get; set; }
-        public decimal UserId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblTeams()
+        {
+            this.tblTeamUsers = new HashSet<tblTeamUsers>();
+        }
     
-        public virtual tblTeam tblTeam { get; set; }
-        public virtual tblUser tblUser { get; set; }
+        public decimal TeamId { get; set; }
+        public string Name { get; set; }
+        public decimal OwnerId { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblTeamUsers> tblTeamUsers { get; set; }
     }
 }

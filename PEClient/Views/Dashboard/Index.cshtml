@@ -32,149 +32,151 @@
     **********************************************************************************
 *@
 
+@model  PEClient.Models.DashboardViewModel
+
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="wrapper" style="margin-top: 40px">
+<div class="wrapper" style="margin-top: 40px">
 
-        <!-------------------------------------------------->
+    <!-------------------------------------------------->
 
-        @if (TempData.SuccessMessage() != null)
-        {
-            <div class="alert alert-success alert-dismissible" role="alert">
-                @TempData.SuccessMessage()
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        }
-        else if (TempData.ErrorMessage() != null)
-        {
-            <div class="alert alert-danger alert-dismissible" role="alert">
-                @TempData.ErrorMessage()
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        }
+    @if (TempData.SuccessMessage() != null)
+    {
+        <div class="alert alert-success alert-dismissible" role="alert">
+            @TempData.SuccessMessage()
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    else if (TempData.ErrorMessage() != null)
+    {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            @TempData.ErrorMessage()
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
 
-        <!-------------------------------------------------->
+    <!-------------------------------------------------->
 
-        <p>It's a <strong>3</strong> step process:</p>
-        <ol style="margin-left: 0">
-            <li>@Html.ActionLink("Create a peer evaluation survey", "Index", "Template")</li>
-            <li>@Html.ActionLink("Create peer groups", "Index", "CreateTeam")</li>
-            <li>@Html.ActionLink("Launch the Peer Evaluation", "Index", "Launch")</li>
-        </ol>
-        <hr>
+    <p>It's a <strong>3</strong> step process:</p>
+    <ol style="margin-left: 0">
+        <li>@Html.ActionLink("Create a peer evaluation survey", "Index", "Template")</li>
+        <li>@Html.ActionLink("Create peer groups", "Index", "CreateTeam")</li>
+        <li>@Html.ActionLink("Launch the Peer Evaluation", "Index", "Launch")</li>
+    </ol>
+    <hr>
 
-        <!-------------------------------------------------->
+    <!-------------------------------------------------->
 
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#templates" aria-expanded="false" aria-controls="collapseExample">
-            <h4>Peer Evaluation Templates</h4>
-        </button>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#templates" aria-expanded="false" aria-controls="collapseExample">
+        <h4>Peer Evaluation Templates</h4>
+    </button>
 
-        <hr>
+    <hr>
 
-        <div id="templates" class="collapse">
-            <p>@Html.ActionLink("Create a peer evaluation survey", "Index", "Template")</p>
-            <div style="display: flex; flex-wrap: wrap;">
+    <div id="templates" class="collapse">
+        <p>@Html.ActionLink("Create a peer evaluation survey", "Index", "Template")</p>
+        <div style="display: flex; flex-wrap: wrap;">
 
-                @* Generate survey instance cards *@
+            @* Generate survey instance cards *@
 
-                @if (ViewBag.evaluationTemplates.Length > 0)
+            @if (Model.Templates.Count > 0)
+            {
+                foreach (var template in Model.Templates)
                 {
-                    foreach (var template in ViewBag.evaluationTemplates)
-                    {
-                        <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
-                            <div class="card" style="">
-                                <h4>@(template.Name)</h4>
-                                <p>
-                                    <a href="#0">Edit</a>&nbsp;&nbsp;&nbsp;<a href="#0">Delete</a>
-                                </p>
-                            </div><!-- card -->
-                        </div><!-- col -->
-                    }
+                    <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
+                        <div class="card" style="">
+                            <h4>@(template.Name)</h4>
+                            <p>
+                                <a href="#0">Edit</a>&nbsp;&nbsp;&nbsp;<a href="#0">Delete</a>
+                            </p>
+                        </div><!-- card -->
+                    </div><!-- col -->
                 }
-            </div><!-- flex row -->
-            <hr>
-        </div><!-- collapse -->
-        <!-------------------------------------------------->
-
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#teams" aria-expanded="false" aria-controls="collapseExample">
-            <h4>Peer Groups</h4>
-        </button>
-
+            }
+        </div><!-- flex row -->
         <hr>
+    </div><!-- collapse -->
+    <!-------------------------------------------------->
 
-        <div id="teams" class="collapse">
-            <p>@Html.ActionLink("Create a new peer group", "Index", "CreateTeam")</p>
-            <div style="display: flex; flex-wrap: wrap;">
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#teams" aria-expanded="false" aria-controls="collapseExample">
+        <h4>Peer Groups</h4>
+    </button>
 
-                @* Generate survey instance cards *@
+    <hr>
 
-                @if (ViewBag.teams.Length > 0)
+    <div id="teams" class="collapse">
+        <p>@Html.ActionLink("Create a new peer group", "Index", "CreateTeam")</p>
+        <div style="display: flex; flex-wrap: wrap;">
+
+            @* Generate survey instance cards *@
+
+            @if (Model.Teams.Count > 0)
+            {
+                foreach (var team in Model.Teams)
                 {
-                    foreach (var team in ViewBag.teams)
-                    {
-                        <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
-                            <div class="card" style="">
-                                <h4>@(team.Name)</h4>
-                                <p>
-                                    <a href="#0">Edit</a>&nbsp;&nbsp;&nbsp;<a href="#0">Delete</a>
-                                </p>
-                            </div><!-- card -->
-                        </div><!-- col -->
-                    }
+                    <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
+                        <div class="card" style="">
+                            <h4>@(team.Name)</h4>
+                            <p>
+                                <a href="#0">Edit</a>&nbsp;&nbsp;&nbsp;<a href="#0">Delete</a>
+                            </p>
+                        </div><!-- card -->
+                    </div><!-- col -->
                 }
-            </div><!-- flex row -->
-            <hr>
-        </div><!-- collapse -->
-        <!-------------------------------------------------->
-
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#launched" aria-expanded="false" aria-controls="collapseExample">
-            <h4>Launched Peer Evaluations</h4>
-        </button>
-
+            }
+        </div><!-- flex row -->
         <hr>
+    </div><!-- collapse -->
+    <!-------------------------------------------------->
 
-        <div id="launched" class="collapse">
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#launched" aria-expanded="false" aria-controls="collapseExample">
+        <h4>Launched Peer Evaluations</h4>
+    </button>
 
-            <p>@Html.ActionLink("Launch a peer evaluation", "Index", "Launch")</p>
+    <hr>
 
-            <div style="display: flex; flex-wrap: wrap;">
+    <div id="launched" class="collapse">
 
-                @* Generate survey instance cards *@
+        <p>@Html.ActionLink("Launch a peer evaluation", "Index", "Launch")</p>
 
-                @if (ViewBag.SurveyInstances.Length > 0)
+        <div style="display: flex; flex-wrap: wrap;">
+
+            @* Generate survey instance cards *@
+
+            @if (Model.SurveyInstances.Count > 0)
+            {
+                foreach (var surveyInstance in Model.SurveyInstances)
                 {
-                    foreach (var surveyInstance in ViewBag.SurveyInstances)
-                    {
-                        <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
-                            <div class="card" style="">
-                                <h4>@(surveyInstance.Name)</h4>
-                                <p style="line-height: 1.5em;">
-                                    <strong>Start Date: </strong><br><span>@(surveyInstance.Start)</span><br />
-                                    <strong>End Date: </strong><br><span>@(surveyInstance.End)</span><br />
-                                    <strong>Status: </strong><br><span>@(surveyInstance.Status)</span><br />
-                                </p>
-                                <p>
-                                    <hr />
-                                    @Html.ActionLink("View Results", "Index", "SurveySummary")<br />
-                                    <a href="#0">Release Results</a>
-                                </p>
-                            </div><!-- card -->
-                        </div><!-- col -->
-                    }
+                    <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
+                        <div class="card" style="">
+                            <h4>@(surveyInstance.Name)</h4>
+                            <p style="line-height: 1.5em;">
+                                <strong>Start Date: </strong><br><span>@(surveyInstance.Start)</span><br />
+                                <strong>End Date: </strong><br><span>@(surveyInstance.End)</span><br />
+                                <strong>Status: </strong><br><span>@(surveyInstance.Status)</span><br />
+                            </p>
+                            <p>
+                                <hr />
+                                @Html.ActionLink("View Results", "Index", "SurveySummary")<br />
+                                <a href="#0">Release Results</a>
+                            </p>
+                        </div><!-- card -->
+                    </div><!-- col -->
                 }
-            </div><!-- flex row -->
-            <hr>
-        </div><!-- collapse -->
-        <!-------------------------------------------------->
+            }
+        </div><!-- flex row -->
+        <hr>
+    </div><!-- collapse -->
+    <!-------------------------------------------------->
 
-    </div><!-- Wrapper -->
-</div>
+</div><!-- Wrapper -->
+
 <script>
     function areYouSure() {
         return confirm('Are you sure?');

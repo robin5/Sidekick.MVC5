@@ -12,21 +12,20 @@ namespace PEClient
     using System;
     using System.Collections.Generic;
     
-    public partial class tblQuestion
+    public partial class tblSurveyInstances
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblQuestion()
+        public tblSurveyInstances()
         {
-            this.tblSurveyQuestions = new HashSet<tblSurveyQuestion>();
-            this.tblSurveyResponses = new HashSet<tblSurveyResponse>();
+            this.tblSurveys = new HashSet<tblSurveys>();
         }
     
-        public decimal QuestionId { get; set; }
-        public string Text { get; set; }
+        public decimal InstanceId { get; set; }
+        public System.DateTime StartDate { get; set; }
+        public System.DateTime EndDate { get; set; }
+        public decimal Released { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSurveyQuestion> tblSurveyQuestions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSurveyResponse> tblSurveyResponses { get; set; }
+        public virtual ICollection<tblSurveys> tblSurveys { get; set; }
     }
 }

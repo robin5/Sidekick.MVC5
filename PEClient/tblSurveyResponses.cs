@@ -12,7 +12,7 @@ namespace PEClient
     using System;
     using System.Collections.Generic;
     
-    public partial class tblSurveyResponse
+    public partial class tblSurveyResponses
     {
         public decimal ResponseId { get; set; }
         public decimal QuestionId { get; set; }
@@ -21,9 +21,9 @@ namespace PEClient
         public string Text { get; set; }
         public byte GradeId { get; set; }
     
-        public virtual tblGrade tblGrade { get; set; }
-        public virtual tblQuestion tblQuestion { get; set; }
-        public virtual tblUser tblUser { get; set; }
-        public virtual tblUser tblUser1 { get; set; }
+        public virtual tblGrades tblGrades { get; set; }
+        public virtual tblQuestions tblQuestions { get; set; }
+        public virtual tblUsers tblUsers { get; set; }
+        public virtual tblUsers tblUsers1 { get; set; }
     }
 }
