@@ -208,8 +208,8 @@
     <Compile Include="Models\CommentsAboutViewModel.cs" />
     <Compile Include="Models\CreateTeamModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
-    <Compile Include="Models\EvaluationInstance.cs" />
-    <Compile Include="Models\EvaluationTemplate.cs" />
+    <Compile Include="Models\LaunchedSurvey.cs" />
+    <Compile Include="Models\Survey.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LaunchViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -279,6 +279,15 @@
     <Compile Include="Models\TemplateViewModel.cs" />
     <Compile Include="Models\ToneAnalysisViewModel.cs" />
     <Compile Include="tblGrades.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblLaunchedQuestions.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblLaunchedSurveyQuestions.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblLaunchedSurveys.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblQuestions.cs">

@@ -85,9 +85,9 @@
 
             @* Generate survey instance cards *@
 
-            @if (Model.Templates.Count > 0)
+            @if (Model.Surveys.Count > 0)
             {
-                foreach (var template in Model.Templates)
+                foreach (var template in Model.Surveys)
                 {
                     <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
                         <div class="card" style="">
@@ -149,9 +149,9 @@
 
             @* Generate survey instance cards *@
 
-            @if (Model.SurveyInstances.Count > 0)
+            @if (Model.LaunchedSurveys.Count > 0)
             {
-                foreach (var surveyInstance in Model.SurveyInstances)
+                foreach (var surveyInstance in Model.LaunchedSurveys)
                 {
                     <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
                         <div class="card" style="">

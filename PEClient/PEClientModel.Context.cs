@@ -27,6 +27,9 @@ namespace PEClient
     
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<tblGrades> tblGrades { get; set; }
+        public virtual DbSet<tblLaunchedQuestions> tblLaunchedQuestions { get; set; }
+        public virtual DbSet<tblLaunchedSurveyQuestions> tblLaunchedSurveyQuestions { get; set; }
+        public virtual DbSet<tblLaunchedSurveys> tblLaunchedSurveys { get; set; }
         public virtual DbSet<tblQuestions> tblQuestions { get; set; }
         public virtual DbSet<tblRoles> tblRoles { get; set; }
         public virtual DbSet<tblSubmissionStatus> tblSubmissionStatus { get; set; }

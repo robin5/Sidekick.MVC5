@@ -31,6 +31,33 @@
           <Property Name="GradeId" Type="tinyint" Nullable="false" />
           <Property Name="Text" Type="char" MaxLength="1" />
         </EntityType>
+        <EntityType Name="tblLaunchedQuestions">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Text" Type="varchar" MaxLength="512" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblLaunchedSurveyQuestions">
+          <Key>
+            <PropertyRef Name="SurveyQuestionId" />
+          </Key>
+          <Property Name="SurveyQuestionId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SurveyId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="QuestionId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="QsIndex" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblLaunchedSurveys">
+          <Key>
+            <PropertyRef Name="SurveyId" />
+          </Key>
+          <Property Name="SurveyId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="OwnerId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+          <Property Name="Released" Type="decimal" Precision="1" Scale="0" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblQuestions">
           <Key>
             <PropertyRef Name="QuestionId" />
@@ -132,6 +159,42 @@
           <Property Name="Identity" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="FullName" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <Association Name="FK__tblLaunchedSurvey__Quest__440B1D61">
+          <End Role="tblLaunchedQuestions" Type="Self.tblLaunchedQuestions" Multiplicity="1" />
+          <End Role="tblLaunchedSurveyQuestions" Type="Self.tblLaunchedSurveyQuestions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblLaunchedQuestions">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="tblLaunchedSurveyQuestions">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblLaunchedSurvey__Surve__403A8C7D">
+          <End Role="tblLaunchedSurveys" Type="Self.tblLaunchedSurveys" Multiplicity="1" />
+          <End Role="tblLaunchedSurveyQuestions" Type="Self.tblLaunchedSurveyQuestions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblLaunchedSurveys">
+              <PropertyRef Name="SurveyId" />
+            </Principal>
+            <Dependent Role="tblLaunchedSurveyQuestions">
+              <PropertyRef Name="SurveyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblLaunchedSurvey__Surve__4316F928">
+          <End Role="tblLaunchedSurveys" Type="Self.tblLaunchedSurveys" Multiplicity="1" />
+          <End Role="tblLaunchedSurveyQuestions" Type="Self.tblLaunchedSurveyQuestions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblLaunchedSurveys">
+              <PropertyRef Name="SurveyId" />
+            </Principal>
+            <Dependent Role="tblLaunchedSurveyQuestions">
+              <PropertyRef Name="SurveyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__tblSurvey__Grade__571DF1D5">
           <End Role="tblGrades" Type="Self.tblGrades" Multiplicity="1" />
           <End Role="tblSurveyResponses" Type="Self.tblSurveyResponses" Multiplicity="*" />
@@ -330,9 +393,15 @@ warning 6035: The relationship 'FK__tblTeam__OwnerId__60A75C0F' has columns that
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_tblLaunchedSurveys_AspNetUsers_UserId" />-->
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblGrades" EntityType="Self.tblGrades" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblLaunchedQuestions" EntityType="Self.tblLaunchedQuestions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblLaunchedSurveyQuestions" EntityType="Self.tblLaunchedSurveyQuestions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblLaunchedSurveys" EntityType="Self.tblLaunchedSurveys" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblQuestions" EntityType="Self.tblQuestions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblRoles" EntityType="Self.tblRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSubmissionStatus" EntityType="Self.tblSubmissionStatus" Schema="dbo" store:Type="Tables" />
@@ -345,6 +414,18 @@ warning 6035: The relationship 'FK__tblTeam__OwnerId__60A75C0F' has columns that
           <EntitySet Name="tblTeamUsers" EntityType="Self.tblTeamUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUserRoles" EntityType="Self.tblUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tblLaunchedSurvey__Quest__440B1D61" Association="Self.FK__tblLaunchedSurvey__Quest__440B1D61">
+            <End Role="tblLaunchedQuestions" EntitySet="tblLaunchedQuestions" />
+            <End Role="tblLaunchedSurveyQuestions" EntitySet="tblLaunchedSurveyQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblLaunchedSurvey__Surve__403A8C7D" Association="Self.FK__tblLaunchedSurvey__Surve__403A8C7D">
+            <End Role="tblLaunchedSurveys" EntitySet="tblLaunchedSurveys" />
+            <End Role="tblLaunchedSurveyQuestions" EntitySet="tblLaunchedSurveyQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblLaunchedSurvey__Surve__4316F928" Association="Self.FK__tblLaunchedSurvey__Surve__4316F928">
+            <End Role="tblLaunchedSurveys" EntitySet="tblLaunchedSurveys" />
+            <End Role="tblLaunchedSurveyQuestions" EntitySet="tblLaunchedSurveyQuestions" />
+          </AssociationSet>
           <AssociationSet Name="FK__tblSurvey__Grade__571DF1D5" Association="Self.FK__tblSurvey__Grade__571DF1D5">
             <End Role="tblGrades" EntitySet="tblGrades" />
             <End Role="tblSurveyResponses" EntitySet="tblSurveyResponses" />
@@ -441,6 +522,39 @@ warning 6035: The relationship 'FK__tblTeam__OwnerId__60A75C0F' has columns that
           <Property Name="GradeId" Type="Byte" Nullable="false" />
           <Property Name="Text" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="tblSurveyResponses" Relationship="Self.FK__tblSurvey__Grade__571DF1D5" FromRole="tblGrades" ToRole="tblSurveyResponses" />
+        </EntityType>
+        <EntityType Name="tblLaunchedQuestions">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" MaxLength="512" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblLaunchedSurveyQuestions" Relationship="Self.FK__tblLaunchedSurvey__Quest__440B1D61" FromRole="tblLaunchedQuestions" ToRole="tblLaunchedSurveyQuestions" />
+        </EntityType>
+        <EntityType Name="tblLaunchedSurveyQuestions">
+          <Key>
+            <PropertyRef Name="SurveyQuestionId" />
+          </Key>
+          <Property Name="SurveyQuestionId" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SurveyId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="QuestionId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="QsIndex" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <NavigationProperty Name="tblLaunchedQuestions" Relationship="Self.FK__tblLaunchedSurvey__Quest__440B1D61" FromRole="tblLaunchedSurveyQuestions" ToRole="tblLaunchedQuestions" />
+          <NavigationProperty Name="tblLaunchedSurveys" Relationship="Self.FK__tblLaunchedSurvey__Surve__403A8C7D" FromRole="tblLaunchedSurveyQuestions" ToRole="tblLaunchedSurveys" />
+          <NavigationProperty Name="tblLaunchedSurveys1" Relationship="Self.FK__tblLaunchedSurvey__Surve__4316F928" FromRole="tblLaunchedSurveyQuestions" ToRole="tblLaunchedSurveys" />
+        </EntityType>
+        <EntityType Name="tblLaunchedSurveys">
+          <Key>
+            <PropertyRef Name="SurveyId" />
+          </Key>
+          <Property Name="SurveyId" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OwnerId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Released" Type="Decimal" Precision="1" Scale="0" Nullable="false" />
+          <NavigationProperty Name="tblLaunchedSurveyQuestions" Relationship="Self.FK__tblLaunchedSurvey__Surve__403A8C7D" FromRole="tblLaunchedSurveys" ToRole="tblLaunchedSurveyQuestions" />
+          <NavigationProperty Name="tblLaunchedSurveyQuestions1" Relationship="Self.FK__tblLaunchedSurvey__Surve__4316F928" FromRole="tblLaunchedSurveys" ToRole="tblLaunchedSurveyQuestions" />
         </EntityType>
         <EntityType Name="tblQuestions">
           <Key>
@@ -583,6 +697,42 @@ warning 6035: The relationship 'FK__tblTeam__OwnerId__60A75C0F' has columns that
             </Principal>
             <Dependent Role="tblSurveyResponses">
               <PropertyRef Name="GradeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblLaunchedSurvey__Quest__440B1D61">
+          <End Role="tblLaunchedQuestions" Type="Self.tblLaunchedQuestions" Multiplicity="1" />
+          <End Role="tblLaunchedSurveyQuestions" Type="Self.tblLaunchedSurveyQuestions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblLaunchedQuestions">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="tblLaunchedSurveyQuestions">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblLaunchedSurvey__Surve__403A8C7D">
+          <End Role="tblLaunchedSurveys" Type="Self.tblLaunchedSurveys" Multiplicity="1" />
+          <End Role="tblLaunchedSurveyQuestions" Type="Self.tblLaunchedSurveyQuestions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblLaunchedSurveys">
+              <PropertyRef Name="SurveyId" />
+            </Principal>
+            <Dependent Role="tblLaunchedSurveyQuestions">
+              <PropertyRef Name="SurveyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblLaunchedSurvey__Surve__4316F928">
+          <End Role="tblLaunchedSurveys" Type="Self.tblLaunchedSurveys" Multiplicity="1" />
+          <End Role="tblLaunchedSurveyQuestions" Type="Self.tblLaunchedSurveyQuestions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblLaunchedSurveys">
+              <PropertyRef Name="SurveyId" />
+            </Principal>
+            <Dependent Role="tblLaunchedSurveyQuestions">
+              <PropertyRef Name="SurveyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -769,6 +919,9 @@ warning 6035: The relationship 'FK__tblTeam__OwnerId__60A75C0F' has columns that
         <EntityContainer Name="PEClientContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
           <EntitySet Name="tblGrades" EntityType="Self.tblGrades" />
+          <EntitySet Name="tblLaunchedQuestions" EntityType="Self.tblLaunchedQuestions" />
+          <EntitySet Name="tblLaunchedSurveyQuestions" EntityType="Self.tblLaunchedSurveyQuestions" />
+          <EntitySet Name="tblLaunchedSurveys" EntityType="Self.tblLaunchedSurveys" />
           <EntitySet Name="tblQuestions" EntityType="Self.tblQuestions" />
           <EntitySet Name="tblRoles" EntityType="Self.tblRoles" />
           <EntitySet Name="tblSubmissionStatus" EntityType="Self.tblSubmissionStatus" />
@@ -784,6 +937,18 @@ warning 6035: The relationship 'FK__tblTeam__OwnerId__60A75C0F' has columns that
           <AssociationSet Name="FK__tblSurvey__Grade__571DF1D5" Association="Self.FK__tblSurvey__Grade__571DF1D5">
             <End Role="tblGrades" EntitySet="tblGrades" />
             <End Role="tblSurveyResponses" EntitySet="tblSurveyResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblLaunchedSurvey__Quest__440B1D61" Association="Self.FK__tblLaunchedSurvey__Quest__440B1D61">
+            <End Role="tblLaunchedQuestions" EntitySet="tblLaunchedQuestions" />
+            <End Role="tblLaunchedSurveyQuestions" EntitySet="tblLaunchedSurveyQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblLaunchedSurvey__Surve__403A8C7D" Association="Self.FK__tblLaunchedSurvey__Surve__403A8C7D">
+            <End Role="tblLaunchedSurveys" EntitySet="tblLaunchedSurveys" />
+            <End Role="tblLaunchedSurveyQuestions" EntitySet="tblLaunchedSurveyQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblLaunchedSurvey__Surve__4316F928" Association="Self.FK__tblLaunchedSurvey__Surve__4316F928">
+            <End Role="tblLaunchedSurveys" EntitySet="tblLaunchedSurveys" />
+            <End Role="tblLaunchedSurveyQuestions" EntitySet="tblLaunchedSurveyQuestions" />
           </AssociationSet>
           <AssociationSet Name="FK__tblSurvey__Quest__440B1D61" Association="Self.FK__tblSurvey__Quest__440B1D61">
             <End Role="tblQuestions" EntitySet="tblQuestions" />
@@ -877,6 +1042,36 @@ warning 6035: The relationship 'FK__tblTeam__OwnerId__60A75C0F' has columns that
               <MappingFragment StoreEntitySet="tblGrades">
                 <ScalarProperty Name="GradeId" ColumnName="GradeId" />
                 <ScalarProperty Name="Text" ColumnName="Text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblLaunchedQuestions">
+            <EntityTypeMapping TypeName="Model.tblLaunchedQuestions">
+              <MappingFragment StoreEntitySet="tblLaunchedQuestions">
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblLaunchedSurveyQuestions">
+            <EntityTypeMapping TypeName="Model.tblLaunchedSurveyQuestions">
+              <MappingFragment StoreEntitySet="tblLaunchedSurveyQuestions">
+                <ScalarProperty Name="SurveyQuestionId" ColumnName="SurveyQuestionId" />
+                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="QsIndex" ColumnName="QsIndex" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblLaunchedSurveys">
+            <EntityTypeMapping TypeName="Model.tblLaunchedSurveys">
+              <MappingFragment StoreEntitySet="tblLaunchedSurveys">
+                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Released" ColumnName="Released" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -35,7 +35,7 @@ using System.Web;
 
 namespace PEClient.Models
 {
-    public class EvaluationInstance
+    public class LaunchedSurvey
     {
         public string Name { get; set; }
         public string Start { get; set; }

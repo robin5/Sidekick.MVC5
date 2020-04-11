@@ -39,10 +39,19 @@ namespace PEClient.Models
 {
     public class DashboardViewModel
     {
-        public List<EvaluationTemplate> _templates = new List<EvaluationTemplate>();
+        public List<Survey> _surveys = new List<Survey>();
         public List<Team> _teams = new List<Team>();
-        public List<EvaluationInstance> _instances = new List<EvaluationInstance>();
-        private void LoadTemplates(string identity)
+        public List<LaunchedSurvey> _launchedSurveys = new List<LaunchedSurvey>();
+        public DashboardViewModel(string identity)
+        {
+            LoadSurveys(identity);
+            LoadTeams(identity);
+            LoadLaunchedSurveys(identity);
+        }
+        //
+        // Summary:
+        //     Loads surveys from the database into the model.
+        private void LoadSurveys(string identity)
         {
             using (var db = new PEClientContext())
             {
@@ -53,12 +62,17 @@ namespace PEClient.Models
                                 orderby s.SurveyId
                                 select new { Name = s.Name };
 
+                // Cycle through result of database query and load data into the model
+
                 foreach (var template in templates)
                 {
-                    _templates.Add(new EvaluationTemplate { Name = template.Name });
+                    _surveys.Add(new Survey { Name = template.Name });
                 }
             }
         }
+        //
+        // Summary:
+        //     Loads teams from the database into the model.
         private void LoadTeams(string identity)
         {
             using (var db = new PEClientContext())
@@ -71,46 +85,55 @@ namespace PEClient.Models
                     orderby t.TeamId
                     select new { Name = t.Name};
 
+                // Cycle through result of database query and load data into the model
+
                 foreach (var team in teams)
                 {
                     _teams.Add(new Team { Name = team.Name });
                 }
             }
         }
-        private void LoadSurveyInstances(string identity)
+        //
+        // Summary:
+        //     Loads launched surveys from the database into the model.
+        private void LoadLaunchedSurveys(string identity)
         {
             using (var db = new PEClientContext())
             {
-                var surveyInstances = 
-                    from si in db.tblSurveyInstances join s in db.tblSurveys 
-                        on si.InstanceId equals s.InstanceId
-                    where s.OwnerId == 1000
-                    orderby s.InstanceId
-                    select new { StartDate = si.StartDate, EndDate = si.EndDate, Released = si.Released, Name = s.Name};
+                // Join tblTeams to AspNetUser and query for teams owned by this user user
 
-                foreach (var surveyInstance in surveyInstances)
-                {
-                    _instances.Add(new EvaluationInstance
+                var launchedSurveys = 
+                    from survey in db.tblLaunchedSurveys join user in db.AspNetUsers
+                        on survey.OwnerId equals user.UserId
+                    where user.Id == identity
+                    orderby survey.SurveyId
+                    select new
                     {
-                        Name = surveyInstance.Name,
-                        Start = surveyInstance.StartDate.ToString(),
-                        End = surveyInstance.EndDate.ToString(),
-                        Status = surveyInstance.Released == 0 ? "Not Released" : "Released"
+                        Name = survey.Name,
+                        StartDate = survey.StartDate, 
+                        EndDate = survey.EndDate, 
+                        Released = survey.Released
+                    };
+
+                // Cycle through result of database query and load data into the model
+
+                foreach (var launchedSurvey in launchedSurveys)
+                {
+                    _launchedSurveys.Add(new LaunchedSurvey
+                    {
+                        Name = launchedSurvey.Name,
+                        Start = launchedSurvey.StartDate.ToString(),
+                        End = launchedSurvey.EndDate.ToString(),
+                        Status = launchedSurvey.Released == 0 ? "Not Released" : "Released"
                     }) ;
                 }
             }
         }
-        public DashboardViewModel(string identity)
-        {
-            LoadTemplates(identity);
-            LoadTeams(identity);
-            LoadSurveyInstances(identity);
-        }
-        public List<EvaluationTemplate> Templates
+        public List<Survey> Surveys
         {
             get
             {
-                return _templates;
+                return _surveys;
             }
         }
         public List<Team> Teams
@@ -120,11 +143,11 @@ namespace PEClient.Models
                 return _teams;
             }
         }
-        public List<EvaluationInstance> SurveyInstances
+        public List<LaunchedSurvey> LaunchedSurveys
         {
             get
             {
-                return _instances;
+                return _launchedSurveys;
             }
         }
     }

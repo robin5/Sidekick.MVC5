@@ -35,7 +35,7 @@ using System.Web;
 
 namespace PEClient.Models
 {
-    public class EvaluationTemplate
+    public class Survey
     {
         public string Name { get; set; }
     }
