@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    /*background-color: #ebebeb;*/
     background-color: #ebebeb;
 }
 
@@ -129,4 +130,28 @@ textarea {
 
 .sur-survey{
     padding: 20px;
+}
+
+/*************************************
+ *           Landing Page
+ *************************************/
+
+.landing-page {
+    background-color: #333;
+    color: #fff;
+    margin-top: -40px;
+}
+
+.landing-page-quote {
+    font-size: 3.5rem;
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 36px;
+    /*border: 3px solid green;*/
+}
+
+.landing-page-author {
+    float: right;
+    color: #FFF;
+    margin-right: 10px;
 }

@@ -44,9 +44,9 @@
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     @Scripts.Render("~/bundles/piechart")
 </head>
-<body>
+<body style="Background-color: #333; height: 100%;color: #FFF">
     @Html.Partial("~/Views/Shared/_NavBar.cshtml")
-    <div class="container">
+    <div class="fluid-container">
         @RenderBody()
         <footer>
             <p class="footer-copyright">&copy; @DateTime.Now.Year - Sidekick</p>
