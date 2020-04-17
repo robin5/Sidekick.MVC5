@@ -38,80 +38,83 @@
     ViewBag.Title = "Create Peer Group";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+    <div>
+        <div>
+            <img src="\Content\images\windows-WJPHTJEtgzw-unsplash.jpg" / width="100%">
+        </div>
 
-<div>
-    <h2>Create Peer Group</h2>
-    <br />
+        <h2>Create a Peer Group</h2>
+        <br />
 
-    @* -- Validation Summary -- *@
+        @* -- Validation Summary -- *@
 
-    @if (IsPost)
-    {
-        <div class="alert alert-danger">@Html.ValidationSummary()</div>
-    }
-
-    @using (Html.BeginForm("Index", "CreateTeam", FormMethod.Post, new { @class = "form-launch" }))
-    {
-        @* -- Team Name -- *@
-
-        @Html.LabelFor(m => m.TeamName, "Team Name", new { @class = "control-label" });
-        @Html.TextBoxFor(m => m.TeamName, new
+        @if (IsPost)
         {
-            @class = "form-control",
-            title = "Enter a name for this peer group",
-            autofocus = "",
-            placeholder = "Enter name of team",
-            required = true
-        });
-        @Html.ValidationMessageFor(m => m.TeamName, "", new { @class = "alert-danger" });
-        <br />
+            <div class="alert alert-danger">@Html.ValidationSummary()</div>
+        }
 
-        @* -- Add User DropDown -- *@
+        @using (Html.BeginForm("Index", "CreateTeam", FormMethod.Post, new { @class = "form-launch" }))
+        {
+            @* -- Team Name -- *@
 
-        @Html.LabelFor(m => m.CandidateSelection, "Students", new { @class = "control-label" })<br />
-        @Html.DropDownListFor(m => m.CandidateSelection, Model.Candidates, "-- select a student --", new { @class = "form-control", style = "display: inline-block" })
-
-        @* -- Add User Button -- *@
-
-        <button type="button" id="btn-add-team" class="btn btn-primary" name="action" value="add-user" onclick="ShowRow();" style="margin-left: 5px">
-            Add
-        </button>
-        <br />
-
-        @* -- Hidden Peer Group listbox -- *@
-
-        @Html.ListBoxFor(m => m.PeerSelection, Model.Peers, new { @class = "form-control", style = "display: none" })
-        @Html.ValidationMessageFor(m => m.PeerSelection, "", new { @class = "alert-danger" })
-
-        <table id="tbl-edit-team" style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; margin-top: 20px; margin-bottom: 20px;">
-            <tr>
-                <td colspan="4"><h4 id="table-team-name" style="text-decoration:underline"></h4></td>
-            </tr>
-            <tr>
-                <th class="table-header">Name</th>
-                <th class="table-header">Username</th>
-                <th class="table-header-badge"></th>
-            </tr>
-            @foreach (var peer in Model.PeerDetails)
+            @Html.LabelFor(m => m.TeamName, "Team Name", new { @class = "control-label" });
+            @Html.TextBoxFor(m => m.TeamName, new
             {
-                <tr id="tr-@(peer.id)" style="display: none">
-                    <td class="table-data">@peer.Name</td>
-                    <td class="table-data">@peer.UserName</td>
-                    <td class="table-data-badge">
-                        <span class="badge">
-                            <a data-row-id="@(peer.id)" href="#0" onclick="deleteRow(event)" style="color: white">delete</a>
-                        </span>
-                    </td>
+                @class = "form-control",
+                title = "Enter a name for this peer group",
+                autofocus = "",
+                placeholder = "Enter name of team",
+                required = true
+            });
+            @Html.ValidationMessageFor(m => m.TeamName, "", new { @class = "alert-danger" });
+            <br />
+
+            @* -- Add User DropDown -- *@
+
+            @Html.LabelFor(m => m.CandidateSelection, "Students", new { @class = "control-label" })<br />
+            @Html.DropDownListFor(m => m.CandidateSelection, Model.Candidates, "-- select a student --", new { @class = "form-control", style = "display: inline-block" })
+
+            @* -- Add User Button -- *@
+
+            <button type="button" id="btn-add-team" class="btn btn-primary" name="action" value="add-user" onclick="ShowRow();" style="margin-left: 5px">
+                Add
+            </button>
+            <br />
+
+            @* -- Hidden Peer Group listbox -- *@
+
+            @Html.ListBoxFor(m => m.PeerSelection, Model.Peers, new { @class = "form-control", style = "display: none" })
+            @Html.ValidationMessageFor(m => m.PeerSelection, "", new { @class = "alert-danger" })
+
+            <table id="tbl-edit-team" style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; margin-top: 20px; margin-bottom: 20px;">
+                <tr>
+                    <td colspan="4"><h4 id="table-team-name" style="text-decoration:underline"></h4></td>
                 </tr>
-            }
-        </table>
+                <tr>
+                    <th class="table-header">Name</th>
+                    <th class="table-header">Username</th>
+                    <th class="table-header-badge"></th>
+                </tr>
+                @foreach (var peer in Model.PeerDetails)
+                {
+                    <tr id="tr-@(peer.id)" style="display: none">
+                        <td class="table-data">@peer.Name</td>
+                        <td class="table-data">@peer.UserName</td>
+                        <td class="table-data-badge">
+                            <span class="badge">
+                                <a data-row-id="@(peer.id)" href="#0" onclick="deleteRow(event)" style="color: white">delete</a>
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </table>
 
-        @* -- Submit and Cancel buttons -- *@
+            @* -- Submit and Cancel buttons -- *@
 
-        @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml")
-    }
+            @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml")
+        }
 
-</div>
+    </div>
 
 @section scripts{
 

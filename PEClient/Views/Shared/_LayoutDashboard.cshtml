@@ -1,0 +1,64 @@
+﻿@*
+    **********************************************************************************
+    * Copyright (c) 2019 Robin Murray
+    **********************************************************************************
+    *
+    * File: _Layout.cshtml
+    *
+    * Description: Main layout view for application
+    *
+    * Author: Robin Murray
+    *
+    **********************************************************************************
+    *
+    * Granting License: The MIT License (MIT)
+    *
+    *   Permission is hereby granted, free of charge, to any person obtaining a copy
+    *   of this software and associated documentation files (the "Software"), to deal
+    *   in the Software without restriction, including without limitation the rights
+    *   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    *   copies of the Software, and to permit persons to whom the Software is
+    *   furnished to do so, subject to the following conditions:
+    *   The above copyright notice and this permission notice shall be included in
+    *   all copies or substantial portions of the Software.
+    *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    *   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    *   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    *   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    *   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    *   THE SOFTWARE.
+    *
+    **********************************************************************************
+*@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    @Scripts.Render("~/bundles/piechart")
+</head>
+<body>
+    @Html.Partial("~/Views/Shared/_NavBar.cshtml")
+    <div class="inner-body">
+        <div class="med-container">
+            @RenderBody()
+            <hr />
+            <footer class="dsh-footer">
+                <p class="footer-copyright">&copy; @DateTime.Now.Year - Sidekick</p>
+            </footer>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/datetimepicker")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

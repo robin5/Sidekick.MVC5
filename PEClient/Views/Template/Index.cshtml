@@ -39,71 +39,74 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
-    <h2>Create Peer Evaluation Survey</h2>
-    <br>
-
-    @* -- Validation Summary -- *@
-
-    @if (IsPost)
-    {
-        <div class="alert alert-danger">@Html.ValidationSummary()</div>
-    }
-
-    @using (Html.BeginForm("Index", "Template", FormMethod.Post, new { @class = "form-launch" }))
-    {
-        @* -- Survey Name -- *@
-
-        @Html.LabelFor(m => m.TemplateName, "Survey Name", new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.TemplateName, new
-        {
-            title = "Enter a descriptive name for the this peer evaluation cycle",
-            @class = "form-control",
-            autofocus = "",
-            required = true
-        })
-        @Html.ValidationMessageFor(m => m.TemplateName, "", new { @class = "alert-danger" })
-        <br />
-
-        <label class="control-label">Questions</label><br>
-        @Html.ValidationMessageFor(m => m.Questions, "", new { @class = "alert-danger" })
-
-        <table>
-
-            @if (Model != null && Model.Questions != null)
-            {
-                int rowId = 0;
-                foreach (string question in Model.Questions)
-                {
-                    <tr id="row-id-@(rowId)">
-                        <td style="padding-bottom: 10px">
-                            <textarea id="Questions_@(rowId)__Id" class="q-textarea form-control" cols="50" style="max-width: 100%;" name="Questions[@(rowId)]" required>@(question)</textarea>
-                        </td>
-                        <td style="padding-left: 20px">
-                            <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>
-                        </td>
-                    </tr>
-
-                    rowId++;
-                }
-            }
-
-        </table>
-
-        <div id="tr-add" style="padding-top: 5px">
-            <button type="button" form-survey id="add-question" class="btn btn-primary" value="add-question" onclick="addBlankRow()">
-                Add Question
-            </button>
+    <div>
+        <div>
+            <img src="\Content\images\bethany-cirlincione-743f0Dy8bFE-unsplash.jpg" width="100%"/>
         </div>
-        <hr />
+        <h2>Create a Survey</h2>
+        <br>
 
-        @* -- Submit and Cancel buttons -- *@
+        @* -- Validation Summary -- *@
 
-        @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml")
-    }
+        @if (IsPost)
+        {
+            <div class="alert alert-danger">@Html.ValidationSummary()</div>
+        }
 
-    <!-- button class="btn btn-primary" type="button" onclick="enumerateQuestions();">Change Names</!--button -->
-</div>
+        @using (Html.BeginForm("Index", "Template", FormMethod.Post, new { @class = "form-launch" }))
+        {
+            @* -- Survey Name -- *@
+
+            @Html.LabelFor(m => m.TemplateName, "Survey Name", new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.TemplateName, new
+            {
+                title = "Enter a descriptive name for the this peer evaluation cycle",
+                @class = "form-control",
+                autofocus = "",
+                required = true
+            })
+            @Html.ValidationMessageFor(m => m.TemplateName, "", new { @class = "alert-danger" })
+            <br />
+
+            <label class="control-label">Questions</label><br>
+            @Html.ValidationMessageFor(m => m.Questions, "", new { @class = "alert-danger" })
+
+            <table>
+
+                @if (Model != null && Model.Questions != null)
+                {
+                    int rowId = 0;
+                    foreach (string question in Model.Questions)
+                    {
+                        <tr id="row-id-@(rowId)">
+                            <td style="padding-bottom: 10px">
+                                <textarea id="Questions_@(rowId)__Id" class="q-textarea form-control" cols="50" style="max-width: 100%;" name="Questions[@(rowId)]" required>@(question)</textarea>
+                            </td>
+                            <td style="padding-left: 20px">
+                                <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>
+                            </td>
+                        </tr>
+
+                        rowId++;
+                    }
+                }
+
+            </table>
+
+            <div id="tr-add" style="padding-top: 5px">
+                <button type="button" form-survey id="add-question" class="btn btn-primary" value="add-question" onclick="addBlankRow()">
+                    Add Question
+                </button>
+            </div>
+            <hr />
+
+            @* -- Submit and Cancel buttons -- *@
+
+            @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml")
+        }
+
+        <!-- button class="btn btn-primary" type="button" onclick="enumerateQuestions();">Change Names</!--button -->
+    </div>
 
 @section scripts{
 

@@ -35,12 +35,15 @@
 @model  PEClient.Models.LaunchViewModel
 
 @{
-    ViewBag.Title = "Launch Peer Evaluation";
+    ViewBag.Title = "Launch Survey";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
     <div>
-        <h2>Launch Peer Evaluation</h2>
+        <div>
+            <img src="~/Content/images/kyle-hinkson-xyXcGADvAwE-unsplash.jpg" width="100%" />
+        </div>
+        <h2>Launch Survey</h2>
         <br />
 
         @* -- Validation Summary -- *@
@@ -67,7 +70,7 @@
 
             @* -- Templates list -- *@
 
-            @Html.LabelFor(m => m.SelectedTemplateName, "Peer Evaluation Form", new { @class = "control-label" })
+            @Html.LabelFor(m => m.SelectedTemplateName, "Survey", new { @class = "control-label" })
             @Html.DropDownListFor(m => m.SelectedTemplateName, new SelectList(Model.TemplateNames), "-- select a survey --", new { @class = "form-control" })
             @Html.ValidationMessageFor(m => m.SelectedTemplateName, "", new { @class = "alert-danger" })
             <br>

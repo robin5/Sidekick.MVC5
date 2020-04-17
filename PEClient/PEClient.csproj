@@ -331,11 +331,14 @@
     <Compile Include="Validation\NonNullEmptyOrWhiteSpaceAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Images\bethany-cirlincione-743f0Dy8bFE-unsplash.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\brooke-cagle-g1Kr4Ozfoac-unsplash.jpg" />
+    <Content Include="Content\Images\kyle-hinkson-xyXcGADvAwE-unsplash.jpg" />
+    <Content Include="Content\Images\windows-WJPHTJEtgzw-unsplash.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -423,6 +426,7 @@
     <Content Include="Views\Role\Delete.cshtml" />
     <Content Include="Views\Shared\_NavBar.cshtml" />
     <Content Include="Views\Shared\_LayoutFullWidth.cshtml" />
+    <Content Include="Views\Shared\_LayoutDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
