@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -396,6 +396,9 @@ warning 6035: The relationship 'FK__tblTeam__OwnerId__60A75C0F' has columns that
         <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_tblLaunchedSurveys_AspNetUsers_UserId" />-->
+        <Function Name="spSurvey_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="nvarchar" Mode="In" />
+        </Function>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblGrades" EntityType="Self.tblGrades" Schema="dbo" store:Type="Tables" />
@@ -491,8 +494,7 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
             <End Role="tblUserRoles" EntitySet="tblUserRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1010,7 +1012,14 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
             <End Role="tblUsers" EntitySet="tblUsers" />
             <End Role="tblUserRoles" EntitySet="tblUserRoles" />
           </AssociationSet>
+          <FunctionImport Name="spSurvey_GetAll" ReturnType="Collection(Model.spSurvey_GetAll_Result)">
+            <Parameter Name="Id" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="spSurvey_GetAll_Result">
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="40" />
+          <Property Type="Decimal" Name="SurveyId" Nullable="false" Precision="10" Scale="0" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1188,6 +1197,14 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spSurvey_GetAll" FunctionName="Model.Store.spSurvey_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.spSurvey_GetAll_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

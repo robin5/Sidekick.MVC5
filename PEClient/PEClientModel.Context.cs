@@ -12,6 +12,8 @@ namespace PEClient
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class PEClientContext : DbContext
     {
@@ -42,5 +44,14 @@ namespace PEClient
         public virtual DbSet<tblTeamUsers> tblTeamUsers { get; set; }
         public virtual DbSet<tblUserRoles> tblUserRoles { get; set; }
         public virtual DbSet<tblUsers> tblUsers { get; set; }
+    
+        public virtual ObjectResult<spSurvey_GetAll_Result> spSurvey_GetAll(string id)
+        {
+            var idParameter = id != null ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spSurvey_GetAll_Result>("spSurvey_GetAll", idParameter);
+        }
     }
 }

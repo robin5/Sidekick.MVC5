@@ -55,18 +55,14 @@ namespace PEClient.Models
         {
             using (var db = new PEClientContext())
             {
-                var templates = from s in db.tblSurveys
-                                join u in db.AspNetUsers
-                                    on s.OwnerId equals u.UserId
-                                where u.Id == identity
-                                orderby s.SurveyId
-                                select new { Name = s.Name };
+                // Query database for surveys for the given identity
+                var surveys = db.spSurvey_GetAll(identity);
 
                 // Cycle through result of database query and load data into the model
 
-                foreach (var template in templates)
+                foreach (var survey in surveys)
                 {
-                    _surveys.Add(new Survey { Name = template.Name });
+                    _surveys.Add(new Survey { Name = survey.Name, Id = survey.SurveyId });
                 }
             }
         }
