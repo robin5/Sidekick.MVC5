@@ -59,7 +59,6 @@ namespace PEClient.Models
                 var surveys = db.spSurvey_GetAll(identity);
 
                 // Cycle through result of database query and load data into the model
-
                 foreach (var survey in surveys)
                 {
                     _surveys.Add(new Survey { Name = survey.Name, Id = survey.SurveyId });
@@ -73,19 +72,13 @@ namespace PEClient.Models
         {
             using (var db = new PEClientContext())
             {
-                // Join tblTeams to AspNetUser and query for teams owned by this user user
-                var teams =
-                    from t in db.tblTeams join u in db.AspNetUsers
-                        on t.OwnerId equals u.UserId
-                    where u.Id == identity
-                    orderby t.TeamId
-                    select new { Name = t.Name};
+                // Query database for teams owned by the given identity
+                var teams = db.spTeam_GetAll(identity);
 
                 // Cycle through result of database query and load data into the model
-
                 foreach (var team in teams)
                 {
-                    _teams.Add(new Team { Name = team.Name });
+                    _teams.Add(new Team { Name = team.Name, Id = team.TeamId });
                 }
             }
         }
@@ -96,32 +89,20 @@ namespace PEClient.Models
         {
             using (var db = new PEClientContext())
             {
-                // Join tblTeams to AspNetUser and query for teams owned by this user user
-
-                var launchedSurveys = 
-                    from survey in db.tblLaunchedSurveys join user in db.AspNetUsers
-                        on survey.OwnerId equals user.UserId
-                    where user.Id == identity
-                    orderby survey.SurveyId
-                    select new
-                    {
-                        Name = survey.Name,
-                        StartDate = survey.StartDate, 
-                        EndDate = survey.EndDate, 
-                        Released = survey.Released
-                    };
+                // Query database for launched surveys owned by the given identity
+                var launchedSurveys = db.spLaunchedSurveys_GetAll(identity);
 
                 // Cycle through result of database query and load data into the model
-
                 foreach (var launchedSurvey in launchedSurveys)
                 {
                     _launchedSurveys.Add(new LaunchedSurvey
                     {
+                        Id = launchedSurvey.SurveyId,
                         Name = launchedSurvey.Name,
                         Start = launchedSurvey.StartDate.ToString(),
                         End = launchedSurvey.EndDate.ToString(),
                         Status = launchedSurvey.Released == 0 ? "Not Released" : "Released"
-                    }) ;
+                    }); ;
                 }
             }
         }

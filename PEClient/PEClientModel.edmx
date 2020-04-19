@@ -396,7 +396,17 @@ warning 6035: The relationship 'FK__tblTeam__OwnerId__60A75C0F' has columns that
         <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_tblLaunchedSurveys_AspNetUsers_UserId" />-->
+        <Function Name="spLaunchedSurveys_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="spSurvey_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="nvarchar" Mode="In" />
+          <Parameter Name="SurveyName" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="spSurvey_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="spTeam_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="nvarchar" Mode="In" />
         </Function>
         <EntityContainer Name="ModelStoreContainer">
@@ -1012,13 +1022,38 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
             <End Role="tblUsers" EntitySet="tblUsers" />
             <End Role="tblUserRoles" EntitySet="tblUserRoles" />
           </AssociationSet>
-          <FunctionImport Name="spSurvey_GetAll" ReturnType="Collection(Model.spSurvey_GetAll_Result)">
+          <FunctionImport Name="sp_CreateSurvey">
             <Parameter Name="Id" Mode="In" Type="String" />
+            <Parameter Name="SurveyName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spLaunchedSurveys_GetAll" ReturnType="Collection(Model.spLaunchedSurveys_GetAll_Result)">
+          <Parameter Name="Id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spSurvey_GetAll" ReturnType="Collection(Model.spSurvey_GetAll_Result)">
+          <Parameter Name="Id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spTeam_GetAll" ReturnType="Collection(Model.spTeam_GetAll_Result)">
+          <Parameter Name="Id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spSurvey_Create">
+            <Parameter Name="Id" Mode="In" Type="String" />
+            <Parameter Name="SurveyName" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="spLaunchedSurveys_GetAll_Result">
+          <Property Type="Decimal" Name="SurveyId" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="40" />
+          <Property Type="DateTime" Name="StartDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EndDate" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="Released" Nullable="false" Precision="1" Scale="0" />
+        </ComplexType>
         <ComplexType Name="spSurvey_GetAll_Result">
           <Property Type="String" Name="Name" Nullable="false" MaxLength="40" />
           <Property Type="Decimal" Name="SurveyId" Nullable="false" Precision="10" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="spTeam_GetAll_Result">
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="32" />
+          <Property Type="Decimal" Name="TeamId" Nullable="false" Precision="10" Scale="0" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1197,6 +1232,17 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spLaunchedSurveys_GetAll" FunctionName="Model.Store.spLaunchedSurveys_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.spLaunchedSurveys_GetAll_Result">
+                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Released" ColumnName="Released" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spSurvey_GetAll" FunctionName="Model.Store.spSurvey_GetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="Model.spSurvey_GetAll_Result">
@@ -1205,6 +1251,15 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spTeam_GetAll" FunctionName="Model.Store.spTeam_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.spTeam_GetAll_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spSurvey_Create" FunctionName="Model.Store.spSurvey_Create" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

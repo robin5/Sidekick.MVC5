@@ -11,7 +11,7 @@ namespace PEClient
 {
     public static class PEClientModelExtensions
     {
-        public static void sp_CreateSurvey(this PEClientContext db, string identity, string templateName, List<string> questions)
+        public static void sp_CreateSurvey(this PEClientContext db, string identity, string surveyName, List<string> questions)
         {
             // Assembling the table parameter requires the following 3 steps:
 
@@ -52,7 +52,7 @@ namespace PEClient
                     Size = 40,
                     Direction = ParameterDirection.Input,
                     ParameterName = "SurveyName",
-                    Value = templateName
+                    Value = surveyName
                 },
                 new SqlParameter // @Questions
                 {
@@ -68,7 +68,7 @@ namespace PEClient
             // it's own transaction for your SP.  In that case you don't need internal transaction 
             // in DB or you must detect it with @@trancount and/or XACT_STATE() and change your logic
             db.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction,
-                "exec sp_CreateSurvey @Id, @SurveyName, @Questions", parameters);
+                "exec spSurvey_Create @Id, @SurveyName, @Questions", parameters);
         }
     }
 }

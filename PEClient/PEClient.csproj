@@ -269,7 +269,13 @@
     </Compile>
     <Compile Include="PEClientModelExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="spLaunchedSurveys_GetAll_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="spSurvey_GetAll_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spTeam_GetAll_Result.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />

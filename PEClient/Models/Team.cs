@@ -38,5 +38,6 @@ namespace PEClient.Models
     public class Team
     {
         public string Name { get; set; }
+        public decimal Id { get; set; }
     }
 }
