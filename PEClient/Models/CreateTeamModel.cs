@@ -37,65 +37,55 @@ namespace PEClient.Models
 {
     public class CreateTeamModel
     {
-        private int? _userId = null;
+        public string SaveErrorMessage { get; set; }
+        private string _teamName;
+        private List<decimal> _teamMemberIds = new List<decimal>();
+
         private List<Student> _students = new List<Student>();
         private List<SelectListItem> _candidates = new List<SelectListItem>();
         private List<SelectListItem> _peers = new List<SelectListItem>();
         private List<SelectListItem> _selectedStudents = new List<SelectListItem>();
-        public CreateTeamModel() { }
-        public CreateTeamModel(int userId)
+        public CreateTeamModel()
         {
-            UserId = userId;
         }
-        public int? UserId
+
+        [NonNullEmptyOrWhiteSpace(ErrorMessage: "A team name cannot be blank.  Please enter a team name.")]
+        public string TeamName
         {
-            get
-            {
-                return _userId;
-            }
+            get { return _teamName; }
             set
             {
-                if (null == (_userId = value))
-                {
-                    _candidates = new List<SelectListItem>();
-                    _peers = new List<SelectListItem>();
-                }
-                else // Load students from database
-                {
-                    _students = new List<Student>();
-                    _students.Add(new Student { UserName = "rlint", Name = "Richard Lint", id = 36 });
-                    _students.Add(new Student { UserName = "pmcculley", Name = "Patrick McCulley", id = 37 });
-                    _students.Add(new Student { UserName = "ademchenko", Name = "Andrey Demchenko", id = 38 });
-                    _students.Add(new Student { UserName = "robin", Name = "Robin Murray", id = 39 });
-                    _students.Add(new Student { UserName = "dking", Name = "Dave King", id = 40 });
-                    _students.Add(new Student { UserName = "ajaeger", Name = "Amy Jaeger", id = 41 });
-                    _students.Add(new Student { UserName = "belgort", Name = "Bruce Elgort", id = 42 });
-                    _students.Add(new Student { UserName = "drichards", Name = "David Richards", id = 43 });
-                    _students.Add(new Student { UserName = "wwoods", Name = "Wayne Woods", id = 44 });
-                    _students.Add(new Student { UserName = "yshapovalov", Name = "Yevgen Shapovalov", id = 45 });
-                    _students.Add(new Student { UserName = "jruff", Name = "Jacob Ruff", id = 46 });
-                    _students.Add(new Student { UserName = "cmcguire", Name = "Chris McGuire", id = 47 });
-                    _students.Add(new Student { UserName = "mlehr", Name = "Matt Lehr", id = 48 });
-                    _students.Add(new Student { UserName = "bsejouk", Name = "Bilal Sejouk", id = 49 });
-                    _students.Add(new Student { UserName = "jglenn", Name = "John Glenn", id = 50 });
-                    _students.Add(new Student { UserName = "alevine", Name = "Adam Levine", id = 51 });
-                    _students.Add(new Student { UserName = "jlopez", Name = "Jennifer Lopez", id = 52 });
-                    _students.Add(new Student { UserName = "spenn", Name = "Sean Penn", id = 53 });
-                    _students.Add(new Student { UserName = "reaton", Name = "Richard Eaton", id = 54 });
-                    _students.Add(new Student { UserName = "test_student1", Name = "First1 Last1", id = 55 });
-                    _students.Add(new Student { UserName = "abunker", Name = "Archie Bunker", id = 56 });
+                // Remove white space from beginning and end of the template's name
+                _teamName = value.Trim();
+            }
+        }
+        public string UserId { get; set; }
+        public CreateTeamModel(string userId)
+        {
+            UserId = userId;
+            LoadStudents();
+        }
+        public void LoadStudents()
+        {
+            using (var db = new PEClientContext())
+            {
+                // Get students from database
+                var students = db.spAspNetUsers_GetAllStudents();
 
-                    foreach (var student in _students)
-                    {
-                        _candidates.Add(new SelectListItem { Text = student.Name + "  (" + student.UserName + ")", Value = (student.id).ToString() });
-                        _peers.Add(new SelectListItem { Text = student.Name + "  (" + student.UserName + ")", Value = (student.id).ToString() });
-                    }
+                // Cycle through result of database query and load data into the model
+                foreach (var student in students)
+                {
+                    _students.Add(new Student { UserName = student.UserName, Name = student.FullName, id = student.UserId });
                 }
+            }
+
+            foreach (var student in _students)
+            {
+                _candidates.Add(new SelectListItem { Text = student.Name + "  (" + student.UserName + ")", Value = (student.id).ToString() });
+                _peers.Add(new SelectListItem { Text = student.Name + "  (" + student.UserName + ")", Value = (student.id).ToString() });
             }
         }
 
-        [NonNullEmptyOrWhiteSpace(ErrorMessage: "Please enter a team name.")]
-        public string TeamName { get; set; }
         public List<SelectListItem> Candidates { get { return _candidates; } }
         public IEnumerable<int> CandidateSelection { get; set; }
         public List<SelectListItem> Peers { get { return _peers; } }
@@ -103,5 +93,32 @@ namespace PEClient.Models
         [MinCount(1, ErrorMessage: "Please add one or more users to the peer group.")]
         public IEnumerable<int> PeerSelection { get; set; }
         public IEnumerable<Student> PeerDetails { get { return _students; } }
+
+        public bool save()
+        {
+            SaveErrorMessage = "";
+
+            try
+            {
+                using (var db = new PEClientContext())
+                {
+                    db.spTeam_Create(UserId, _teamName, PeerSelection);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                SaveErrorMessage = ex.Message;
+
+                Exception innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    SaveErrorMessage += ("\n" + ex.InnerException.Message);
+                    innerException = innerException.InnerException;
+                }
+                return false;
+            }
+        }
     }
 }

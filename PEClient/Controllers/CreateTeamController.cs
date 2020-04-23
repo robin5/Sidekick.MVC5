@@ -30,38 +30,45 @@
 
 using System.Web.Mvc;
 using PEClient.Models;
+using Microsoft.AspNet.Identity;
+using System.Diagnostics;
 
 namespace PEClient.Controllers
 {
     [Authorize(Roles = "Admin,Instructor")]
     public class CreateTeamController : Controller
     {
-        /// <summary>
-        /// Temporary function to return a User ID value of 1
-        /// </summary>
-        /// <returns>1</returns>
-        private int GetUserId()
-        {
-            return 1;
-        }
-
         // GET: CreateTeam
         public ActionResult Index()
         {
-            return View(new CreateTeamModel(GetUserId()));
+            return View(new CreateTeamModel(User.Identity.GetUserId()));
         }
 
         // POST: CreateTeam
         [HttpPost]
         public ActionResult Index(CreateTeamModel model)
         {
+            // The model needs the user's identity inorder to load students
+            // and to save the data to the rightful owner
+            model.UserId = User.Identity.GetUserId();
+
+            // Test for model validation.
             if (!ModelState.IsValid)
             {
-                model.UserId = GetUserId();
+                // Note: The model does not automatically load the students list
+                // so it must be done here before returning the model to the view
+                model.LoadStudents();
                 return View(model);
             }
 
-            TempData.SuccessMessage($"Successfully added {model.TeamName} to peer groups.");
+            if (model.save())
+            {
+                TempData.SuccessMessage($"Successfully added {model.TeamName} to peer groups.");
+            }
+            else
+            {
+                TempData.ErrorMessage($"Failed adding {model.TeamName} to peer groups: " + model.SaveErrorMessage);
+            }
 
             return RedirectToAction("Index", "Dashboard");
         }

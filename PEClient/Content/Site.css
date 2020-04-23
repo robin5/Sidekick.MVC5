@@ -18,12 +18,12 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
+/* Set width on the form input elements since they're 100% wide by default
 input,
 select,
 textarea {
     max-width: 280px;
-}
+} */
 
 /* CreateTeam Index View */
 .table-header {
@@ -215,4 +215,12 @@ ol {
     border-top: 1px solid #EEE;
     padding-top: 10px;
     margin-top: 20px;
+}
+
+/*************************************
+ *       Create Peer Group Page
+ *************************************/
+
+.create-team-image {
+    width: 100%;
 }

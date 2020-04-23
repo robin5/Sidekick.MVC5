@@ -44,18 +44,11 @@ namespace PEClient
         public virtual DbSet<tblTeamUsers> tblTeamUsers { get; set; }
         public virtual DbSet<tblUserRoles> tblUserRoles { get; set; }
         public virtual DbSet<tblUsers> tblUsers { get; set; }
+        public virtual DbSet<vwAspNetUsers_GetStudents> vwAspNetUsers_GetStudents { get; set; }
     
-        public virtual int sp_CreateSurvey(string id, string surveyName)
+        public virtual ObjectResult<spAspNetUsers_GetAllStudents_Result> spAspNetUsers_GetAllStudents()
         {
-            var idParameter = id != null ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(string));
-    
-            var surveyNameParameter = surveyName != null ?
-                new ObjectParameter("SurveyName", surveyName) :
-                new ObjectParameter("SurveyName", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_CreateSurvey", idParameter, surveyNameParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spAspNetUsers_GetAllStudents_Result>("spAspNetUsers_GetAllStudents");
         }
     
         public virtual ObjectResult<spLaunchedSurveys_GetAll_Result> spLaunchedSurveys_GetAll(string id)
@@ -65,24 +58,6 @@ namespace PEClient
                 new ObjectParameter("Id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spLaunchedSurveys_GetAll_Result>("spLaunchedSurveys_GetAll", idParameter);
-        }
-    
-        public virtual ObjectResult<spSurvey_GetAll_Result> spSurvey_GetAll(string id)
-        {
-            var idParameter = id != null ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spSurvey_GetAll_Result>("spSurvey_GetAll", idParameter);
-        }
-    
-        public virtual ObjectResult<spTeam_GetAll_Result> spTeam_GetAll(string id)
-        {
-            var idParameter = id != null ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spTeam_GetAll_Result>("spTeam_GetAll", idParameter);
         }
     
         public virtual int spSurvey_Create(string id, string surveyName)
@@ -96,6 +71,37 @@ namespace PEClient
                 new ObjectParameter("SurveyName", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spSurvey_Create", idParameter, surveyNameParameter);
+        }
+    
+        public virtual ObjectResult<spSurvey_GetAll_Result> spSurvey_GetAll(string id)
+        {
+            var idParameter = id != null ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spSurvey_GetAll_Result>("spSurvey_GetAll", idParameter);
+        }
+    
+        public virtual int spTeam_Create(string aspNetId, string teamName)
+        {
+            var aspNetIdParameter = aspNetId != null ?
+                new ObjectParameter("AspNetId", aspNetId) :
+                new ObjectParameter("AspNetId", typeof(string));
+    
+            var teamNameParameter = teamName != null ?
+                new ObjectParameter("TeamName", teamName) :
+                new ObjectParameter("TeamName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spTeam_Create", aspNetIdParameter, teamNameParameter);
+        }
+    
+        public virtual ObjectResult<spTeam_GetAll_Result> spTeam_GetAll(string id)
+        {
+            var idParameter = id != null ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spTeam_GetAll_Result>("spTeam_GetAll", idParameter);
         }
     }
 }

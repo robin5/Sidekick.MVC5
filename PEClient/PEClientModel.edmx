@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -158,6 +158,18 @@
           <Property Name="UserId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Identity" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="FullName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'aspnet-PEClient-20191130103733.dbo.vwAspNetUsers_GetStudents' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwAspNetUsers_GetStudents">
+          <Key>
+            <PropertyRef Name="FullName" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="UserId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
         </EntityType>
         <Association Name="FK__tblLaunchedSurvey__Quest__440B1D61">
           <End Role="tblLaunchedQuestions" Type="Self.tblLaunchedQuestions" Multiplicity="1" />
@@ -357,18 +369,9 @@ warning 6035: The relationship 'FK__tblTeam__OwnerId__60A75C0F' has columns that
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblTeamUs__UserI__656C112C">
-          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="1" />
-          <End Role="tblTeamUsers" Type="Self.tblTeamUsers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUsers">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="tblTeamUsers">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK__tblTeamUsers__AspNetUsers_UserId' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK__tblTeamUsers__AspNetUsers_UserId" />-->
         <Association Name="FK__tblUserRo__RoleI__70DDC3D8">
           <End Role="tblRoles" Type="Self.tblRoles" Multiplicity="1" />
           <End Role="tblUserRoles" Type="Self.tblUserRoles" Multiplicity="*" />
@@ -396,6 +399,7 @@ warning 6035: The relationship 'FK__tblTeam__OwnerId__60A75C0F' has columns that
         <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_tblLaunchedSurveys_AspNetUsers_UserId" />-->
+        <Function Name="spAspNetUsers_GetAllStudents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spLaunchedSurveys_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="nvarchar" Mode="In" />
         </Function>
@@ -405,6 +409,10 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
         </Function>
         <Function Name="spSurvey_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="spTeam_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
+          <Parameter Name="TeamName" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spTeam_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="nvarchar" Mode="In" />
@@ -427,6 +435,13 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
           <EntitySet Name="tblTeamUsers" EntityType="Self.tblTeamUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUserRoles" EntityType="Self.tblUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vwAspNetUsers_GetStudents" EntityType="Self.vwAspNetUsers_GetStudents" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwAspNetUsers_GetStudents].[FullName] AS [FullName], 
+    [vwAspNetUsers_GetStudents].[UserName] AS [UserName], 
+    [vwAspNetUsers_GetStudents].[UserId] AS [UserId]
+    FROM [dbo].[vwAspNetUsers_GetStudents] AS [vwAspNetUsers_GetStudents]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__tblLaunchedSurvey__Quest__440B1D61" Association="Self.FK__tblLaunchedSurvey__Quest__440B1D61">
             <End Role="tblLaunchedQuestions" EntitySet="tblLaunchedQuestions" />
             <End Role="tblLaunchedSurveyQuestions" EntitySet="tblLaunchedSurveyQuestions" />
@@ -491,10 +506,6 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
             <End Role="tblTeams" EntitySet="tblTeams" />
             <End Role="tblTeamUsers" EntitySet="tblTeamUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblTeamUs__UserI__656C112C" Association="Self.FK__tblTeamUs__UserI__656C112C">
-            <End Role="tblUsers" EntitySet="tblUsers" />
-            <End Role="tblTeamUsers" EntitySet="tblTeamUsers" />
-          </AssociationSet>
           <AssociationSet Name="FK__tblUserRo__RoleI__70DDC3D8" Association="Self.FK__tblUserRo__RoleI__70DDC3D8">
             <End Role="tblRoles" EntitySet="tblRoles" />
             <End Role="tblUserRoles" EntitySet="tblUserRoles" />
@@ -504,7 +515,8 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
             <End Role="tblUserRoles" EntitySet="tblUserRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -674,7 +686,6 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
           <Property Name="TeamId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
           <Property Name="UserId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
           <NavigationProperty Name="tblTeams" Relationship="Self.FK__tblTeamUs__TeamI__6477ECF3" FromRole="tblTeamUsers" ToRole="tblTeams" />
-          <NavigationProperty Name="tblUsers" Relationship="Self.FK__tblTeamUs__UserI__656C112C" FromRole="tblTeamUsers" ToRole="tblUsers" />
         </EntityType>
         <EntityType Name="tblUserRoles">
           <Key>
@@ -697,8 +708,17 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
           <NavigationProperty Name="tblSurveyCompletes1" Relationship="Self.FK__tblSurvey__Revie__3E52440B" FromRole="tblUsers" ToRole="tblSurveyCompletes" />
           <NavigationProperty Name="tblSurveyResponses" Relationship="Self.FK__tblSurvey__Revie__5535A963" FromRole="tblUsers" ToRole="tblSurveyResponses" />
           <NavigationProperty Name="tblSurveyResponses1" Relationship="Self.FK__tblSurvey__Revie__5629CD9C" FromRole="tblUsers" ToRole="tblSurveyResponses" />
-          <NavigationProperty Name="tblTeamUsers" Relationship="Self.FK__tblTeamUs__UserI__656C112C" FromRole="tblUsers" ToRole="tblTeamUsers" />
           <NavigationProperty Name="tblUserRoles" Relationship="Self.FK__tblUserRo__UserI__6C190EBB" FromRole="tblUsers" ToRole="tblUserRoles" />
+        </EntityType>
+        <EntityType Name="vwAspNetUsers_GetStudents">
+          <Key>
+            <PropertyRef Name="FullName" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
         </EntityType>
         <Association Name="FK__tblSurvey__Grade__571DF1D5">
           <End Role="tblGrades" Type="Self.tblGrades" Multiplicity="1" />
@@ -904,18 +924,6 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblTeamUs__UserI__656C112C">
-          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="1" />
-          <End Role="tblTeamUsers" Type="Self.tblTeamUsers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUsers">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="tblTeamUsers">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__tblUserRo__UserI__6C190EBB">
           <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="1" />
           <End Role="tblUserRoles" Type="Self.tblUserRoles" Multiplicity="*" />
@@ -946,6 +954,7 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
           <EntitySet Name="tblTeamUsers" EntityType="Self.tblTeamUsers" />
           <EntitySet Name="tblUserRoles" EntityType="Self.tblUserRoles" />
           <EntitySet Name="tblUsers" EntityType="Self.tblUsers" />
+          <EntitySet Name="vwAspNetUsers_GetStudents" EntityType="Self.vwAspNetUsers_GetStudents" />
           <AssociationSet Name="FK__tblSurvey__Grade__571DF1D5" Association="Self.FK__tblSurvey__Grade__571DF1D5">
             <End Role="tblGrades" EntitySet="tblGrades" />
             <End Role="tblSurveyResponses" EntitySet="tblSurveyResponses" />
@@ -1014,32 +1023,34 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
             <End Role="tblTeams" EntitySet="tblTeams" />
             <End Role="tblTeamUsers" EntitySet="tblTeamUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblTeamUs__UserI__656C112C" Association="Self.FK__tblTeamUs__UserI__656C112C">
-            <End Role="tblUsers" EntitySet="tblUsers" />
-            <End Role="tblTeamUsers" EntitySet="tblTeamUsers" />
-          </AssociationSet>
           <AssociationSet Name="FK__tblUserRo__UserI__6C190EBB" Association="Self.FK__tblUserRo__UserI__6C190EBB">
             <End Role="tblUsers" EntitySet="tblUsers" />
             <End Role="tblUserRoles" EntitySet="tblUserRoles" />
           </AssociationSet>
-          <FunctionImport Name="sp_CreateSurvey">
-            <Parameter Name="Id" Mode="In" Type="String" />
-            <Parameter Name="SurveyName" Mode="In" Type="String" />
-          </FunctionImport>
+          <FunctionImport Name="spAspNetUsers_GetAllStudents" ReturnType="Collection(Model.spAspNetUsers_GetAllStudents_Result)" />
           <FunctionImport Name="spLaunchedSurveys_GetAll" ReturnType="Collection(Model.spLaunchedSurveys_GetAll_Result)">
-          <Parameter Name="Id" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="spSurvey_GetAll" ReturnType="Collection(Model.spSurvey_GetAll_Result)">
-          <Parameter Name="Id" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="spTeam_GetAll" ReturnType="Collection(Model.spTeam_GetAll_Result)">
-          <Parameter Name="Id" Mode="In" Type="String" />
+            <Parameter Name="Id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spSurvey_Create">
             <Parameter Name="Id" Mode="In" Type="String" />
             <Parameter Name="SurveyName" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="spSurvey_GetAll" ReturnType="Collection(Model.spSurvey_GetAll_Result)">
+            <Parameter Name="Id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spTeam_Create">
+            <Parameter Name="AspNetId" Mode="In" Type="String" />
+            <Parameter Name="TeamName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spTeam_GetAll" ReturnType="Collection(Model.spTeam_GetAll_Result)">
+            <Parameter Name="Id" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="spAspNetUsers_GetAllStudents_Result">
+          <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="256" />
+          <Property Type="Decimal" Name="UserId" Nullable="false" Precision="10" Scale="0" />
+        </ComplexType>
         <ComplexType Name="spLaunchedSurveys_GetAll_Result">
           <Property Type="Decimal" Name="SurveyId" Nullable="false" Precision="10" Scale="0" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="40" />
@@ -1232,6 +1243,24 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="vwAspNetUsers_GetStudents">
+            <EntityTypeMapping TypeName="Model.vwAspNetUsers_GetStudents">
+              <MappingFragment StoreEntitySet="vwAspNetUsers_GetStudents">
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spAspNetUsers_GetAllStudents" FunctionName="Model.Store.spAspNetUsers_GetAllStudents">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.spAspNetUsers_GetAllStudents_Result">
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spLaunchedSurveys_GetAll" FunctionName="Model.Store.spLaunchedSurveys_GetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="Model.spLaunchedSurveys_GetAll_Result">
@@ -1243,6 +1272,7 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spSurvey_Create" FunctionName="Model.Store.spSurvey_Create" />
           <FunctionImportMapping FunctionImportName="spSurvey_GetAll" FunctionName="Model.Store.spSurvey_GetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="Model.spSurvey_GetAll_Result">
@@ -1251,6 +1281,7 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spTeam_Create" FunctionName="Model.Store.spTeam_Create" />
           <FunctionImportMapping FunctionImportName="spTeam_GetAll" FunctionName="Model.Store.spTeam_GetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="Model.spTeam_GetAll_Result">
@@ -1259,7 +1290,6 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spSurvey_Create" FunctionName="Model.Store.spSurvey_Create" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

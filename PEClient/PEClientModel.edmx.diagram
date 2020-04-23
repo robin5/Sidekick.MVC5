@@ -4,24 +4,25 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="81402aeaa467473cb241b393bdcf4cab" Name="Diagram1">
-        <EntityTypeShape EntityType="Model.AspNetUsers" Width="1.5" PointX="8.75" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.tblGrades" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.tblLaunchedQuestions" Width="1.5" PointX="5.75" PointY="17.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.tblLaunchedSurveyQuestions" Width="1.5" PointX="8" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.tblLaunchedSurveys" Width="1.5" PointX="5.75" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.tblQuestions" Width="1.5" PointX="3.75" PointY="15.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.tblRoles" Width="1.5" PointX="0.75" PointY="19" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.tblSubmissionStatus" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.tblSurveyCompletes" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+      <Diagram DiagramId="35d9a3a44c1a4f26971d809f5070c509" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.AspNetUsers" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tblGrades" Width="1.5" PointX="3.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tblLaunchedQuestions" Width="1.5" PointX="8.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tblLaunchedSurveyQuestions" Width="1.5" PointX="11" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tblLaunchedSurveys" Width="1.5" PointX="8.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tblQuestions" Width="1.5" PointX="3.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tblRoles" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tblSubmissionStatus" Width="1.5" PointX="0.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tblSurveyCompletes" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.tblSurveyInstances" Width="1.5" PointX="1.5" PointY="16" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.tblSurveyQuestions" Width="1.5" PointX="6" PointY="13.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.tblSurveyResponses" Width="1.5" PointX="6" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tblSurveyQuestions" Width="1.5" PointX="6" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tblSurveyResponses" Width="1.5" PointX="6" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.tblSurveys" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.tblTeams" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.tblTeamUsers" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.tblUserRoles" Width="1.5" PointX="3" PointY="11.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.tblUsers" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tblTeams" Width="1.5" PointX="5.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tblTeamUsers" Width="1.5" PointX="8" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tblUserRoles" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.tblUsers" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.vwAspNetUsers_GetStudents" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="Model.FK__tblSurvey__Grade__571DF1D5" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK__tblLaunchedSurvey__Quest__440B1D61" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK__tblLaunchedSurvey__Surve__403A8C7D" ManuallyRouted="false" />
@@ -39,7 +40,6 @@
         <AssociationConnector Association="Model.FK__tblSurvey__Revie__5535A963" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK__tblSurvey__Revie__5629CD9C" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK__tblTeamUs__TeamI__6477ECF3" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK__tblTeamUs__UserI__656C112C" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK__tblUserRo__UserI__6C190EBB" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

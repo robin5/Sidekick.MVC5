@@ -40,7 +40,7 @@
 }
     <div>
         <div>
-            <img src="\Content\images\windows-WJPHTJEtgzw-unsplash.jpg" / width="100%">
+            <img src="\Content\images\windows-WJPHTJEtgzw-unsplash.jpg" class="create-team-image" />
         </div>
 
         <h2>Create a Peer Group</h2>
@@ -57,7 +57,8 @@
         {
             @* -- Team Name -- *@
 
-            @Html.LabelFor(m => m.TeamName, "Team Name", new { @class = "control-label" });
+            @Html.LabelFor(m => m.TeamName, "Team Name", new { @class = "control-label", style="display: block;" });
+            @Html.ValidationMessageFor(m => m.TeamName, "", new { @class = "alert-danger" });
             @Html.TextBoxFor(m => m.TeamName, new
             {
                 @class = "form-control",
@@ -66,17 +67,17 @@
                 placeholder = "Enter name of team",
                 required = true
             });
-            @Html.ValidationMessageFor(m => m.TeamName, "", new { @class = "alert-danger" });
             <br />
 
             @* -- Add User DropDown -- *@
 
             @Html.LabelFor(m => m.CandidateSelection, "Students", new { @class = "control-label" })<br />
-            @Html.DropDownListFor(m => m.CandidateSelection, Model.Candidates, "-- select a student --", new { @class = "form-control", style = "display: inline-block" })
+            @Html.ValidationMessageFor(m => m.PeerSelection, "", new { @class = "alert-danger" })
+            @Html.DropDownListFor(m => m.CandidateSelection, Model.Candidates, "-- select a student --", new { @class = "form-control", style = "display: inline-block; width: 250px;" })
 
             @* -- Add User Button -- *@
 
-            <button type="button" id="btn-add-team" class="btn btn-primary" name="action" value="add-user" onclick="ShowRow();" style="margin-left: 5px">
+            <button type="button" id="btn-add-team" class="btn btn-primary" name="action" value="add-user" onclick="ShowRow();" style="margin-left: 5px; display: inline;">
                 Add
             </button>
             <br />
@@ -84,7 +85,6 @@
             @* -- Hidden Peer Group listbox -- *@
 
             @Html.ListBoxFor(m => m.PeerSelection, Model.Peers, new { @class = "form-control", style = "display: none" })
-            @Html.ValidationMessageFor(m => m.PeerSelection, "", new { @class = "alert-danger" })
 
             <table id="tbl-edit-team" style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; margin-top: 20px; margin-bottom: 20px;">
                 <tr>
