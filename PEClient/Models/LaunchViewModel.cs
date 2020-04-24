@@ -40,13 +40,66 @@ namespace PEClient.Models
 {
     public class LaunchViewModel
     {
-        private int? _userId;
+        private List<SelectListItem> _surveys = new List<SelectListItem>();
+        private List<Team> _teams = new List<Team>();
+        // for select list of all teams names
+        private List<SelectListItem> _candidates = new List<SelectListItem>();
+        // For hidden listbox containg all selected entries
+        private List<SelectListItem> _liTeams = new List<SelectListItem>();
 
-        private List<string> _templateNames = new List<string>();
-        private List<SelectListItem> _peerGroups = new List<SelectListItem>();
+        // **************************************************************
+        // *                        Constructors
+        // **************************************************************
 
-        // Constructors
         public LaunchViewModel() { }
+        public LaunchViewModel(string identity)
+        {
+            UserId = identity;
+            LoadData();
+        }
+
+        // **************************************************************
+        // *                        Properties
+        // **************************************************************
+        
+        public string UserId { get; set; }
+        public string SaveErrorMessage { get; set; }
+
+        //
+        // Summary:
+        //     Loads surveys and teams from the database into the model.
+        public void LoadData()
+        {
+            using (var db = new PEClientContext())
+            {
+                // Query database for surveys for the given identity
+                var surveys = db.spSurvey_GetAll(UserId).OrderBy(s => s.Name);
+
+                // Cycle through result of database query and load data into the model
+                foreach (var survey in surveys)
+                {
+                    _surveys.Add(new SelectListItem { Text = survey.Name, Value = survey.SurveyId.ToString() });
+                    //_candidates.Add(new SelectListItem { Text = student.Name + "  (" + student.UserName + ")", Value = (student.id).ToString() });
+                }
+
+                // Query database for teams owned by the given identity
+                var teams = db.spTeam_GetAll(UserId);
+
+                foreach (var team in teams)
+                {
+                    _teams.Add(new Team { Name = team.Name, Id = team.TeamId });
+                    _candidates.Add(new SelectListItem { Text = team.Name, Value = team.TeamId.ToString() });
+                    _liTeams.Add(new SelectListItem { Text = team.Name, Value = team.TeamId.ToString() });
+                }
+            }
+        }
+        public List<SelectListItem> liCandidates { get { return _candidates; } }
+        public IEnumerable<int> SelectedCandidate { get; set; }
+        public List<SelectListItem> liTeams { get { return _liTeams; } }
+        public IEnumerable<Team> Teams { get { return _teams; } }
+
+        [MinCount(1, ErrorMessage: "Please add one or more Peer Groups to send.")]
+        public IEnumerable<int> SelectedTeams { get; set; }
 
         [NonNullEmptyOrWhiteSpace(ErrorMessage: "Please enter a Launch Name.")]
         public string LaunchName { get; set; }
@@ -58,63 +111,43 @@ namespace PEClient.Models
         [NonNullEmptyOrWhiteSpace(ErrorMessage: "Please enter an end date and time.")]
         [DateTime]
         public string EndDateTime { get; set; }
-
-        public List<string> TemplateNames
+        public IEnumerable<SelectListItem> Surveys
         { 
-            get { return _templateNames; }
+            get { return _surveys; }
         }
         
         [NonNullEmptyOrWhiteSpace(ErrorMessage: "Please select a Peer Evaluation Form")]
-        public string SelectedTemplateName { get; set; }
+        public string Survey { get; set; }
 
         public IEnumerable<SelectListItem> PeerGroups 
         { 
-            get { return _peerGroups; } 
+            get { return _candidates; } 
         }
 
-        [MinCount(1, ErrorMessage: "Please select one or more Peer Groups.")]
-        public IEnumerable<int> SelectedPeerGroups { get; set; }
-        public LaunchViewModel(int userId)
+        public bool Save()
         {
-            UserId = userId;
-        }
-        public int? UserId
-        {
-            get 
-            { 
-                return _userId; 
-            }
+            SaveErrorMessage = "";
 
-            set
+            try
             {
-                _userId = value;
-
-                // Load table data associated with this user
                 using (var db = new PEClientContext())
                 {
-                    // Enumerate templates
-                    var surveys = from s in db.tblSurveys
-                                  where s.OwnerId == _userId
-                                  orderby s.SurveyId
-                                  select s;
-
-                    foreach (var survey in surveys)
-                    {
-                        //_templateNames.Add(survey.Name);
-                        _templateNames.Add(survey.Name);
-                    }
-
-                    // Enumerate teams
-                    var teams = from t in db.tblTeams
-                                where t.OwnerId == _userId
-                                orderby t.TeamId
-                                select t;
-
-                    foreach (var team in teams)
-                    {
-                        _peerGroups.Add(new SelectListItem { Text = team.Name, Value = team.TeamId.ToString() });
-                    }
+                    //db.spLaunch_Create(UserId, LaunchName, Survey, StartDateTime, EndDateTime, SelectedTeams);
                 }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                SaveErrorMessage = ex.Message;
+
+                Exception innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    SaveErrorMessage += ("\n" + ex.InnerException.Message);
+                    innerException = innerException.InnerException;
+                }
+                return false;
             }
         }
     }

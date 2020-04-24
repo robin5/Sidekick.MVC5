@@ -30,6 +30,7 @@
 
 using System.Web.Mvc;
 using PEClient.Models;
+using Microsoft.AspNet.Identity;
 
 namespace PEClient.Controllers
 {
@@ -39,20 +40,32 @@ namespace PEClient.Controllers
         // GET: Launch
         public ActionResult Index()
         {
-            return View(new LaunchViewModel(1));
+            return View(new LaunchViewModel(User.Identity.GetUserId()));
         }
 
         // POST: Launch
         [HttpPost]
         public ActionResult Index(LaunchViewModel model)
         {
+            // The model needs the user's identity inorder to load students
+            // and to save the data to the rightful owner
+            model.UserId = User.Identity.GetUserId();
+
+            // Test for model validation.
             if (!ModelState.IsValid)
             {
-                model.UserId = 1;
+                model.LoadData();
                 return View(model);
             }
 
-            TempData.SuccessMessage($"Successfully launched {model.LaunchName}.");
+            if (model.Save())
+            {
+                TempData.SuccessMessage($"Successfully launched {model.LaunchName}.");
+            }
+            else
+            {
+                TempData.ErrorMessage($"Failed to launch {model.LaunchName}. " + model.SaveErrorMessage);
+            }
 
             return RedirectToAction("Index", "Dashboard");
         }
