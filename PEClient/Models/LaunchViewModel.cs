@@ -130,12 +130,21 @@ namespace PEClient.Models
 
             try
             {
-                using (var db = new PEClientContext())
-                {
-                    //db.spLaunch_Create(UserId, LaunchName, Survey, StartDateTime, EndDateTime, SelectedTeams);
-                }
+                Decimal surveyId;
+                DateTime startDate;
+                DateTime endDate;
 
-                return true;
+                if (Decimal.TryParse(Survey, out surveyId) &&
+                    DateTime.TryParse(StartDateTime, out startDate) &&
+                    DateTime.TryParse(EndDateTime, out endDate))
+                {
+                    using (var db = new PEClientContext())
+                    {
+                        db.spLaunch_Create(UserId, LaunchName, surveyId, startDate, endDate, SelectedTeams);
+                    }
+                    return true;
+                }
+                return false;
             }
             catch (Exception ex)
             {
