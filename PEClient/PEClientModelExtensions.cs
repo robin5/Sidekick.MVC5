@@ -187,7 +187,7 @@ namespace PEClient
                     SqlDbType = SqlDbType.DateTime,
                     Direction = ParameterDirection.Input,
                     ParameterName = "EndDate",
-                    Value = startDate
+                    Value = endDate
                 },
                 new SqlParameter // @TeamIds
                 {

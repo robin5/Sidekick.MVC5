@@ -68,8 +68,8 @@
         <!--p>It's a <strong>3</strong> step process:</p -->
         <ol style="margin-left: -20px">
             <li>@Html.ActionLink("Create a peer survey", "Index", "Template")</li>
-            <li>@Html.ActionLink("Create peer groups", "Index", "CreateTeam")</li>
-            <li>@Html.ActionLink("Send peer survey to peer groups", "Index", "Launch")</li>
+            <li>@Html.ActionLink("Create a peer group", "Index", "CreateTeam")</li>
+            <li>@Html.ActionLink("Send a peer survey to one or more peer groups", "Index", "Launch")</li>
         </ol>
         <hr>
 
@@ -100,6 +100,11 @@
                         </div><!-- col -->
                     }
                 }
+                else
+                {
+                    <div style="margin-left: 20px"><p>None defined - Execute step 1 above to define a peer survey.</p></div>
+                }
+
             </div><!-- flex row -->
             <hr>
         </div><!-- collapse -->
@@ -130,6 +135,11 @@
                         </div><!-- col -->
                     }
                 }
+                else
+                {
+                    <div style="margin-left: 20px"><p>None defined - Execute step 2 above to define a peer group.</p></div>
+                }
+
             </div><!-- flex row -->
             <hr>
         </div><!-- collapse -->
@@ -166,6 +176,9 @@
                             </div><!-- card -->
                         </div><!-- col -->
                     }
+                } else
+                {
+                    <div style="margin-left: 20px"><p>None defined - Execute steps 1 through 3 above to define a survey launch.</p></div>
                 }
             </div><!-- flex row -->
         </div><!-- collapse -->

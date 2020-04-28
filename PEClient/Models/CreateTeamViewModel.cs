@@ -35,7 +35,7 @@ using PEClient.Validation;
 
 namespace PEClient.Models
 {
-    public class CreateTeamModel
+    public class CreateTeamViewModel
     {
         public string SaveErrorMessage { get; set; }
         private string _teamName;
@@ -45,7 +45,7 @@ namespace PEClient.Models
         private List<SelectListItem> _candidates = new List<SelectListItem>();
         private List<SelectListItem> _peers = new List<SelectListItem>();
         private List<SelectListItem> _selectedStudents = new List<SelectListItem>();
-        public CreateTeamModel()
+        public CreateTeamViewModel()
         {
         }
 
@@ -59,13 +59,11 @@ namespace PEClient.Models
                 _teamName = value.Trim();
             }
         }
-        public string UserId { get; set; }
-        public CreateTeamModel(string userId)
+        public CreateTeamViewModel(string aspNetId)
         {
-            UserId = userId;
-            LoadStudents();
+            LoadStudents(aspNetId);
         }
-        public void LoadStudents()
+        public void LoadStudents(string aspNetId)
         {
             using (var db = new PEClientContext())
             {
@@ -94,7 +92,7 @@ namespace PEClient.Models
         public IEnumerable<int> PeerSelection { get; set; }
         public IEnumerable<Student> PeerDetails { get { return _students; } }
 
-        public bool save()
+        public bool save(string AspNetId)
         {
             SaveErrorMessage = "";
 
@@ -102,7 +100,7 @@ namespace PEClient.Models
             {
                 using (var db = new PEClientContext())
                 {
-                    db.spTeam_Create(UserId, _teamName, PeerSelection);
+                    db.spTeam_Create(AspNetId, _teamName, PeerSelection);
                 }
 
                 return true;

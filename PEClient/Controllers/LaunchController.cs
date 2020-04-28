@@ -47,18 +47,14 @@ namespace PEClient.Controllers
         [HttpPost]
         public ActionResult Index(LaunchViewModel model)
         {
-            // The model needs the user's identity inorder to load students
-            // and to save the data to the rightful owner
-            model.UserId = User.Identity.GetUserId();
-
             // Test for model validation.
             if (!ModelState.IsValid)
             {
-                model.LoadData();
+                model.LoadData(User.Identity.GetUserId());
                 return View(model);
             }
 
-            if (model.Save())
+            if (model.Save(User.Identity.GetUserId()))
             {
                 TempData.SuccessMessage($"Successfully launched {model.LaunchName}.");
             }

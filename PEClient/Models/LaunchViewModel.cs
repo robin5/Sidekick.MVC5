@@ -52,28 +52,26 @@ namespace PEClient.Models
         // **************************************************************
 
         public LaunchViewModel() { }
-        public LaunchViewModel(string identity)
+        public LaunchViewModel(string aspNetId)
         {
-            UserId = identity;
-            LoadData();
+            LoadData(aspNetId);
         }
 
         // **************************************************************
         // *                        Properties
         // **************************************************************
         
-        public string UserId { get; set; }
         public string SaveErrorMessage { get; set; }
 
         //
         // Summary:
         //     Loads surveys and teams from the database into the model.
-        public void LoadData()
+        public void LoadData(String aspNetId)
         {
             using (var db = new PEClientContext())
             {
                 // Query database for surveys for the given identity
-                var surveys = db.spSurvey_GetAll(UserId).OrderBy(s => s.Name);
+                var surveys = db.spSurvey_GetAll(aspNetId).OrderBy(s => s.Name);
 
                 // Cycle through result of database query and load data into the model
                 foreach (var survey in surveys)
@@ -83,7 +81,7 @@ namespace PEClient.Models
                 }
 
                 // Query database for teams owned by the given identity
-                var teams = db.spTeam_GetAll(UserId);
+                var teams = db.spTeam_GetAll(aspNetId);
 
                 foreach (var team in teams)
                 {
@@ -124,7 +122,7 @@ namespace PEClient.Models
             get { return _candidates; } 
         }
 
-        public bool Save()
+        public bool Save(string aspNetId)
         {
             SaveErrorMessage = "";
 
@@ -140,7 +138,7 @@ namespace PEClient.Models
                 {
                     using (var db = new PEClientContext())
                     {
-                        db.spLaunch_Create(UserId, LaunchName, surveyId, startDate, endDate, SelectedTeams);
+                        db.spLaunch_Create(aspNetId, LaunchName, surveyId, startDate, endDate, SelectedTeams);
                     }
                     return true;
                 }

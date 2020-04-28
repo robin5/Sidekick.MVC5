@@ -41,27 +41,23 @@ namespace PEClient.Controllers
         // GET: CreateTeam
         public ActionResult Index()
         {
-            return View(new CreateTeamModel(User.Identity.GetUserId()));
+            return View(new CreateTeamViewModel(User.Identity.GetUserId()));
         }
 
         // POST: CreateTeam
         [HttpPost]
-        public ActionResult Index(CreateTeamModel model)
+        public ActionResult Index(CreateTeamViewModel model)
         {
-            // The model needs the user's identity inorder to load students
-            // and to save the data to the rightful owner
-            model.UserId = User.Identity.GetUserId();
-
             // Test for model validation.
             if (!ModelState.IsValid)
             {
                 // Note: The model does not automatically load the students list
                 // so it must be done here before returning the model to the view
-                model.LoadStudents();
+                model.LoadStudents(User.Identity.GetUserId());
                 return View(model);
             }
 
-            if (model.save())
+            if (model.save(User.Identity.GetUserId()))
             {
                 TempData.SuccessMessage($"Successfully added {model.TeamName} to peer groups.");
             }

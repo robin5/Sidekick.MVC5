@@ -42,11 +42,11 @@ namespace PEClient.Models
         public List<Survey> _surveys = new List<Survey>();
         public List<Team> _teams = new List<Team>();
         public List<LaunchedSurvey> _launchedSurveys = new List<LaunchedSurvey>();
-        public DashboardViewModel(string identity)
+        public DashboardViewModel(string aspNetId)
         {
-            LoadSurveys(identity);
-            LoadTeams(identity);
-            LoadLaunchedSurveys(identity);
+            LoadSurveys(aspNetId);
+            LoadTeams(aspNetId);
+            LoadLaunchedSurveys(aspNetId);
         }
         //
         // Summary:

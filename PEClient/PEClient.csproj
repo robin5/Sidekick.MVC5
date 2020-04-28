@@ -206,7 +206,7 @@
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CommentsAboutViewModel.cs" />
-    <Compile Include="Models\CreateTeamModel.cs" />
+    <Compile Include="Models\CreateTeamViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\LaunchedSurvey.cs" />
     <Compile Include="Models\Survey.cs" />
