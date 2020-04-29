@@ -51,6 +51,31 @@ namespace PEClient
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spAspNetUsers_GetAllStudents_Result>("spAspNetUsers_GetAllStudents");
         }
     
+        public virtual int spLaunch_Create(string aspNetId, string launchName, Nullable<decimal> surveyId, Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate)
+        {
+            var aspNetIdParameter = aspNetId != null ?
+                new ObjectParameter("AspNetId", aspNetId) :
+                new ObjectParameter("AspNetId", typeof(string));
+    
+            var launchNameParameter = launchName != null ?
+                new ObjectParameter("LaunchName", launchName) :
+                new ObjectParameter("LaunchName", typeof(string));
+    
+            var surveyIdParameter = surveyId.HasValue ?
+                new ObjectParameter("SurveyId", surveyId) :
+                new ObjectParameter("SurveyId", typeof(decimal));
+    
+            var startDateParameter = startDate.HasValue ?
+                new ObjectParameter("StartDate", startDate) :
+                new ObjectParameter("StartDate", typeof(System.DateTime));
+    
+            var endDateParameter = endDate.HasValue ?
+                new ObjectParameter("EndDate", endDate) :
+                new ObjectParameter("EndDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spLaunch_Create", aspNetIdParameter, launchNameParameter, surveyIdParameter, startDateParameter, endDateParameter);
+        }
+    
         public virtual ObjectResult<spLaunchedSurveys_GetAll_Result> spLaunchedSurveys_GetAll(string id)
         {
             var idParameter = id != null ?
@@ -82,6 +107,19 @@ namespace PEClient
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spSurvey_GetAll_Result>("spSurvey_GetAll", idParameter);
         }
     
+        public virtual ObjectResult<spSurvey_GetById_Result> spSurvey_GetById(string aspNetId, Nullable<decimal> surveyId)
+        {
+            var aspNetIdParameter = aspNetId != null ?
+                new ObjectParameter("AspNetId", aspNetId) :
+                new ObjectParameter("AspNetId", typeof(string));
+    
+            var surveyIdParameter = surveyId.HasValue ?
+                new ObjectParameter("SurveyId", surveyId) :
+                new ObjectParameter("SurveyId", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spSurvey_GetById_Result>("spSurvey_GetById", aspNetIdParameter, surveyIdParameter);
+        }
+    
         public virtual int spTeam_Create(string aspNetId, string teamName)
         {
             var aspNetIdParameter = aspNetId != null ?
@@ -102,31 +140,6 @@ namespace PEClient
                 new ObjectParameter("Id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spTeam_GetAll_Result>("spTeam_GetAll", idParameter);
-        }
-    
-        public virtual int spLaunch_Create(string aspNetId, string launchName, Nullable<decimal> surveyId, Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate)
-        {
-            var aspNetIdParameter = aspNetId != null ?
-                new ObjectParameter("AspNetId", aspNetId) :
-                new ObjectParameter("AspNetId", typeof(string));
-    
-            var launchNameParameter = launchName != null ?
-                new ObjectParameter("LaunchName", launchName) :
-                new ObjectParameter("LaunchName", typeof(string));
-    
-            var surveyIdParameter = surveyId.HasValue ?
-                new ObjectParameter("SurveyId", surveyId) :
-                new ObjectParameter("SurveyId", typeof(decimal));
-    
-            var startDateParameter = startDate.HasValue ?
-                new ObjectParameter("StartDate", startDate) :
-                new ObjectParameter("StartDate", typeof(System.DateTime));
-    
-            var endDateParameter = endDate.HasValue ?
-                new ObjectParameter("EndDate", endDate) :
-                new ObjectParameter("EndDate", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spLaunch_Create", aspNetIdParameter, launchNameParameter, surveyIdParameter, startDateParameter, endDateParameter);
         }
     }
 }

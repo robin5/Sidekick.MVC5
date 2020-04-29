@@ -82,20 +82,18 @@
         </div>
         <br>
         <div id="templates" class="collapse">
-            <div style="display: flex; flex-wrap: wrap;">
+            <div style="display: flex; flex-wrap: wrap; margin-left: 20px">
 
                 @* Generate survey instance cards *@
 
                 @if (Model.Surveys.Count > 0)
                 {
-                    foreach (var template in Model.Surveys)
+                    foreach (var survey in Model.Surveys)
                     {
-                        <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
+                        <div class="" style="margin: 5px 5px 0 5px; width: 200px">
                             <div class="card" style="">
-                                <h4>@(template.Name)</h4>
-                                <p>
-                                    <a href="#0">Edit</a>&nbsp;&nbsp;&nbsp;<a href="#0">Delete</a>
-                                </p>
+                                <h4>@Html.ActionLink(survey.Name, "Index", "ViewSurvey", new { id = survey.Id }, null)</h4>
+                                <!--h4><a href="ViewSurvey">@(survey.Name)</a></!--h4 -->
                             </div><!-- card -->
                         </div><!-- col -->
                     }

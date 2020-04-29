@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -417,6 +417,10 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
         <Function Name="spSurvey_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="spSurvey_GetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
+          <Parameter Name="SurveyId" Type="decimal" Mode="In" />
+        </Function>
         <Function Name="spTeam_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
           <Parameter Name="TeamName" Type="varchar" Mode="In" />
@@ -522,7 +526,8 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
             <End Role="tblUserRoles" EntitySet="tblUserRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1034,29 +1039,33 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
             <End Role="tblUserRoles" EntitySet="tblUserRoles" />
           </AssociationSet>
           <FunctionImport Name="spAspNetUsers_GetAllStudents" ReturnType="Collection(Model.spAspNetUsers_GetAllStudents_Result)" />
-          <FunctionImport Name="spLaunchedSurveys_GetAll" ReturnType="Collection(Model.spLaunchedSurveys_GetAll_Result)">
-          <Parameter Name="Id" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="spSurvey_Create">
-            <Parameter Name="Id" Mode="In" Type="String" />
-            <Parameter Name="SurveyName" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="spSurvey_GetAll" ReturnType="Collection(Model.spSurvey_GetAll_Result)">
-          <Parameter Name="Id" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="spTeam_Create">
-            <Parameter Name="AspNetId" Mode="In" Type="String" />
-            <Parameter Name="TeamName" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="spTeam_GetAll" ReturnType="Collection(Model.spTeam_GetAll_Result)">
-          <Parameter Name="Id" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="spLaunch_Create">
             <Parameter Name="AspNetId" Mode="In" Type="String" />
             <Parameter Name="LaunchName" Mode="In" Type="String" />
             <Parameter Name="SurveyId" Mode="In" Type="Decimal" />
             <Parameter Name="StartDate" Mode="In" Type="DateTime" />
             <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spLaunchedSurveys_GetAll" ReturnType="Collection(Model.spLaunchedSurveys_GetAll_Result)">
+            <Parameter Name="Id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spSurvey_Create">
+            <Parameter Name="Id" Mode="In" Type="String" />
+            <Parameter Name="SurveyName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spSurvey_GetAll" ReturnType="Collection(Model.spSurvey_GetAll_Result)">
+            <Parameter Name="Id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spSurvey_GetById" ReturnType="Collection(Model.spSurvey_GetById_Result)">
+            <Parameter Name="AspNetId" Mode="In" Type="String" />
+            <Parameter Name="SurveyId" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="spTeam_Create">
+            <Parameter Name="AspNetId" Mode="In" Type="String" />
+            <Parameter Name="TeamName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spTeam_GetAll" ReturnType="Collection(Model.spTeam_GetAll_Result)">
+            <Parameter Name="Id" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spAspNetUsers_GetAllStudents_Result">
@@ -1074,6 +1083,11 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
         <ComplexType Name="spSurvey_GetAll_Result">
           <Property Type="String" Name="Name" Nullable="false" MaxLength="40" />
           <Property Type="Decimal" Name="SurveyId" Nullable="false" Precision="10" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="spSurvey_GetById_Result">
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="40" />
+          <Property Type="Decimal" Name="QsIndex" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="Text" Nullable="false" MaxLength="512" />
         </ComplexType>
         <ComplexType Name="spTeam_GetAll_Result">
           <Property Type="String" Name="Name" Nullable="false" MaxLength="32" />
@@ -1274,6 +1288,7 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spLaunch_Create" FunctionName="Model.Store.spLaunch_Create" />
           <FunctionImportMapping FunctionImportName="spLaunchedSurveys_GetAll" FunctionName="Model.Store.spLaunchedSurveys_GetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="Model.spLaunchedSurveys_GetAll_Result">
@@ -1294,6 +1309,15 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spSurvey_GetById" FunctionName="Model.Store.spSurvey_GetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.spSurvey_GetById_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="QsIndex" ColumnName="QsIndex" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spTeam_Create" FunctionName="Model.Store.spTeam_Create" />
           <FunctionImportMapping FunctionImportName="spTeam_GetAll" FunctionName="Model.Store.spTeam_GetAll">
             <ResultMapping>
@@ -1303,7 +1327,6 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spLaunch_Create" FunctionName="Model.Store.spLaunch_Create" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
