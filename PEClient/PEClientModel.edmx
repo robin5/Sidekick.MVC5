@@ -428,6 +428,10 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
         <Function Name="spTeam_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="spTeam_GetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
+          <Parameter Name="TeamId" Type="decimal" Mode="In" />
+        </Function>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblGrades" EntityType="Self.tblGrades" Schema="dbo" store:Type="Tables" />
@@ -1067,6 +1071,10 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
           <FunctionImport Name="spTeam_GetAll" ReturnType="Collection(Model.spTeam_GetAll_Result)">
             <Parameter Name="Id" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="spTeam_GetById" ReturnType="Collection(Model.spTeam_GetById_Result)">
+            <Parameter Name="AspNetId" Mode="In" Type="String" />
+            <Parameter Name="TeamId" Mode="In" Type="Decimal" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spAspNetUsers_GetAllStudents_Result">
           <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
@@ -1092,6 +1100,12 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
         <ComplexType Name="spTeam_GetAll_Result">
           <Property Type="String" Name="Name" Nullable="false" MaxLength="32" />
           <Property Type="Decimal" Name="TeamId" Nullable="false" Precision="10" Scale="0" />
+        </ComplexType>
+        <ComplexType Name="spTeam_GetById_Result">
+          <Property Type="String" Name="TeamName" Nullable="false" MaxLength="32" />
+          <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="256" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="256" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1324,6 +1338,16 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
               <ComplexTypeMapping TypeName="Model.spTeam_GetAll_Result">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spTeam_GetById" FunctionName="Model.Store.spTeam_GetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.spTeam_GetById_Result">
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

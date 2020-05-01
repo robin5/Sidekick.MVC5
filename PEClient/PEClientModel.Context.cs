@@ -141,5 +141,18 @@ namespace PEClient
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spTeam_GetAll_Result>("spTeam_GetAll", idParameter);
         }
+    
+        public virtual ObjectResult<spTeam_GetById_Result> spTeam_GetById(string aspNetId, Nullable<decimal> teamId)
+        {
+            var aspNetIdParameter = aspNetId != null ?
+                new ObjectParameter("AspNetId", aspNetId) :
+                new ObjectParameter("AspNetId", typeof(string));
+    
+            var teamIdParameter = teamId.HasValue ?
+                new ObjectParameter("TeamId", teamId) :
+                new ObjectParameter("TeamId", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spTeam_GetById_Result>("spTeam_GetById", aspNetIdParameter, teamIdParameter);
+        }
     }
 }

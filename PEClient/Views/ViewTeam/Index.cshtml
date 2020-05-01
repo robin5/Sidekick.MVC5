@@ -1,0 +1,85 @@
+﻿@*
+    **********************************************************************************
+    * Copyright (c) 2019 Robin Murray
+    **********************************************************************************
+    *
+    * File: Index.cshtml
+    *
+    * Description: View for ViewTeamController
+    *
+    * Author: Robin Murray
+    *
+    **********************************************************************************
+    *
+    * Granting License: The MIT License (MIT)
+    *
+    *   Permission is hereby granted, free of charge, to any person obtaining a copy
+    *   of this software and associated documentation files (the "Software"), to deal
+    *   in the Software without restriction, including without limitation the rights
+    *   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    *   copies of the Software, and to permit persons to whom the Software is
+    *   furnished to do so, subject to the following conditions:
+    *   The above copyright notice and this permission notice shall be included in
+    *   all copies or substantial portions of the Software.
+    *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    *   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    *   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    *   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    *   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    *   THE SOFTWARE.
+    *
+    **********************************************************************************
+*@
+
+@model  PEClient.Models.ViewTeamViewModel
+
+@{
+    ViewBag.Title = "View Team";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<div class="vs-container">
+    <div class="vs-title">
+        @if (Model.TeamMembers.Count > 0)
+        {
+            <h2>@Model.TeamMembers[0].TeamName</h2>
+        }
+        else
+        {
+            <h2>Team not defined</h2>
+        }
+    </div>
+    <ul class="vs-actions">
+        <li>@Html.ActionLink("Edit team", "Index", "ViewTeam")</li>
+        <li>@Html.ActionLink("Delete team", "Index", "ViewTeam")</li>
+        <li>@Html.ActionLink("Back to dashboard", "Index", "Dashboard")</li>
+    </ul>
+    <hr>
+    <div id="vs-survey-questions" class="vs-survey-questions">
+        @* Generate survey instance cards *@
+
+        @if (Model.TeamMembers.Count > 0)
+        {
+            <table>
+                <tr>
+                    <th>Full Name</th>
+                    <th>User Name</th>
+                    <th>Email</th>
+                </tr>
+                @foreach (var member in Model.TeamMembers)
+                {
+                <tr class="vt-tr">
+                    <td class="vt-td-index">@member.FullName</td>
+                    <td class="vt-td-index">(@member.UserName)</td>
+                    <td class="vt-td-index"><a href="mailto:(@member.Email)">@member.Email</a></td>
+                </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <div style="margin-left: 20px"><p>None defined.</p></div>
+        }
+    </div>
+</div>

@@ -178,6 +178,13 @@ textarea {
 ol {
     font-size: 1.2em
 }
+.dsh-item {
+    margin: 5px 5px 0 5px;
+    width: 200px;
+}
+.dsh-no-items {
+    margin-left: 20px;
+}
 /*************************************
  *           Landing Page
  *************************************/
@@ -254,4 +261,15 @@ ol {
     text-align: left;
     vertical-align: top;
     padding-bottom: 1em;
+}
+
+/*************************************
+ *       ViewTeam/Index
+ *************************************/
+.vt-tr {
+}
+.vt-td-index {
+    text-align: left;
+    vertical-align: top;
+    padding: .5em 2em 0 0;
 }

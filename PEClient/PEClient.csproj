@@ -206,6 +206,7 @@
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ViewSurveyController.cs" />
+    <Compile Include="Controllers\ViewTeamController.cs" />
     <Compile Include="Models\CommentsAboutViewModel.cs" />
     <Compile Include="Models\CreateTeamViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
@@ -254,6 +255,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
     <Compile Include="Models\ViewSurveyViewModel.cs" />
+    <Compile Include="Models\ViewTeamViewModel.cs" />
     <Compile Include="PEClientModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -284,6 +286,9 @@
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
     <Compile Include="spTeam_GetAll_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spTeam_GetById_Result.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
@@ -448,6 +453,7 @@
     <Content Include="Views\Shared\_LayoutFullWidth.cshtml" />
     <Content Include="Views\Shared\_LayoutDashboard.cshtml" />
     <Content Include="Views\ViewSurvey\Index.cshtml" />
+    <Content Include="Views\ViewTeam\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

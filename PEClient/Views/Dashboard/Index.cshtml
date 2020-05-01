@@ -90,17 +90,14 @@
                 {
                     foreach (var survey in Model.Surveys)
                     {
-                        <div class="" style="margin: 5px 5px 0 5px; width: 200px">
-                            <div class="card" style="">
-                                <h4>@Html.ActionLink(survey.Name, "Index", "ViewSurvey", new { id = survey.Id }, null)</h4>
-                                <!--h4><a href="ViewSurvey">@(survey.Name)</a></!--h4 -->
-                            </div><!-- card -->
-                        </div><!-- col -->
+                        <div class="dsh-item">
+                            <h4>@Html.ActionLink(survey.Name, "Index", "ViewSurvey", new { id = survey.Id }, null)</h4>
+                        </div>
                     }
                 }
                 else
                 {
-                    <div style="margin-left: 20px"><p>None defined - Execute step 1 above to define a peer survey.</p></div>
+                    <div class="dsh-no-items"><p>None defined - Execute step 1 above to define a peer survey.</p></div>
                 }
 
             </div><!-- flex row -->
@@ -123,19 +120,16 @@
                 {
                     foreach (var team in Model.Teams)
                     {
-                        <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
-                            <div class="card" style="">
-                                <h4>@(team.Name)</h4>
-                                <p>
-                                    <a href="#0">Edit</a>&nbsp;&nbsp;&nbsp;<a href="#0">Delete</a>
-                                </p>
-                            </div><!-- card -->
-                        </div><!-- col -->
+                        <div class="card">
+                            <div class="card dsh-item">
+                                <h4>@Html.ActionLink(team.Name, "Index", "ViewTeam", new { id = team.Id }, null)</h4>
+                            </div>
+                        </div>
                     }
                 }
                 else
                 {
-                    <div style="margin-left: 20px"><p>None defined - Execute step 2 above to define a peer group.</p></div>
+                    <div class="dsh-no-items"><p>None defined - Execute step 2 above to define a peer group.</p></div>
                 }
 
             </div><!-- flex row -->
@@ -176,7 +170,7 @@
                     }
                 } else
                 {
-                    <div style="margin-left: 20px"><p>None defined - Execute steps 1 through 3 above to define a survey launch.</p></div>
+                    <div class="dsh-no-items"><p>None defined - Execute steps 1 through 3 above to define a survey launch.</p></div>
                 }
             </div><!-- flex row -->
         </div><!-- collapse -->
