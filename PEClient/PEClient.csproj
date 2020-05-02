@@ -211,6 +211,7 @@
     <Compile Include="Models\CreateTeamViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\LaunchedSurvey.cs" />
+    <Compile Include="Models\ModelUtils.cs" />
     <Compile Include="Models\Survey.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LaunchViewModel.cs" />
@@ -227,7 +228,7 @@
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SurveyResponsesController.cs" />
     <Compile Include="Controllers\SurveySummaryController.cs" />
-    <Compile Include="Controllers\TemplateController.cs" />
+    <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LaunchController.cs" />
@@ -298,7 +299,7 @@
     <Compile Include="Models\SurveySummaryTeam.cs" />
     <Compile Include="Models\SurveySummaryViewModel.cs" />
     <Compile Include="Models\Team.cs" />
-    <Compile Include="Models\TemplateViewModel.cs" />
+    <Compile Include="Models\SurveyViewModel.cs" />
     <Compile Include="Models\ToneAnalysisViewModel.cs" />
     <Compile Include="tblGrades.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
@@ -437,7 +438,7 @@
     <Content Include="Views\Account\Info.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\CreateTeam\Index.cshtml" />
-    <Content Include="Views\Template\Index.cshtml" />
+    <Content Include="Views\Survey\Index.cshtml" />
     <Content Include="Views\Launch\Index.cshtml" />
     <Content Include="Views\Shared\_SubmitAndCancel.cshtml" />
     <Content Include="Views\SurveySummary\Index.cshtml" />

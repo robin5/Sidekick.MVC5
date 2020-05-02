@@ -46,25 +46,25 @@ using System.Data.Entity;
 
 namespace PEClient.Models
 {
-    public class TemplateViewModel
+    public class SurveyViewModel
     {
-        public string SaveErrorMessage { get; set; }
-        private string _templateName;
+        private string _surveyName;
         private List<string> _questions = new List<string>();
 
-        public TemplateViewModel()
+        public string SaveErrorMessage { get; set; }
+
+        public SurveyViewModel()
         {
         }
 
-        //[Required(ErrorMessage = "Surveys must have a name.")]
         [NonNullEmptyOrWhiteSpace(ErrorMessage: "A Survey's name cannot be blank.")]
-        public string TemplateName 
+        public string SurveyName 
         { 
-            get { return _templateName; } 
+            get { return _surveyName; } 
             set
             {
                 // Remove white space from beginning and end of the template's name
-                _templateName = value.Trim();
+                _surveyName = value.Trim();
             }
         }
 
@@ -97,21 +97,14 @@ namespace PEClient.Models
             {
                 using (var db = new PEClientContext())
                 {
-                    db.sp_CreateSurvey(identity, _templateName, _questions);
+                    db.sp_CreateSurvey(identity, _surveyName, _questions);
                 }
 
                 return true;
             }
             catch (Exception ex)
             {
-                SaveErrorMessage = ex.Message;
-
-                Exception innerException = ex.InnerException;
-                while (innerException != null)
-                {
-                    SaveErrorMessage += ("\n" + ex.InnerException.Message);
-                    innerException = innerException.InnerException;
-                }
+                SaveErrorMessage = ModelUtils.FormatExceptionMessage(ex);
                 return false;
             }
         }

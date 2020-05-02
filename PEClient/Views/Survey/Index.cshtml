@@ -5,7 +5,7 @@
     *
     * File: Index.cshtml
     *
-    * Description: View for TemplateController
+    * Description: View for SurveyController
     *
     * Author: Robin Murray
     *
@@ -32,7 +32,7 @@
     **********************************************************************************
 *@
 
-@model  PEClient.Models.TemplateViewModel
+@model  PEClient.Models.SurveyViewModel
 
 @{
     ViewBag.Title = "Create Survey";
@@ -53,19 +53,19 @@
             <div class="alert alert-danger">@Html.ValidationSummary()</div>
         }
 
-        @using (Html.BeginForm("Index", "Template", FormMethod.Post, new { @class = "form-launch" }))
+        @using (Html.BeginForm("Index", "Survey", FormMethod.Post, new { @class = "form-launch" }))
         {
             @* -- Survey Name -- *@
 
-            @Html.LabelFor(m => m.TemplateName, "Survey Name", new { @class = "control-label" })
-            @Html.TextBoxFor(m => m.TemplateName, new
+            @Html.LabelFor(m => m.SurveyName, "Survey Name", new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.SurveyName, new
             {
                 title = "Enter a descriptive name for the this peer evaluation cycle",
                 @class = "form-control",
                 autofocus = "",
                 required = true
             })
-            @Html.ValidationMessageFor(m => m.TemplateName, "", new { @class = "alert-danger" })
+            @Html.ValidationMessageFor(m => m.SurveyName, "", new { @class = "alert-danger" })
             <br />
 
             <label class="control-label">Questions</label><br>

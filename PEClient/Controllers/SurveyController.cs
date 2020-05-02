@@ -2,7 +2,7 @@
 // * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: TemplateController.cs
+// * File: SurveyController.cs
 // *
 // * Author: Robin Murray
 // *
@@ -35,16 +35,16 @@ using Microsoft.AspNet.Identity;
 namespace PEClient.Controllers
 {
     [Authorize(Roles = "Admin,Instructor")]
-    public class TemplateController : Controller
+    public class SurveyController : Controller
     {
         // GET: CreateTemplate
         public ActionResult Index()
         {
-            return View(new TemplateViewModel());
+            return View(new SurveyViewModel());
         }
 
         [HttpPost]
-        public ActionResult Index(TemplateViewModel model)
+        public ActionResult Index(SurveyViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -53,11 +53,11 @@ namespace PEClient.Controllers
 
             if (model.save(User.Identity.GetUserId()))
             {
-                TempData.SuccessMessage($"Successfully added {model.TemplateName} to peer evaluation templates.");
+                TempData.SuccessMessage($"Successfully added {model.SurveyName} to peer evaluation templates.");
             }
             else
             {
-                TempData.ErrorMessage($"Failed adding {model.TemplateName} to peer evaluation templates: " + model.SaveErrorMessage);
+                TempData.ErrorMessage($"Failed adding {model.SurveyName} to peer evaluation templates: " + model.SaveErrorMessage);
             }
 
             return RedirectToAction("Index", "Dashboard");
