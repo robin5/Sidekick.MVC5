@@ -13,6 +13,10 @@ namespace PEClient.Controllers
         // GET: ViewSurvey
         public ActionResult Index(int? id)
         {
+            if (null == id)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
             return View(new ViewSurveyViewModel(User.Identity.GetUserId(), id));
         }
     }

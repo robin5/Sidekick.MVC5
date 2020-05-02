@@ -15,6 +15,10 @@ namespace PEClient.Controllers
         // GET: ViewTeam
         public ActionResult Index(int? id)
         {
+            if (null == id)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
             return View(new ViewTeamViewModel(User.Identity.GetUserId(), id));
         }
     }
