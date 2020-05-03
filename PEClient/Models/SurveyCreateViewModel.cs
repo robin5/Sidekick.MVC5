@@ -2,9 +2,9 @@
 // * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: TemplateViewModel.cs
+// * File: SurveyCreateViewModel.cs
 // *
-// * Description: View model for the Template controller and view
+// * Description: View model for the survey controller for creating a survey
 // *
 // * Author: Robin Murray
 // *
@@ -46,14 +46,14 @@ using System.Data.Entity;
 
 namespace PEClient.Models
 {
-    public class SurveyViewModel
+    public class SurveyCreateViewModel
     {
         private string _surveyName;
         private List<string> _questions = new List<string>();
 
         public string SaveErrorMessage { get; set; }
 
-        public SurveyViewModel()
+        public SurveyCreateViewModel()
         {
         }
 

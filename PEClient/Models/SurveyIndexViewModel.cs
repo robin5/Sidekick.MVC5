@@ -5,14 +5,16 @@ using System.Web;
 
 namespace PEClient.Models
 {
-    public class ViewSurveyViewModel
+    public class SurveyIndexViewModel
     {
         List<spSurvey_GetById_Result> _questions = new List<spSurvey_GetById_Result>();
-        public ViewSurveyViewModel()
+        public int? Id { get; set; }
+        public SurveyIndexViewModel()
         {
         }
-        public ViewSurveyViewModel(string aspNetId, int? id)
+        public SurveyIndexViewModel(string aspNetId, int? id)
         {
+            this.Id = id;
             LoadQuestions(aspNetId, id);
         }
 

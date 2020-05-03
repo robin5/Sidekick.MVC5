@@ -62,24 +62,17 @@
                 </button>
             </div>
         }
-
-        <!-------------------------------------------------->
-
-        <!--p>It's a <strong>3</strong> step process:</p -->
         <ol style="margin-left: -20px">
-            <li>@Html.ActionLink("Create a peer survey", "Index", "Survey")</li>
+            <li>@Html.ActionLink("Create a peer survey", "Create", "Survey")</li>
             <li>@Html.ActionLink("Create a peer group", "Index", "CreateTeam")</li>
             <li>@Html.ActionLink("Send a peer survey to one or more peer groups", "Index", "Launch")</li>
-        </ol>
+        </ol><!-- dashboard navigation -->
         <hr>
-
-        <!-------------------------------------------------->
-
         <div>
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#templates" aria-expanded="false" aria-controls="collapseExample">
                 <h4>Peer Surveys</h4>
             </button>
-        </div>
+        </div><!-- surveys button -->
         <br>
         <div id="templates" class="collapse">
             <div style="display: flex; flex-wrap: wrap; margin-left: 20px">
@@ -91,7 +84,7 @@
                     foreach (var survey in Model.Surveys)
                     {
                         <div class="dsh-item">
-                            <h4>@Html.ActionLink(survey.Name, "Index", "ViewSurvey", new { id = survey.Id }, null)</h4>
+                            <h4>@Html.ActionLink(survey.Name, "Index", "Survey", new { id = survey.Id }, null)</h4>
                         </div>
                     }
                 }
@@ -100,16 +93,14 @@
                     <div class="dsh-no-items"><p>None defined - Execute step 1 above to define a peer survey.</p></div>
                 }
 
-            </div><!-- flex row -->
+            </div><!-- surveys collapse button -->
             <hr>
-        </div><!-- collapse -->
-        <!-------------------------------------------------->
-
+        </div><!-- surveys collapse -->
         <div>
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#teams" aria-expanded="false" aria-controls="collapseExample">
                 <h4>Peer Groups</h4>
             </button>
-        </div>
+        </div><!-- teams button -->
         <br>
         <div id="teams" class="collapse">
             <div style="display: flex; flex-wrap: wrap;">
@@ -132,15 +123,14 @@
                     <div class="dsh-no-items"><p>None defined - Execute step 2 above to define a peer group.</p></div>
                 }
 
-            </div><!-- flex row -->
+            </div><!-- team -->
             <hr>
-        </div><!-- collapse -->
-        <!-------------------------------------------------->
+        </div><!-- teams collapse -->
         <div>
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#launched" aria-expanded="false" aria-controls="collapseExample">
                 <h4>Launched Surveys</h4>
             </button>
-        </div>
+        </div><!-- launched surveys button -->
         <br>
         <div id="launched" class="collapse">
 
@@ -168,13 +158,13 @@
                             </div><!-- card -->
                         </div><!-- col -->
                     }
-                } else
+                }
+                else
                 {
                     <div class="dsh-no-items"><p>None defined - Execute steps 1 through 3 above to define a survey launch.</p></div>
                 }
             </div><!-- flex row -->
-        </div><!-- collapse -->
-        <!-------------------------------------------------->
+        </div><!-- launched surveys collapse -->
     </div>
 </div><!-- Wrapper -->
 <script>

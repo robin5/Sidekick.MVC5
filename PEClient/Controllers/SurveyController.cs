@@ -37,14 +37,52 @@ namespace PEClient.Controllers
     [Authorize(Roles = "Admin,Instructor")]
     public class SurveyController : Controller
     {
-        // GET: CreateTemplate
-        public ActionResult Index()
+        // GET: Displays a survey with the "Index" view
+        public ActionResult Index(int? id)
         {
-            return View(new SurveyViewModel());
+            if (null == id)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+            return View(new SurveyIndexViewModel(User.Identity.GetUserId(), id));
         }
-
+        // GET: Create a Survey with the "Create" view
+        public ActionResult Create()
+        {
+            return View(new SurveyCreateViewModel());
+        }
+        // POST: Create a Survey with the "Create" view
         [HttpPost]
-        public ActionResult Index(SurveyViewModel model)
+        public ActionResult Create(SurveyCreateViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (model.save(User.Identity.GetUserId()))
+            {
+                TempData.SuccessMessage($"Successfully added {model.SurveyName} to peer evaluation templates.");
+            }
+            else
+            {
+                TempData.ErrorMessage($"Failed adding {model.SurveyName} to peer evaluation templates: " + model.SaveErrorMessage);
+            }
+
+            return RedirectToAction("Index", "Dashboard");
+        }
+        // GET: Create a Survey with the "Edit" view
+        public ActionResult Edit(int? id)
+        {
+            if (null == id)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+            return View(new SurveyEditViewModel(User.Identity.GetUserId(), id));
+        }
+        // POST: Create a Survey with the "Edit" view
+        [HttpPost]
+        public ActionResult Edit(SurveyEditViewModel model)
         {
             if (!ModelState.IsValid)
             {

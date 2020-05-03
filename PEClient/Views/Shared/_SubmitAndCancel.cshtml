@@ -1,13 +1,18 @@
-﻿<!-- Submit Button -->
-<button id="btn-submit" name="action" type="submit" class="btn btn-success"
-        value="submit">
-    Submit
+﻿@{
+    var submit = ViewData["Submit"] ?? "Submit";
+    var cancel = ViewData["Cancel"] ?? "Cancel";
+    var controller = ViewData["Controller"] ?? "Dashboard";
+    var action = ViewData["Action"] ?? "Index";
+}
+
+<!-- Submit Button -->
+<button id="btn-submit" name="action" type="submit" class="btn btn-success" value="submit">
+    @submit
 </button>
 
 &nbsp;|&nbsp;
 
 <!-- Cancel Button -->
-<a id="btn-cancel" href="@Url.Action("Index","Dashboard")" class="btn btn-danger">
-    Cancel
+<a id="btn-cancel" href="@Url.Action(action.ToString(), controller.ToString())" class="btn btn-danger">
+    @cancel
 </a>
-

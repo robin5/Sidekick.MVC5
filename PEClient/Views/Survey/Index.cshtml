@@ -5,7 +5,7 @@
     *
     * File: Index.cshtml
     *
-    * Description: View for SurveyController
+    * Description: Default Index view for Survey controller
     *
     * Author: Robin Murray
     *
@@ -32,126 +32,51 @@
     **********************************************************************************
 *@
 
-@model  PEClient.Models.SurveyViewModel
+@model  PEClient.Models.SurveyIndexViewModel
 
 @{
-    ViewBag.Title = "Create Survey";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "View Survey";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
 }
 
-    <div>
-        <div>
-            <img src="\Content\images\bethany-cirlincione-743f0Dy8bFE-unsplash.jpg" width="100%"/>
-        </div>
-        <h2>Create a Survey</h2>
-        <br>
-
-        @* -- Validation Summary -- *@
-
-        @if (IsPost)
+<div class="vs-container">
+    <div class="vs-title">
+        @if (Model.Questions.Count > 0)
         {
-            <div class="alert alert-danger">@Html.ValidationSummary()</div>
+            <h2>@Model.Questions[0].Name</h2>
         }
-
-        @using (Html.BeginForm("Index", "Survey", FormMethod.Post, new { @class = "form-launch" }))
+        else
         {
-            @* -- Survey Name -- *@
-
-            @Html.LabelFor(m => m.SurveyName, "Survey Name", new { @class = "control-label" })
-            @Html.TextBoxFor(m => m.SurveyName, new
-            {
-                title = "Enter a descriptive name for the this peer evaluation cycle",
-                @class = "form-control",
-                autofocus = "",
-                required = true
-            })
-            @Html.ValidationMessageFor(m => m.SurveyName, "", new { @class = "alert-danger" })
-            <br />
-
-            <label class="control-label">Questions</label><br>
-            @Html.ValidationMessageFor(m => m.Questions, "", new { @class = "alert-danger" })
-
-            <table>
-
-                @if (Model != null && Model.Questions != null)
-                {
-                    int rowId = 0;
-                    foreach (string question in Model.Questions)
-                    {
-                        <tr id="row-id-@(rowId)">
-                            <td style="padding-bottom: 10px">
-                                <textarea id="Questions_@(rowId)__Id" class="q-textarea form-control" cols="50" style="max-width: 100%;" name="Questions[@(rowId)]" required>@(question)</textarea>
-                            </td>
-                            <td style="padding-left: 20px">
-                                <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>
-                            </td>
-                        </tr>
-
-                        rowId++;
-                    }
-                }
-
-            </table>
-
-            <div id="tr-add" style="padding-top: 5px">
-                <button type="button" form-survey id="add-question" class="btn btn-primary" value="add-question" onclick="addBlankRow()">
-                    Add Question
-                </button>
-            </div>
-            <hr />
-
-            @* -- Submit and Cancel buttons -- *@
-
-            @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml")
+            <h2>Survey not defined</h2>
         }
-
-        <!-- button class="btn btn-primary" type="button" onclick="enumerateQuestions();">Change Names</!--button -->
     </div>
-
-@section scripts{
-
-    <script>
-
-        var rowId = -1;
-
-        function addBlankRow() {
-            $('table').append(getNextRowId());
-            enumerateQuestions();
+    <ul class="vs-actions">
+        @if (null != Model.Id)
+        {
+            <li>@Html.ActionLink("Edit survey", "Edit", "Survey", new { id = Model.Id }, null)</li>
+            <li>@Html.ActionLink("Delete survey", "Delete", "Survey", new { id = Model.Id }, null)</li>
         }
+        <li>@Html.ActionLink("Back to dashboard", "Index", "Dashboard")</li>
+    </ul>
+    <hr>
+    <div id="vs-survey-questions" class="vs-survey-questions">
+        @* Generate survey instance cards *@
 
-        function getNextRowId() {
-
-            if (rowId == -1) {
-                rowId = $('.question-row').length - 1;
-            }
-
-            rowId++;
-            var tr = '<tr id=row-id-' + rowId + '>';
-            tr += '<td style="padding-bottom: 10px"><textarea class="q-textarea form-control" cols="50" style="max-width: 100%;" required></textarea></td>';
-            tr += '<td style="padding-left: 20px"><a href="#" data-row-id="' + rowId + '" onclick="deleteRow(event)">delete</a></td></tr>';
-            return tr;
+        @if (Model.Questions.Count > 0)
+        {
+            <table>
+                @foreach (var question in Model.Questions)
+                {
+                    <tr class="vs-tr">
+                        <td class="vs-td-index">@question.QsIndex)</td>
+                        <td class="vs-td-question">@question.Text</td>
+                    </tr>
+                }
+            </table>
         }
-
-        // Deletes a row from the table and prevents the anchor from firing.
-        function deleteRow(event) {
-            var rowToDelete = "#row-id-" + event.target.getAttribute('data-row-id');
-            $(rowToDelete).remove();
-            event.preventDefault();
-            enumerateQuestions();
+        else
+        {
+            <div style="margin-left: 20px"><p>None defined.</p></div>
         }
-
-        // Enumerates the question input elements so they will be transmitted
-        // as an array that is zero indexed and not sparse
-        function enumerateQuestions() {
-
-            var qid = 0;
-
-            $('.q-textarea').each(function () {
-                $(this).attr("name", "Questions[" + qid + "]");
-                $(this).attr("id", "Questions_" + qid + "__Id");
-                ++qid;
-            });
-        }
-
-    </script>
-}
+    </div>
+</div>

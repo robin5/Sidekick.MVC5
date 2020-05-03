@@ -1,0 +1,159 @@
+﻿@*
+    **********************************************************************************
+    * Copyright (c) 2019 Robin Murray
+    **********************************************************************************
+    *
+    * File: Index.cshtml
+    *
+    * Description: Create view for Survey controller
+    *
+    * Author: Robin Murray
+    *
+    **********************************************************************************
+    *
+    * Granting License: The MIT License (MIT)
+    *
+    *   Permission is hereby granted, free of charge, to any person obtaining a copy
+    *   of this software and associated documentation files (the "Software"), to deal
+    *   in the Software without restriction, including without limitation the rights
+    *   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    *   copies of the Software, and to permit persons to whom the Software is
+    *   furnished to do so, subject to the following conditions:
+    *   The above copyright notice and this permission notice shall be included in
+    *   all copies or substantial portions of the Software.
+    *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    *   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    *   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    *   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    *   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    *   THE SOFTWARE.
+    *
+    **********************************************************************************
+*@
+
+@model  PEClient.Models.SurveyCreateViewModel
+
+@{
+    ViewBag.Title = "Create Survey";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div>
+        <div>
+            <img src="\Content\images\bethany-cirlincione-743f0Dy8bFE-unsplash.jpg" width="100%" />
+        </div>
+        <h2>Create a Survey</h2>
+        <br>
+
+        @* -- Validation Summary -- *@
+
+        @if (IsPost)
+        {
+            <div class="alert alert-danger">@Html.ValidationSummary()</div>
+        }
+
+        @using (Html.BeginForm("Create", "Survey", FormMethod.Post, new { @class = "form-launch" }))
+        {
+            @* -- Survey Name -- *@
+
+            @Html.LabelFor(m => m.SurveyName, "Survey Name", new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.SurveyName, new
+            {
+                title = "Enter a descriptive name for the this peer evaluation cycle",
+                @class = "form-control",
+                autofocus = "",
+                required = true
+            })
+            @Html.ValidationMessageFor(m => m.SurveyName, "", new { @class = "alert-danger" })
+            <br />
+
+            @* -- Survey Questions -- *@
+
+            <label class="control-label">Questions</label><br>
+            @Html.ValidationMessageFor(m => m.Questions, "", new { @class = "alert-danger" })
+
+            <table>
+
+                @if (Model != null && Model.Questions != null)
+                {
+                    int rowId = 0;
+                    foreach (string question in Model.Questions)
+                    {
+                        <tr id="row-id-@(rowId)">
+                            <td style="padding-bottom: 10px">
+                                <textarea id="Questions_@(rowId)__Id" class="q-textarea form-control" cols="50" style="max-width: 100%;" name="Questions[@(rowId)]" required>@(question)</textarea>
+                            </td>
+                            <td style="padding-left: 20px">
+                                <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>
+                            </td>
+                        </tr>
+
+                        rowId++;
+                    }
+                }
+
+            </table>
+
+            <div id="tr-add" style="padding-top: 5px">
+                <button type="button" form-survey id="add-question" class="btn btn-primary" value="add-question" onclick="addBlankRow()">
+                    Add Question
+                </button>
+            </div>
+            <hr />
+
+            @* -- Submit and Cancel buttons -- *@
+
+            @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml")
+        }
+
+        <!-- button class="btn btn-primary" type="button" onclick="enumerateQuestions();">Change Names</!--button -->
+    </div>
+
+@section scripts{
+
+    <script>
+
+        var rowId = -1;
+
+        function addBlankRow() {
+            $('table').append(getNextRowId());
+            enumerateQuestions();
+        }
+
+        function getNextRowId() {
+
+            if (rowId == -1) {
+                rowId = $('.question-row').length - 1;
+            }
+
+            rowId++;
+            var tr = '<tr id=row-id-' + rowId + '>';
+            tr += '<td style="padding-bottom: 10px"><textarea class="q-textarea form-control" cols="50" style="max-width: 100%;" required></textarea></td>';
+            tr += '<td style="padding-left: 20px"><a href="#" data-row-id="' + rowId + '" onclick="deleteRow(event)">delete</a></td></tr>';
+            return tr;
+        }
+
+        // Deletes a row from the table and prevents the anchor from firing.
+        function deleteRow(event) {
+            var rowToDelete = "#row-id-" + event.target.getAttribute('data-row-id');
+            $(rowToDelete).remove();
+            event.preventDefault();
+            enumerateQuestions();
+        }
+
+        // Enumerates the question input elements so they will be transmitted
+        // as an array that is zero indexed and not sparse
+        function enumerateQuestions() {
+
+            var qid = 0;
+
+            $('.q-textarea').each(function () {
+                $(this).attr("name", "Questions[" + qid + "]");
+                $(this).attr("id", "Questions_" + qid + "__Id");
+                ++qid;
+            });
+        }
+
+    </script>
+}
