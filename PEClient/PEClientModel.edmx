@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -234,18 +234,6 @@ warning 6002: The table/view 'aspnet-PEClient-20191130103733.dbo.vwAspNetUsers_G
         <!--Errors Found During Generation:
 warning 6035: The relationship 'FK__tblSurvey__Owner__2E1BDC42' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK__tblSurvey__Owner__2E1BDC42" />-->
-        <Association Name="FK__tblSurvey__Quest__440B1D61">
-          <End Role="tblQuestions" Type="Self.tblQuestions" Multiplicity="1" />
-          <End Role="tblSurveyQuestions" Type="Self.tblSurveyQuestions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblQuestions">
-              <PropertyRef Name="QuestionId" />
-            </Principal>
-            <Dependent Role="tblSurveyQuestions">
-              <PropertyRef Name="QuestionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__tblSurvey__Quest__5441852A">
           <End Role="tblQuestions" Type="Self.tblQuestions" Multiplicity="1" />
           <End Role="tblSurveyResponses" Type="Self.tblSurveyResponses" Multiplicity="*" />
@@ -330,8 +318,10 @@ warning 6035: The relationship 'FK__tblSurvey__Owner__2E1BDC42' has columns that
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblSurvey__Surve__403A8C7D">
-          <End Role="tblSurveys" Type="Self.tblSurveys" Multiplicity="1" />
+        <Association Name="FK__tblSurveyQuestions__SurveyId">
+          <End Role="tblSurveys" Type="Self.tblSurveys" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="tblSurveyQuestions" Type="Self.tblSurveyQuestions" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tblSurveys">
@@ -342,15 +332,17 @@ warning 6035: The relationship 'FK__tblSurvey__Owner__2E1BDC42' has columns that
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblSurvey__Surve__4316F928">
-          <End Role="tblSurveys" Type="Self.tblSurveys" Multiplicity="1" />
+        <Association Name="FK__tblSurveyQuestions_QuestionId">
+          <End Role="tblQuestions" Type="Self.tblQuestions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="tblSurveyQuestions" Type="Self.tblSurveyQuestions" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tblSurveys">
-              <PropertyRef Name="SurveyId" />
+            <Principal Role="tblQuestions">
+              <PropertyRef Name="QuestionId" />
             </Principal>
             <Dependent Role="tblSurveyQuestions">
-              <PropertyRef Name="SurveyId" />
+              <PropertyRef Name="QuestionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -421,6 +413,11 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
           <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
           <Parameter Name="SurveyId" Type="decimal" Mode="In" />
         </Function>
+        <Function Name="spSurvey_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
+          <Parameter Name="SurveyId" Type="decimal" Mode="In" />
+          <Parameter Name="SurveyName" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="spTeam_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
           <Parameter Name="TeamName" Type="varchar" Mode="In" />
@@ -477,10 +474,6 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
             <End Role="tblSurveyInstances" EntitySet="tblSurveyInstances" />
             <End Role="tblSurveys" EntitySet="tblSurveys" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblSurvey__Quest__440B1D61" Association="Self.FK__tblSurvey__Quest__440B1D61">
-            <End Role="tblQuestions" EntitySet="tblQuestions" />
-            <End Role="tblSurveyQuestions" EntitySet="tblSurveyQuestions" />
-          </AssociationSet>
           <AssociationSet Name="FK__tblSurvey__Quest__5441852A" Association="Self.FK__tblSurvey__Quest__5441852A">
             <End Role="tblQuestions" EntitySet="tblQuestions" />
             <End Role="tblSurveyResponses" EntitySet="tblSurveyResponses" />
@@ -509,12 +502,12 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
             <End Role="tblSurveys" EntitySet="tblSurveys" />
             <End Role="tblSurveyCompletes" EntitySet="tblSurveyCompletes" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblSurvey__Surve__403A8C7D" Association="Self.FK__tblSurvey__Surve__403A8C7D">
+          <AssociationSet Name="FK__tblSurveyQuestions__SurveyId" Association="Self.FK__tblSurveyQuestions__SurveyId">
             <End Role="tblSurveys" EntitySet="tblSurveys" />
             <End Role="tblSurveyQuestions" EntitySet="tblSurveyQuestions" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblSurvey__Surve__4316F928" Association="Self.FK__tblSurvey__Surve__4316F928">
-            <End Role="tblSurveys" EntitySet="tblSurveys" />
+          <AssociationSet Name="FK__tblSurveyQuestions_QuestionId" Association="Self.FK__tblSurveyQuestions_QuestionId">
+            <End Role="tblQuestions" EntitySet="tblQuestions" />
             <End Role="tblSurveyQuestions" EntitySet="tblSurveyQuestions" />
           </AssociationSet>
           <AssociationSet Name="FK__tblTeamUs__TeamI__6477ECF3" Association="Self.FK__tblTeamUs__TeamI__6477ECF3">
@@ -530,8 +523,7 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
             <End Role="tblUserRoles" EntitySet="tblUserRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1051,14 +1043,14 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
             <Parameter Name="EndDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="spLaunchedSurveys_GetAll" ReturnType="Collection(Model.spLaunchedSurveys_GetAll_Result)">
-            <Parameter Name="Id" Mode="In" Type="String" />
+          <Parameter Name="Id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spSurvey_Create">
             <Parameter Name="Id" Mode="In" Type="String" />
             <Parameter Name="SurveyName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spSurvey_GetAll" ReturnType="Collection(Model.spSurvey_GetAll_Result)">
-            <Parameter Name="Id" Mode="In" Type="String" />
+          <Parameter Name="Id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spSurvey_GetById" ReturnType="Collection(Model.spSurvey_GetById_Result)">
             <Parameter Name="AspNetId" Mode="In" Type="String" />
@@ -1069,11 +1061,16 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
             <Parameter Name="TeamName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spTeam_GetAll" ReturnType="Collection(Model.spTeam_GetAll_Result)">
-            <Parameter Name="Id" Mode="In" Type="String" />
+          <Parameter Name="Id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spTeam_GetById" ReturnType="Collection(Model.spTeam_GetById_Result)">
             <Parameter Name="AspNetId" Mode="In" Type="String" />
             <Parameter Name="TeamId" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="spSurvey_Update">
+            <Parameter Name="AspNetId" Mode="In" Type="String" />
+            <Parameter Name="SurveyId" Mode="In" Type="Decimal" />
+            <Parameter Name="SurveyName" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spAspNetUsers_GetAllStudents_Result">
@@ -1351,6 +1348,7 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spSurvey_Update" FunctionName="Model.Store.spSurvey_Update" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

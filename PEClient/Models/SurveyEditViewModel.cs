@@ -13,30 +13,27 @@ namespace PEClient.Models
         List<spSurvey_GetById_Result> _questions = new List<spSurvey_GetById_Result>();
         List<string> _editedQuestions = new List<string>();
         public string SaveErrorMessage { get; set; }
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public SurveyEditViewModel()
         {
         }
-        public SurveyEditViewModel(string aspNetId, int? id)
+        public SurveyEditViewModel(string aspNetId, int id)
         {
             this.Id = id;
             LoadQuestions(aspNetId, id);
         }
-        private void LoadQuestions(string aspNetId, int? id)
+        private void LoadQuestions(string aspNetId, int id)
         {
-            if (null != id)
+            using (var db = new PEClientContext())
             {
-                using (var db = new PEClientContext())
-                {
-                    // Query database for surveys for the given identity
-                    var questions = db.spSurvey_GetById(aspNetId, id);
+                // Query database for surveys for the given identity
+                var questions = db.spSurvey_GetById(aspNetId, id);
 
-                    // Cycle through result of database query and load data into the model
-                    foreach (var question in questions)
-                    {
-                        _surveyName = question.Name;
-                        _questions.Add(question);
-                    }
+                // Cycle through result of database query and load data into the model
+                foreach (var question in questions)
+                {
+                    _surveyName = question.Name;
+                    _questions.Add(question);
                 }
             }
         }
@@ -49,7 +46,22 @@ namespace PEClient.Models
         }
         public bool save(string identity)
         {
-            return false;
+            SaveErrorMessage = "";
+
+            try
+            {
+                using (var db = new PEClientContext())
+                {
+                    db.spSurvey_Update(identity, Id, _surveyName, _editedQuestions);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                SaveErrorMessage = ModelUtils.FormatExceptionMessage(ex);
+                return false;
+            }
         }
 
         /*****************************************************************

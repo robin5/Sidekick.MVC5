@@ -78,7 +78,7 @@ namespace PEClient.Controllers
             {
                 return RedirectToAction("Index", "Dashboard");
             }
-            return View(new SurveyEditViewModel(User.Identity.GetUserId(), id));
+            return View(new SurveyEditViewModel(User.Identity.GetUserId(), (int) id));
         }
         // POST: Create a Survey with the "Edit" view
         [HttpPost]
@@ -91,11 +91,11 @@ namespace PEClient.Controllers
 
             if (model.save(User.Identity.GetUserId()))
             {
-                TempData.SuccessMessage($"Successfully added {model.SurveyName} to peer evaluation templates.");
+                TempData.SuccessMessage($"Successfully updated {model.SurveyName}.");
             }
             else
             {
-                TempData.ErrorMessage($"Failed adding {model.SurveyName} to peer evaluation templates: " + model.SaveErrorMessage);
+                TempData.ErrorMessage($"Failed updating {model.SurveyName}: " + model.SaveErrorMessage);
             }
 
             return RedirectToAction("Index", "Dashboard");

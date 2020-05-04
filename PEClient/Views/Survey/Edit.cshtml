@@ -46,8 +46,9 @@
     <ul class="vs-actions">
         @if (null != Model.Id)
         {
-            <li>@Html.ActionLink("Back to survey", "Index", "Survey", new { id = Model.Id }, null)</li>
+            @*<li>@Html.ActionLink("Back to survey", "Index", "Survey", new { id = Model.Id }, null)</li>*@
         }
+        <li><a href="javascript:history.back()">Go Back</a></li>
         <li>@Html.ActionLink("Back to dashboard", "Index", "Dashboard")</li>
     </ul>
     <hr>
