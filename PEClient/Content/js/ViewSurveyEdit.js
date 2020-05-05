@@ -2,20 +2,36 @@
 var rowId = -1;
 
 function addBlankRow() {
-    $('table').append(getNextRowId());
+    $('#survey-questions').append(NextBlankQuestion());
     enumerateQuestions();
 }
 
-function getNextRowId() {
+function NextBlankQuestion() {
 
+    // Test for first time adding a row
     if (rowId == -1) {
-        rowId = $('.question-row').length - 1;
+        // Note: Each textarea question has been decorated with the q-textarea class
+        // Calculate the next row ID from the number of q-textarea found
+        rowId = $('.q-textarea').length - 1;
     }
 
     rowId++;
-    var tr = '<tr id=row-id-' + rowId + '>';
-    tr += '<td style="padding-bottom: 10px"><textarea class="q-textarea form-control" cols="50" style="max-width: 100%;" required></textarea></td>';
-    tr += '<td style="padding-left: 20px"><a href="#" data-row-id="' + rowId + '" onclick="deleteRow(event)">delete</a></td></tr>';
+
+    //var tr = '<div id=row-id-' + rowId + '> class="flex-container" style="flex: 0 0 800px"';
+
+
+    //tr += '<td style="padding-bottom: 10px"><textarea></textarea></td>';
+
+    tr = '<div id="row-id-' + rowId + '" class="survey-question-container">';
+    tr += '<div class="survey-question-box">';
+    tr += '    <textarea id="EditedQuestions_' + rowId + '_Id" class="q-textarea form-control" name = "EditedQuestions[' + rowId + ']" required ></textarea>';
+    tr += '</div>';
+
+    //    '<td style="padding-left: 20px"><a href="#" data-row-id="' + rowId + '" onclick="deleteRow(event)">delete</a></td></div>';
+    //     <div style="padding-left: 20px; flex-shrink: 0; flex-grow: 0;"><a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a></div >
+    tr += '<div class="survey-delete-box">';
+    tr += '    <a href="#" data-row-id="' + rowId + '" onclick="deleteRow(event)">delete</a>';
+    tr += '</div></div>';
     return tr;
 }
 

@@ -44,12 +44,7 @@
         <h2>Edit: @(Model.SurveyName ?? "Undefined")</h2>
     </div>
     <ul class="vs-actions">
-        @if (null != Model.Id)
-        {
-            @*<li>@Html.ActionLink("Back to survey", "Index", "Survey", new { id = Model.Id }, null)</li>*@
-        }
         <li><a href="javascript:history.back()">Go Back</a></li>
-        <li>@Html.ActionLink("Back to dashboard", "Index", "Dashboard")</li>
     </ul>
     <hr>
     <div id="vs-survey-questions" class="vs-survey-questions">
@@ -83,27 +78,26 @@
             <label class="control-label">Questions</label><span>&nbsp;&nbsp;</span>
             @Html.ValidationMessageFor(m => m.EditedQuestions, "", new { @class = "alert-danger" })
 
-            <table>
+            <div id="survey-questions">
 
                 @if (Model != null && Model.Questions != null)
                 {
                     int rowId = 0;
                     foreach (var question in Model.Questions)
                     {
-                        <tr id="row-id-@(rowId)">
-                            <td style="padding-bottom: 10px">
-                                <textarea id="EditedQuestions_@(rowId)_Id" class="q-textarea form-control" cols="50" style="max-width: 100%;" name="EditedQuestions[@(rowId)]" required>@(question.Text)</textarea>
-                            </td>
-                            <td style="padding-left: 20px">
+                        <div id="row-id-@(rowId)" class="survey-question-container">
+                            <div class="survey-question-box">
+                                <textarea id="EditedQuestions_@(rowId)_Id" class="q-textarea form-control" name="EditedQuestions[@(rowId)]" required>@(question.Text)</textarea>
+                            </div>
+                            <div class="survey-delete-box">
                                 <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>
-                            </td>
-                        </tr>
-
+                            </div>
+                        </div>
                         rowId++;
                     }
                 }
 
-            </table>
+            </div>
 
             <div id="tr-add" style="padding-top: 5px">
                 <button type="button" form-survey id="add-question" class="btn btn-primary" value="add-question" onclick="addBlankRow()">
