@@ -39,19 +39,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div>
-        <div>
+<div class="container-sm sc-container">
+    <div class="dsh-title">
+        <h2>Launch a Survey</h2>
+    </div>
+
+    <div class="dsh-content">
+        <div class="dsh-content-image">
             <img src="~/Content/images/kyle-hinkson-xyXcGADvAwE-unsplash.jpg" style="width: 100%" />
         </div>
-
-        <h2>Launch Survey</h2>
-        <br />
 
         @* -- Validation Summary -- *@
 
         @if (IsPost)
         {
-            <div class="alert alert-danger">@Html.ValidationSummary()</div>
+            <div class="alert alert-danger">@Html.ValidationSummary("Errors")</div>
         }
 
         @using (Html.BeginForm("Index", "Launch", FormMethod.Post, new { @class = "form-launch" }))
@@ -59,7 +61,7 @@
             @* -- Launch Name -- *@
 
             @Html.LabelFor(m => m.LaunchName, "Launch Name", new { @class = "control-label" })<br />
-            @Html.ValidationMessageFor(m => m.LaunchName, "", new { @class = "alert-danger" })
+            @Html.ValidationMessageFor(m => m.LaunchName, "", new { @class = "alert-danger validation-msg" })
             @Html.TextBoxFor(m => m.LaunchName, new
             {
                 @class = "form-control",
@@ -73,7 +75,7 @@
             @* -- Templates list -- *@
 
             @Html.LabelFor(m => m.Survey, "Survey", new { @class = "control-label" })<br />
-            @Html.ValidationMessageFor(m => m.Survey, "", new { @class = "alert-danger" })
+            @Html.ValidationMessageFor(m => m.Survey, "", new { @class = "alert-danger validation-msg" })
             @Html.DropDownListFor(m => m.Survey, Model.Surveys, "-- select a survey --", new { @class = "form-control" })
             <br>
 
@@ -81,19 +83,20 @@
 
             @Html.LabelFor(m => m.StartDateTime, "Start date and time", new { @class = "control-label" })<br />
             @Html.TextBoxFor(m => m.StartDateTime, new { id = "start-date-time", @class = "form-control", required = true })
-            @Html.ValidationMessageFor(m => m.StartDateTime, "", new { @class = "alert-danger" })
+            @Html.ValidationMessageFor(m => m.StartDateTime, "", new { @class = "alert-danger validation-msg" })
             <br>
 
             @* -- End DateTime -- *@
 
             @Html.LabelFor(m => m.EndDateTime, "End date and time", new { @class = "control-label" })<br />
             @Html.TextBoxFor(m => m.EndDateTime, new { id = "end-date-time", @class = "form-control", required = true })
-            @Html.ValidationMessageFor(m => m.EndDateTime, "", new { @class = "alert-danger" })
+            @Html.ValidationMessageFor(m => m.EndDateTime, "", new { @class = "alert-danger validation-msg" })
             <hr>
 
             @* -- Add Team DropDown -- *@
 
             @Html.LabelFor(m => m.SelectedCandidate, "Peer Groups", new { @class = "control-label" })<br />
+            @Html.ValidationMessageFor(m => m.SelectedTeams, "", new { @class = "alert-danger validation-msg" })
             @Html.DropDownListFor(m => m.SelectedCandidate, Model.liCandidates, "-- select a group --", new { @class = "form-control", style = "display: inline-block; width: 250px;" })
 
             @* -- Add User Button -- *@
@@ -106,7 +109,6 @@
             @* -- Hidden Peer Group listbox -- *@
 
             @Html.ListBoxFor(m => m.SelectedTeams, Model.liTeams, new { @class = "form-control", style = "display: none" })<br />
-            @Html.ValidationMessageFor(m => m.SelectedTeams, "", new { @class = "alert-danger" })
 
             <table id="tbl-edit-team" style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; margin-top: 0; margin-bottom: 20px; width: 100%">
                 <tr>
@@ -122,7 +124,7 @@
                         <td class="table-data">@team.Name</td>
                         <td class="table-data-badge">
                             <span class="badge">
-                                <a data-row-id="@(team.Id)" href="#0" onclick="deleteRow(event)" style="color: white">delete</a>
+                                <a data-row-id="@(team.Id)" href="#0" onclick="deleteRow(event)">delete</a>
                             </span>
                         </td>
                     </tr>
@@ -132,10 +134,11 @@
 
             @* -- Submit and Cancel buttons -- *@
 
-            @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml")
+            @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml", new ViewDataDictionary { { "Submit", "Launch Survey" } })
         }
+    </div><!-- dsh-content -->
 
-    </div>
+</div><!-- container -->
 
 @section scripts{
 
@@ -146,12 +149,6 @@
             $('#end-date-time').datetimepicker();
             UpdateTableFromListbox();
         })
-
-        // fill in required fields with some data
-        //function fakeFillLaunchSurveyFields() {
-        //    $('input').val(" ");
-        //    return true;
-        //}
 
         // Transfers model data from hidden listbox into
         // table containing peers who have been selected

@@ -35,138 +35,137 @@
 @model  PEClient.Models.DashboardViewModel
 
 @{
-    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div class="dsh-container">
-    <div class="dsh-title">
-        <h2 style="text-align: center;">THE PROCESS</h2>
-    </div>
-    <!-------------------------------------------------->
-    <div class="dsh-content">
-        @if (TempData.SuccessMessage() != null)
-        {
-            <div class="alert alert-success alert-dismissible" role="alert">
-                @TempData.SuccessMessage()
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        }
-        else if (TempData.ErrorMessage() != null)
-        {
-            <div class="alert alert-danger alert-dismissible" role="alert">
-                @TempData.ErrorMessage()
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        }
-        <ol style="margin-left: -20px">
-            <li>@Html.ActionLink("Create a peer survey", "Create", "Survey")</li>
-            <li>@Html.ActionLink("Create a peer group", "Index", "CreateTeam")</li>
-            <li>@Html.ActionLink("Send a peer survey to one or more peer groups", "Index", "Launch")</li>
-        </ol><!-- dashboard navigation -->
-        <hr>
-        <div>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#templates" aria-expanded="false" aria-controls="collapseExample">
-                <h4>Peer Surveys</h4>
-            </button>
-        </div><!-- surveys button -->
-        <br>
-        <div id="templates" class="collapse">
-            <div style="display: flex; flex-wrap: wrap; margin-left: 20px">
-
-                @* Generate survey instance cards *@
-
-                @if (Model.Surveys.Count > 0)
-                {
-                    foreach (var survey in Model.Surveys)
-                    {
-                        <div class="dsh-item">
-                            <h4>@Html.ActionLink(survey.Name, "Index", "Survey", new { id = survey.Id }, null)</h4>
-                        </div>
-                    }
-                }
-                else
-                {
-                    <div class="dsh-no-items"><p>None defined - Execute step 1 above to define a peer survey.</p></div>
-                }
-
-            </div><!-- surveys collapse button -->
+    <div class="container-md dsh-container">
+        <div class="dsh-title">
+            <h2 style="text-align: center;">THE PROCESS</h2>
+        </div>
+        <!-------------------------------------------------->
+        <div class="dsh-content">
+            @if (TempData.SuccessMessage() != null)
+            {
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    @TempData.SuccessMessage()
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            else if (TempData.ErrorMessage() != null)
+            {
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    @TempData.ErrorMessage()
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            <ol class="dsh-process">
+                <li>@Html.ActionLink("Create a survey", "Create", "Survey")</li>
+                <li>@Html.ActionLink("Create a peer group", "Index", "CreateTeam")</li>
+                <li>@Html.ActionLink("Send a survey to one or more peer groups", "Index", "Launch")</li>
+            </ol><!-- dashboard navigation -->
             <hr>
-        </div><!-- surveys collapse -->
-        <div>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#teams" aria-expanded="false" aria-controls="collapseExample">
-                <h4>Peer Groups</h4>
-            </button>
-        </div><!-- teams button -->
-        <br>
-        <div id="teams" class="collapse">
-            <div style="display: flex; flex-wrap: wrap;">
+            <div>
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#templates" aria-expanded="false" aria-controls="collapseExample">
+                    <h4>Peer Surveys&nbsp;&raquo;</h4>
+                </button>
+            </div><!-- surveys button -->
+            <br>
+            <div id="templates" class="collapse">
+                <div style="display: flex; flex-wrap: wrap; margin-left: 20px">
 
-                @* Generate survey instance cards *@
+                    @* Generate survey instance cards *@
 
-                @if (Model.Teams.Count > 0)
-                {
-                    foreach (var team in Model.Teams)
+                    @if (Model.Surveys.Count > 0)
                     {
-                        <div class="card">
-                            <div class="card dsh-item">
-                                <h4>@Html.ActionLink(team.Name, "Index", "ViewTeam", new { id = team.Id }, null)</h4>
+                        foreach (var survey in Model.Surveys)
+                        {
+                            <div class="card">
+                                <div class="card-body dsh-card-survey">
+                                    <h5>@Html.ActionLink(survey.Name, "Index", "Survey", new { id = survey.Id }, null)</h5>
+                                </div>
                             </div>
-                        </div>
+                        }
                     }
-                }
-                else
-                {
-                    <div class="dsh-no-items"><p>None defined - Execute step 2 above to define a peer group.</p></div>
-                }
-
-            </div><!-- team -->
-            <hr>
-        </div><!-- teams collapse -->
-        <div>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#launched" aria-expanded="false" aria-controls="collapseExample">
-                <h4>Launched Surveys</h4>
-            </button>
-        </div><!-- launched surveys button -->
-        <br>
-        <div id="launched" class="collapse">
-
-            <div style="display: flex; flex-wrap: wrap;">
-
-                @* Generate survey instance cards *@
-
-                @if (Model.LaunchedSurveys.Count > 0)
-                {
-                    foreach (var surveyInstance in Model.LaunchedSurveys)
+                    else
                     {
-                        <div class="" style="border: 1px solid black; margin: 5px; padding: 5px; border-radius: 10px; width: 200px">
-                            <div class="card" style="">
-                                <h4>@(surveyInstance.Name)</h4>
-                                <p style="line-height: 1.5em;">
-                                    <strong>Start Date: </strong><br><span>@(surveyInstance.Start)</span><br />
-                                    <strong>End Date: </strong><br><span>@(surveyInstance.End)</span><br />
-                                    <strong>Status: </strong><br><span>@(surveyInstance.Status)</span><br />
-                                </p>
-                                <p>
-                                    <hr />
-                                    @Html.ActionLink("View Results", "Index", "SurveySummary")<br />
-                                    <a href="#0">Release Results</a>
-                                </p>
-                            </div><!-- card -->
-                        </div><!-- col -->
+                        <div class="dsh-no-items"><p>None defined - Execute step 1 above to define a peer survey.</p></div>
                     }
-                }
-                else
-                {
-                    <div class="dsh-no-items"><p>None defined - Execute steps 1 through 3 above to define a survey launch.</p></div>
-                }
-            </div><!-- flex row -->
-        </div><!-- launched surveys collapse -->
-    </div>
-</div><!-- Wrapper -->
+
+                </div><!-- surveys collapse button -->
+                <hr>
+            </div><!-- surveys collapse -->
+            <div>
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#teams" aria-expanded="false" aria-controls="collapseExample">
+                    <h4>Peer Groups&nbsp;&raquo;</h4>
+                </button>
+            </div><!-- teams button -->
+            <br>
+            <div id="teams" class="collapse">
+                <div style="display: flex; flex-wrap: wrap;">
+
+                    @* Generate survey instance cards *@
+
+                    @if (Model.Teams.Count > 0)
+                    {
+                        foreach (var team in Model.Teams)
+                        {
+                            <div class="card">
+                                <div class="card-body dsh-card-team">
+                                    <h5>@Html.ActionLink(team.Name, "Index", "ViewTeam", new { id = team.Id }, null)</h5>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="dsh-no-items"><p>None defined - Execute step 2 above to define a peer group.</p></div>
+                    }
+
+                </div><!-- team -->
+                <hr>
+            </div><!-- teams collapse -->
+            <div>
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#launched" aria-expanded="false" aria-controls="collapseExample">
+                    <h4>Launched Surveys&nbsp;&raquo;</h4>
+                </button>
+            </div><!-- launched surveys button -->
+            <br>
+            <div id="launched" class="collapse">
+
+                <div style="display: flex; flex-wrap: wrap;">
+
+                    @* Generate launched survey cards *@
+
+                    @if (Model.LaunchedSurveys.Count > 0)
+                    {
+                        foreach (var surveyInstance in Model.LaunchedSurveys)
+                        {
+                            <div class="card dsh-card-launched">
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><h5 class="card-title">@Html.ActionLink(@surveyInstance.Name, "Index", "SurveySummary")</h5></li>
+                                        <li class="list-group-item"><strong>Start: </strong><br>@(surveyInstance.Start)</li>
+                                        <li class="list-group-item"><strong>End: </strong><br>@(surveyInstance.End)</li>
+                                        <li class="list-group-item"><strong>Status: </strong><br>@(surveyInstance.Status)</li>
+                                    </ul>
+                                </div><!-- card-body -->
+                            </div><!-- card -->
+                        }
+                    }
+                    else
+                    {
+                        <div class="dsh-no-items"><p>None defined - Execute steps 1 through 3 above to define a survey launch.</p></div>
+                    }
+                </div><!-- flex row -->
+            </div><!-- launched surveys collapse -->
+            <hr>
+            @Html.Partial("~/Views/Shared/_Footer.cshtml")
+        </div>
+    </div><!-- dsh-container -->
 <script>
     function areYouSure() {
         return confirm('Are you sure?');

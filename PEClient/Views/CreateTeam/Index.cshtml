@@ -38,17 +38,18 @@
     ViewBag.Title = "Create Peer Group";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div>
-        <div>
+<div class="container-sm sc-container">
+
+    <div class="dsh-title">
+        <h2>Create a Peer Group</h2>
+    </div>
+
+    <div class="dsh-content">
+        <div class="dsh-content-image">
             <img src="\Content\images\windows-WJPHTJEtgzw-unsplash.jpg" class="create-team-image" />
         </div>
 
-        <h2>Create a Peer Group</h2>
-        <br />
-
-        @* -- Validation Summary -- *@
-
-        @if (IsPost)
+        @if (IsPost) // Validation Summary
         {
             <div class="alert alert-danger">@Html.ValidationSummary()</div>
         }
@@ -57,7 +58,7 @@
         {
             @* -- Team Name -- *@
 
-            @Html.LabelFor(m => m.TeamName, "Team Name", new { @class = "control-label", style="display: block;" });
+            @Html.LabelFor(m => m.TeamName, "Team Name", new { @class = "control-label", style = "display: block;" });
             @Html.ValidationMessageFor(m => m.TeamName, "", new { @class = "alert-danger" });
             @Html.TextBoxFor(m => m.TeamName, new
             {
@@ -102,7 +103,7 @@
                         <td class="table-data">@peer.UserName</td>
                         <td class="table-data-badge">
                             <span class="badge">
-                                <a data-row-id="@(peer.id)" href="#0" onclick="deleteRow(event)" style="color: white">delete</a>
+                                <a data-row-id="@(peer.id)" href="#0" onclick="deleteRow(event)" class="badge">delete</a>
                             </span>
                         </td>
                     </tr>
@@ -111,10 +112,11 @@
 
             @* -- Submit and Cancel buttons -- *@
 
-            @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml")
+            @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml", new ViewDataDictionary { { "Submit", "Create Peer Group" } })
         }
-
     </div>
+
+</div>
 
 @section scripts{
 

@@ -1,15 +1,66 @@
-﻿body {
+﻿html {
+    min-height: 100%;
+}
+body {
     padding-top: 50px;
     padding-bottom: 20px;
-    /*background-color: #ebebeb;*/
-    background-color: #ebebeb;
+    background-image: linear-gradient(#333, #CCC);
+    background-attachment: fixed;
+    Background-color: #333;
+    height: 100%;
+    color: #000;
+}
+
+.body-offset {
+    position: relative;
+    top: 0;
+}
+
+.dsh-container {
+    margin-top: 40px;
+}
+
+.sc-container {
+    margin-top: 40px;
+    max-width: 537px;
+}
+
+.control-label {
+    font-weight: 500;
+}
+
+.validation-msg {
+    display: block;
+    padding: 0 10px 0 10px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+}
+
+@media (max-width: 575.98px) {
+    .container-fluid {
+        padding: 0;
+    }
+    .container-md {
+        padding: 0;
+    }
+}
+
+
+.dropdown-menu {
+    background-color: #eee;
+}
+
+.dropdown-item:hover {
+    background-color: #AAA;
 }
 
 /* Set padding to keep content from hitting the edges */
+/*
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
+*/
 
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
@@ -132,38 +183,61 @@ textarea {
  *************************************/
 
 .landing-page {
-    background-color: #333;
+    margin: 0 -15px 0 -15px;
     color: #fff;
-    margin-top: -40px;
 }
 .landing-page-quote {
-    font-size: 3.5rem;
+    font-size: 2.0rem;
     text-align: center;
-    margin-top: 40px;
     padding-top: 36px;
-    /*border: 3px solid green;*/
 }
+@media (max-width: 575.98px) {
+    .landing-page-quote {
+        font-size: 1.3rem;
+    }
+}
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .landing-page-quote {
+        font-size: 1.3rem;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .landing-page-quote {
+        font-size: 1.8rem;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .landing-page-quote {
+        font-size: 2.3rem;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .landing-page-quote {
+        font-size: 2.8rem;
+    }
+}
+
 .landing-page-author {
     float: right;
     color: #FFF;
     margin-right: 10px;
 }
 
+.landing-page-image {
+    width: 100%;
+}
 /*************************************
  *           Dashboard Page
  *************************************/
-
-.dsh-container {
-    margin-top: 40px;
-}
-.med-container {
-    background-color: #DDD;
-    width: 800px;
-    margin: 40px auto;
-    border-radius: 20px;
-    box-shadow: 5px 5px 4px 0 #777;
-}
 .dsh-title {
+    text-align: center;
     border-radius: 20px 20px 0 0;
     padding: 10px 20px 10px 20px;
     width: 100%;
@@ -172,8 +246,27 @@ textarea {
     color: #FFF;
     letter-spacing: 3px;
 }
+.dsh-process {
+    margin-left: -20px;
+    color: #000;
+    font-weight: 500;
+}
+.dsh-process a:link,
+.dsh-process a:visited {
+    color: #000;
+}
+.dsh-process a:hover,
+.dsh-process a:active {
+    font-weight:700;
+}
+
 .dsh-content {
     padding: 20px;
+    background-color: #DDD;
+    border-radius: 0 0 20px 20px;
+}
+.dsh-content-image {
+    margin-bottom: 11px;
 }
 ol {
     font-size: 1.2em
@@ -185,18 +278,26 @@ ol {
 .dsh-no-items {
     margin-left: 20px;
 }
+.dsh-card-survey {
+    width: 16rem;
+    color: #000;
+    border-radius: 5px;
+}
+.dsh-card-team {
+    width: 16rem;
+    color: #000;
+    border-radius: 5px;
+}
+.dsh-card-launched {
+    width: 16rem;
+    color: #000;
+    border-radius: 5px;
+}
 /*************************************
  *           Landing Page
  *************************************/
 .mini-body {
     /*background-color: #333;*/
-}
-.inner-body {
-    background-image: linear-gradient(#333, #CCC);
-    position: absolute;
-    top: 40px; /* Header Height  */
-    bottom: 0; /* Footer Height */
-    width: 100%;
 }
 .mini-container {
     background-color: #DDD;
@@ -213,6 +314,10 @@ ol {
     border-top: 1px solid #EEE;
     padding-top: 10px;
     margin-top: 20px;
+}
+
+footer {
+    color: #666;
 }
 
 /*************************************

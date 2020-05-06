@@ -37,23 +37,19 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Sidekick</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     @Scripts.Render("~/bundles/piechart")
 </head>
-<body class="mini-body" style="">
+<body>
     @Html.Partial("~/Views/Shared/_NavBar.cshtml")
-    <div class="inner-body">
-        <div class="mini-container">
-            @RenderBody()
-            <footer class="dlg-footer">
-                <p class="footer-copyright">&copy; @DateTime.Now.Year - Sidekick</p>
-            </footer>
-        </div>
+    <div class="container-fluid body-offset">
+        @RenderBody()
     </div>
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/datetimepicker")
