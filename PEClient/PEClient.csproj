@@ -225,7 +225,6 @@
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SurveyResponsesController.cs" />
-    <Compile Include="Controllers\SurveySummaryController.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -442,7 +441,7 @@
     <Content Include="Views\Survey\Create.cshtml" />
     <Content Include="Views\Launch\Index.cshtml" />
     <Content Include="Views\Shared\_SubmitAndCancel.cshtml" />
-    <Content Include="Views\SurveySummary\Index.cshtml" />
+    <Content Include="Views\Launch\Summary.cshtml" />
     <Content Include="Views\CommentsAbout\Index.cshtml" />
     <Content Include="Views\SurveyResponses\Index.cshtml" />
     <Content Include="Views\Shared\_ToneAnalysis.cshtml" />

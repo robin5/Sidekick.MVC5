@@ -104,7 +104,7 @@ textarea {
 .sr-team {
 }
 .sr-student-card {
-    /*border: 1px solid black;*/
+    border: 1px solid black;
     border-radius: 5px;
     margin-bottom: 20px;
     box-shadow: 
@@ -115,17 +115,27 @@ textarea {
         0 41.8px 33.4px rgba(0, 0, 0, 0.086), 
         0 100px 80px rgba(0, 0, 0, 0.12);
 }
+.reviewee-content {
+    padding: 20px 20px 0 40px;
+}
+.reviewee-content ul {
+    padding-left: 20px;
+}
 .sr-student-name {
-    display: inline-block;
-    text-decoration: underline;
+    display: block;
     font-size: 1.5em;
     margin-bottom: 10px;
 }
-
+.pie-chart {
+    /*border: 1px solid black;*/
+    padding-right: 20px;
+}
+.highcharts-background {
+    color: green;
+}
 /*************************************
  *              HighChart
  *************************************/
-
 .highcharts-figure, .highcharts-data-table table {
     min-width: 320px;
     max-width: 500px;

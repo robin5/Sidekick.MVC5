@@ -65,5 +65,11 @@ namespace PEClient.Controllers
 
             return RedirectToAction("Index", "Dashboard");
         }
+
+        // GET: LaunchedSurveySummary
+        public ActionResult Summary()
+        {
+            return View(new SurveySummaryViewModel("Survey-1-1"));
+        }
     }
 }
