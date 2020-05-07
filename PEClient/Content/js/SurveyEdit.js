@@ -17,18 +17,11 @@ function NextBlankQuestion() {
 
     rowId++;
 
-    //var tr = '<div id=row-id-' + rowId + '> class="flex-container" style="flex: 0 0 800px"';
-
-
-    //tr += '<td style="padding-bottom: 10px"><textarea></textarea></td>';
-
     tr = '<div id="row-id-' + rowId + '" class="survey-question-container">';
     tr += '<div class="survey-question-box">';
-    tr += '    <textarea id="EditedQuestions_' + rowId + '_Id" class="q-textarea form-control" name = "EditedQuestions[' + rowId + ']" required ></textarea>';
+    tr += '    <textarea id="question-' + rowId + '_Id" class="q-textarea form-control" name = "EditedQuestions[' + rowId + ']" required ></textarea>';
     tr += '</div>';
 
-    //    '<td style="padding-left: 20px"><a href="#" data-row-id="' + rowId + '" onclick="deleteRow(event)">delete</a></td></div>';
-    //     <div style="padding-left: 20px; flex-shrink: 0; flex-grow: 0;"><a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a></div >
     tr += '<div class="survey-delete-box">';
     tr += '    <a href="#" data-row-id="' + rowId + '" onclick="deleteRow(event)">delete</a>';
     tr += '</div></div>';
@@ -51,7 +44,7 @@ function enumerateQuestions() {
 
     $('.q-textarea').each(function () {
         $(this).attr("name", "EditedQuestions[" + qid + "]");
-        $(this).attr("id", "EditedQuestions_" + qid + "_Id");
+        $(this).attr("id", "question-" + qid);
         ++qid;
     });
 }

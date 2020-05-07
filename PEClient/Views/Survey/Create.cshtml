@@ -39,26 +39,27 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="container-sm sc-container">
-
-        <div class="dsh-title">
-            <h2>Create a Survey</h2>
+<div class="container-sm sc-container">
+    <div class="dsh-title">
+        <h2>Create a Survey</h2>
+    </div>
+    <div class="dsh-content">
+        <div class="dsh-content-image">
+            <img src="\Content\images\bethany-cirlincione-743f0Dy8bFE-unsplash.jpg" width="100%" />
         </div>
 
-        <div class="dsh-content">
-            <div class="dsh-content-image">
-                <img src="\Content\images\bethany-cirlincione-743f0Dy8bFE-unsplash.jpg" width="100%" />
-            </div>
+        @* -- Validation Summary -- *@
 
-            @* -- Validation Summary -- *@
-
-            @if (IsPost)
-            {
-                <br><div class="alert alert-danger">@Html.ValidationSummary("Errors")</div>
-            }
+        @if (IsPost)
+        {
+            <br><div class="alert alert-danger">@Html.ValidationSummary("Errors")</div>
+        }
+        <div id="vs-survey-questions" class="vs-survey-questions">
 
             @using (Html.BeginForm("Create", "Survey", FormMethod.Post, new { @class = "form-launch" }))
             {
+                @Html.AntiForgeryToken()
+
                 @* -- Survey Name -- *@
 
                 @Html.LabelFor(m => m.SurveyName, "Survey Name", new { @class = "control-label" })
@@ -77,27 +78,27 @@
                 <label class="control-label">Questions</label><br>
                 @Html.ValidationMessageFor(m => m.Questions, "", new { @class = "alert-danger  validation-msg" })
 
-                <table>
+                <div id="survey-questions">
 
                     @if (Model != null && Model.Questions != null)
                     {
                         int rowId = 0;
                         foreach (string question in Model.Questions)
                         {
-                            <tr id="row-id-@(rowId)">
-                                <td style="padding-bottom: 10px">
-                                    <textarea id="Questions_@(rowId)__Id" class="q-textarea form-control" cols="50" style="max-width: 100%;" name="Questions[@(rowId)]" required>@(question)</textarea>
-                                </td>
-                                <td style="padding-left: 20px">
+                            <div id="row-id-@(rowId)" class="survey-question-container">
+                                <div class="survey-question-box">
+                                    <textarea id="question-@(rowId)" class="q-textarea form-control" name="Questions[@(rowId)]" required>@(question)</textarea>
+                                </div>
+                                <div class="survey-delete-box">
                                     <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
 
                             rowId++;
                         }
                     }
 
-                </table>
+                </div>
 
                 <div id="tr-add" style="padding-top: 5px">
                     <button type="button" form-survey id="add-question" class="btn btn-primary" value="add-question" onclick="addBlankRow()">
@@ -110,54 +111,10 @@
 
                 @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml", new ViewDataDictionary { { "Submit", "Create Survey" } })
             }
-        </div><!-- dsh-content -->
-
-    </div><!-- container -->
+        </div><!-- vs-survey-questions -->
+    </div><!-- dsh-content -->
+</div><!-- container -->
 
 @section scripts{
-
-    <script>
-
-        var rowId = -1;
-
-        function addBlankRow() {
-            $('table').append(getNextRowId());
-            enumerateQuestions();
-        }
-
-        function getNextRowId() {
-
-            if (rowId == -1) {
-                rowId = $('.question-row').length - 1;
-            }
-
-            rowId++;
-            var tr = '<tr id=row-id-' + rowId + '>';
-            tr += '<td style="padding-bottom: 10px"><textarea class="q-textarea form-control" cols="50" style="max-width: 100%;" required></textarea></td>';
-            tr += '<td style="padding-left: 20px"><a href="#" data-row-id="' + rowId + '" onclick="deleteRow(event)">delete</a></td></tr>';
-            return tr;
-        }
-
-        // Deletes a row from the table and prevents the anchor from firing.
-        function deleteRow(event) {
-            var rowToDelete = "#row-id-" + event.target.getAttribute('data-row-id');
-            $(rowToDelete).remove();
-            event.preventDefault();
-            enumerateQuestions();
-        }
-
-        // Enumerates the question input elements so they will be transmitted
-        // as an array that is zero indexed and not sparse
-        function enumerateQuestions() {
-
-            var qid = 0;
-
-            $('.q-textarea').each(function () {
-                $(this).attr("name", "Questions[" + qid + "]");
-                $(this).attr("id", "Questions_" + qid + "__Id");
-                ++qid;
-            });
-        }
-
-    </script>
+    <script src="~/Content/js/SurveyCreate.js"></script>
 }

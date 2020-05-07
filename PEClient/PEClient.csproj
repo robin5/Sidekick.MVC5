@@ -364,7 +364,8 @@
     <Content Include="Content\Images\brooke-cagle-g1Kr4Ozfoac-unsplash.jpg" />
     <Content Include="Content\Images\kyle-hinkson-xyXcGADvAwE-unsplash.jpg" />
     <Content Include="Content\Images\windows-WJPHTJEtgzw-unsplash.jpg" />
-    <Content Include="Content\js\ViewSurveyEdit.js" />
+    <Content Include="Content\js\SurveyCreate.js" />
+    <Content Include="Content\js\SurveyEdit.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

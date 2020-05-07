@@ -36,83 +36,88 @@
 
 @{
     ViewBag.Title = "Edit Survey";
-    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="vs-container">
-    <div class="vs-title">
+<div class="container-md dsh-container">
+    <div class="dsh-title">
         <h2>Edit: @(Model.SurveyName ?? "Undefined")</h2>
     </div>
-    <ul class="vs-actions">
-        <li><a href="javascript:history.back()">Go Back</a></li>
-    </ul>
-    <hr>
-    <div id="vs-survey-questions" class="vs-survey-questions">
+    <div class="dsh-content">
 
-        @if (IsPost)
-        {
-            <div class="alert alert-danger">@Html.ValidationSummary()</div>
-        }
+        <ul class="dsh-process">
+            <li><a href="javascript:history.back()">Go Back</a></li>
+        </ul>
+        <hr>
+        <div id="vs-survey-questions" class="vs-survey-questions">
 
-        @using (Html.BeginForm("Edit", "Survey", FormMethod.Post, new { @class = "form-launch" }))
-        {
-            @* -- Survey Id -- *@
-
-            @Html.HiddenFor(m => m.Id)
-
-            @* -- Survey Name -- *@
-
-            @Html.LabelFor(m => m.SurveyName, "Survey Name", new { @class = "control-label" }) <span>&nbsp;&nbsp;</span>
-            @Html.ValidationMessageFor(m => m.SurveyName, "", new { @class = "alert-danger" })
-            @Html.TextBoxFor(m => m.SurveyName, new
+            @if (IsPost)
             {
-                title = "Enter a descriptive name for the this peer evaluation cycle",
-                @class = "form-control",
-                autofocus = "",
-                required = true
-            })
-            <br />
+                <div class="alert alert-danger">@Html.ValidationSummary()</div>
+            }
 
-            @* -- Survey Questions -- *@
+            @using (Html.BeginForm("Edit", "Survey", FormMethod.Post, new { @class = "form-launch" }))
+            {
+                @Html.AntiForgeryToken()
 
-            <label class="control-label">Questions</label><span>&nbsp;&nbsp;</span>
-            @Html.ValidationMessageFor(m => m.EditedQuestions, "", new { @class = "alert-danger" })
+                @* -- Survey Id -- *@
 
-            <div id="survey-questions">
+                @Html.HiddenFor(m => m.Id)
 
-                @if (Model != null && Model.Questions != null)
+                @* -- Survey Name -- *@
+
+                @Html.LabelFor(m => m.SurveyName, "Survey Name", new { @class = "control-label" }) <span>&nbsp;&nbsp;</span>
+                @Html.ValidationMessageFor(m => m.SurveyName, "", new { @class = "alert-danger" })
+                @Html.TextBoxFor(m => m.SurveyName, new
                 {
-                    int rowId = 0;
-                    foreach (var question in Model.Questions)
+                    title = "Enter a descriptive name for the this peer evaluation cycle",
+                    @class = "form-control",
+                    autofocus = "",
+                    required = true
+                })
+                <br />
+
+                @* -- Survey Questions -- *@
+
+                <label class="control-label">Questions</label><span>&nbsp;&nbsp;</span>
+                @Html.ValidationMessageFor(m => m.EditedQuestions, "", new { @class = "alert-danger" })
+
+                <div id="survey-questions">
+
+                    @if (Model != null && Model.Questions != null)
                     {
-                        <div id="row-id-@(rowId)" class="survey-question-container">
-                            <div class="survey-question-box">
-                                <textarea id="EditedQuestions_@(rowId)_Id" class="q-textarea form-control" name="EditedQuestions[@(rowId)]" required>@(question.Text)</textarea>
+                        int rowId = 0;
+                        foreach (var question in Model.Questions)
+                        {
+                            <div id="row-id-@(rowId)" class="survey-question-container">
+                                <div class="survey-question-box">
+                                    <textarea id="question-@(rowId)" class="q-textarea form-control" name="EditedQuestions[@(rowId)]" required>@(question.Text)</textarea>
+                                </div>
+                                <div class="survey-delete-box">
+                                    <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>
+                                </div>
                             </div>
-                            <div class="survey-delete-box">
-                                <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>
-                            </div>
-                        </div>
-                        rowId++;
+                            rowId++;
+                        }
                     }
-                }
 
-            </div>
+                </div>
 
-            <div id="tr-add" style="padding-top: 5px">
-                <button type="button" form-survey id="add-question" class="btn btn-primary" value="add-question" onclick="addBlankRow()">
-                    Add Question
-                </button>
-            </div>
-            <hr />
+                <div id="tr-add" style="padding-top: 5px">
+                    <button type="button" form-survey id="add-question" class="btn btn-primary" value="add-question" onclick="addBlankRow()">
+                        Add Question
+                    </button>
+                </div>
+                <hr />
 
-            @* -- Submit and Cancel buttons -- *@
+                @* -- Submit and Cancel buttons -- *@
 
-            @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml", new ViewDataDictionary { { "Submit", "Update Survey" } })
-        }
-    </div>
-</div>
+                @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml", new ViewDataDictionary { { "Submit", "Update Survey" } })
+            }
+        </div><!-- vs-survey-questions -->
+    </div><!-- dsh-content -->
+</div><!-- container -->
 
 @section scripts{
-    <script src="~/Content/js/ViewSurveyEdit.js"></script>
+    <script src="~/Content/js/SurveyEdit.js"></script>
 }

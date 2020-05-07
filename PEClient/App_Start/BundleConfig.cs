@@ -50,6 +50,10 @@ namespace PEClient
             bundles.Add(new ScriptBundle("~/bundles/piechart").Include(
                         "~/Scripts/piechart.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js").Include(
+                        "~/Scripts/SurveyCreate.js",
+                        "~/Scripts/SurveyEdit.js"));
+
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(

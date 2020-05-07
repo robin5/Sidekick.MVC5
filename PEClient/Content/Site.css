@@ -389,7 +389,8 @@ footer {
 
 .survey-question-box {
     padding-bottom: 10px;
-    width: 750px;
+    width: 100%;
+    min-width: 200px;
 }
 
 .survey-question-box textarea {
@@ -399,7 +400,7 @@ footer {
     min-height: 2.3em;
 }
 .survey-delete-box {
-    padding-left: 20px;
+    padding: 0 15px 0 20px;
     flex-shrink: 0;
     flex-grow: 0;
 }
