@@ -205,7 +205,6 @@
     <Compile Include="AspNetUsers.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\ViewTeamController.cs" />
     <Compile Include="Models\CommentsAboutViewModel.cs" />
     <Compile Include="Models\CreateTeamViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
@@ -223,7 +222,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommentsAboutController.cs" />
-    <Compile Include="Controllers\CreateTeamController.cs" />
+    <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SurveyResponsesController.cs" />
     <Compile Include="Controllers\SurveySummaryController.cs" />
@@ -438,7 +437,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\Info.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
-    <Content Include="Views\CreateTeam\Index.cshtml" />
+    <Content Include="Views\Team\Create.cshtml" />
     <Content Include="Views\Survey\Create.cshtml" />
     <Content Include="Views\Launch\Index.cshtml" />
     <Content Include="Views\Shared\_SubmitAndCancel.cshtml" />
@@ -454,7 +453,7 @@
     <Content Include="Views\Shared\_NavBar.cshtml" />
     <Content Include="Views\Shared\_LayoutFullWidth.cshtml" />
     <Content Include="Views\Shared\_LayoutDashboard.cshtml" />
-    <Content Include="Views\ViewTeam\Index.cshtml" />
+    <Content Include="Views\Team\Index.cshtml" />
     <Content Include="Views\Survey\Index.cshtml" />
     <Content Include="Views\Survey\Edit.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />

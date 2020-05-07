@@ -36,17 +36,27 @@ using System.Diagnostics;
 namespace PEClient.Controllers
 {
     [Authorize(Roles = "Admin,Instructor")]
-    public class CreateTeamController : Controller
+    public class TeamController : Controller
     {
-        // GET: CreateTeam
-        public ActionResult Index()
+        // GET: Index
+        public ActionResult Index(int? id)
+        {
+            if (null == id)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+            return View(new ViewTeamViewModel(User.Identity.GetUserId(), id));
+        }
+
+        // GET: Create
+        public ActionResult Create()
         {
             return View(new CreateTeamViewModel(User.Identity.GetUserId()));
         }
 
-        // POST: CreateTeam
+        // POST: Create
         [HttpPost]
-        public ActionResult Index(CreateTeamViewModel model)
+        public ActionResult Create(CreateTeamViewModel model)
         {
             // Test for model validation.
             if (!ModelState.IsValid)

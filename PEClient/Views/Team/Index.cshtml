@@ -5,7 +5,7 @@
     *
     * File: Index.cshtml
     *
-    * Description: Default Index view for Survey controller
+    * Description: View for ViewTeamController
     *
     * Author: Robin Murray
     *
@@ -32,42 +32,51 @@
     **********************************************************************************
 *@
 
-@model  PEClient.Models.SurveyIndexViewModel
+@model  PEClient.Models.ViewTeamViewModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var surveyName = Model.Questions.Count > 0 ? @Model.Questions[0].Name : "Untitled";
-    var surveyIndex = 1;
-    ViewBag.Title = surveyName;
+    var teamName = Model.TeamMembers.Count > 0 ? @Model.TeamMembers[0].TeamName : "Untitled";
+    ViewBag.Title = teamName;
 }
 
 <div class="container-md dsh-container">
     <div class="dsh-title">
-        <h2>@surveyName</h2>
+        <h2>@teamName</h2>
     </div>
     <div class="dsh-content">
         <ul class="dsh-process">
-            @if (null != Model.Id)
-            {
-                <li>@Html.ActionLink("Edit survey", "Edit", "Survey", new { id = Model.Id }, null)</li>
-                <li>@Html.ActionLink("Delete survey", "Delete", "Survey", new { id = Model.Id }, null)</li>
-            }
+            <li>@Html.ActionLink("Edit team", "Index", "ViewTeam")</li>
+            <li>@Html.ActionLink("Delete team", "Index", "ViewTeam")</li>
             <li>@Html.ActionLink("Back to dashboard", "Index", "Dashboard")</li>
         </ul>
         <hr>
         <div id="vs-survey-questions" class="vs-survey-questions">
             @* Generate survey instance cards *@
 
-            @if (Model.Questions.Count > 0)
+            @if (Model.TeamMembers.Count > 0)
             {
-                <div class="container-fluid">
-                    @foreach (var question in Model.Questions)
-                    {
-                        <div class="row">
-                            <div class="col-1 vs-td-index" style="min-width: 2.5rem;">@(surveyIndex++))</div>
-                            <div class="col-11 vs-td-question">@question.Text</div>
-                        </div>
-                    }
+                <div class="table-responsive-md">
+
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">User Name</th>
+                                <th scope="col">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var member in Model.TeamMembers)
+                            {
+                                <tr>
+                                    <td>@member.FullName</td>
+                                    <td><em>@member.UserName</em></td>
+                                    <td><a href="mailto:(@member.Email)">@member.Email</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             }
             else

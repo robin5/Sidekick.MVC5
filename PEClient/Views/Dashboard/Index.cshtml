@@ -64,7 +64,7 @@
             }
             <ol class="dsh-process">
                 <li>@Html.ActionLink("Create a survey", "Create", "Survey")</li>
-                <li>@Html.ActionLink("Create a peer group", "Index", "CreateTeam")</li>
+                <li>@Html.ActionLink("Create a peer group", "Create", "Team")</li>
                 <li>@Html.ActionLink("Send a survey to one or more peer groups", "Index", "Launch")</li>
             </ol><!-- dashboard navigation -->
             <hr>
@@ -115,7 +115,7 @@
                         {
                             <div class="card">
                                 <div class="card-body dsh-card-team">
-                                    <h5>@Html.ActionLink(team.Name, "Index", "ViewTeam", new { id = team.Id }, null)</h5>
+                                    <h5>@Html.ActionLink(team.Name, "Index", "Team", new { id = team.Id }, null)</h5>
                                 </div>
                             </div>
                         }
