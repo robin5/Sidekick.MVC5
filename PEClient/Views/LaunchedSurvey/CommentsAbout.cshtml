@@ -5,39 +5,46 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Survey Comments about @(Model.Student)</h2>
-<div class="cb-tone-summary-box">
-    <button class="btn btn-primary" style="margin: 10px 0 0 10px;">Summary Tone</button>
-</div>
-
-@{
-    var toneIndex = 0;
-    var qIndex = 1;
-}
-
-@foreach (PEClient.Models.PeerQuestionAnswers p in Model.PeerQuestionAnswers)
-{
-    <div class="cb-question-group">
-
-        <button class="cb-question" type="button" data-toggle="collapse" data-target="#templates@(qIndex)" aria-expanded="false" aria-controls="collapseExample">
-            <p>@(qIndex). @(p.Question)</p>
-        </button>
-
-        <div id="templates@(qIndex)" class="collapse">
-            <div class="cb-answer-group">
-                @foreach (PEClient.Models.PeerAnswer peerAnswer in p.Answers)
-                {
-                        <p class="cb-student-and-grade">@(peerAnswer.Peer) - Grade: @(peerAnswer.Grade)</p>
-                        <div>
-                            <p class="cb-peer-answer">@(peerAnswer.Answer)</p>
-                        </div>
-
-                        @Html.Partial("~/Views/Shared/_ToneAnalysis.cshtml", null, new ViewDataDictionary { { "ToneIndex", toneIndex.ToString() } });
-
-                    toneIndex++;
-                }
-            </div>
-        </div>
+<div class="container-md dsh-container">
+    <div class="dsh-title">
+        <h2>Survey Comments about @(Model.Student)</h2>
     </div>
-    qIndex++;
-}
+    <div class="dsh-content container-fluid">
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#summary-tone" aria-expanded="false" aria-controls="view summary tone">
+            Summary Tone
+        </button>
+        <div id="summary-tone" class="collapse"><p style="padding-top: 30px;">Summary tone information goes here</p></div>
+
+        @{
+            var toneIndex = 0;
+            var qIndex = 1;
+        }
+
+        @foreach (PEClient.Models.PeerQuestionAnswers p in Model.PeerQuestionAnswers)
+        {
+            <div class="cb-question-group">
+
+                <button class="cb-question" type="button" data-toggle="collapse" data-target="#templates@(qIndex)" aria-expanded="false" aria-controls="collapseExample">
+                    <p>@(qIndex). @(p.Question)</p>
+                </button>
+
+                <div id="templates@(qIndex)" class="collapse">
+                    <div class="cb-answer-group">
+                        @foreach (PEClient.Models.PeerAnswer peerAnswer in p.Answers)
+                        {
+                            <p class="cb-student-and-grade">@(peerAnswer.Peer) - Grade: @(peerAnswer.Grade)</p>
+                            <div>
+                                <p class="cb-peer-answer">@(peerAnswer.Answer)</p>
+                            </div>
+
+                            @Html.Partial("~/Views/Shared/_ToneAnalysis.cshtml", null, new ViewDataDictionary { { "ToneIndex", toneIndex.ToString() } });
+
+                            toneIndex++;
+                        }
+                    </div>
+                </div>
+            </div>
+            qIndex++;
+        }
+    </div>
+</div>
