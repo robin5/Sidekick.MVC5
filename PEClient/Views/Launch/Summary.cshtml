@@ -1,4 +1,4 @@
-﻿@model PEClient.Models.SurveySummaryViewModel
+﻿@model PEClient.Models.ResultsViewModel
 
 @{
     ViewBag.Title = "Survey Summary";
@@ -12,7 +12,7 @@
 
 <div class="container-md dsh-container">
     <div class="dsh-title">
-        <h2>Survey Results for @(Model.Name ?? "Undefined")</h2>
+        <h2>Survey Results for @Model.Name</h2>
     </div>
     <div class="dsh-content container-fluid">
 

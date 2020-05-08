@@ -295,7 +295,7 @@
     <Compile Include="Models\SurveyResponsesViewModel.cs" />
     <Compile Include="Models\SurveySummaryStudent.cs" />
     <Compile Include="Models\SurveySummaryTeam.cs" />
-    <Compile Include="Models\SurveySummaryViewModel.cs" />
+    <Compile Include="Models\ResultsViewModel.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\SurveyCreateViewModel.cs" />
     <Compile Include="Models\ToneAnalysisViewModel.cs" />

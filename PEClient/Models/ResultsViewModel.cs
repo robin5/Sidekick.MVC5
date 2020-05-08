@@ -5,11 +5,11 @@ using System.Web;
 
 namespace PEClient.Models
 {
-    public class SurveySummaryViewModel
+    public class ResultsViewModel
     {
-        public SurveySummaryViewModel(string name)
+        public ResultsViewModel(int id)
         {
-            Name = name;
+            Name = "Survey-1-1";
 
             var team1 = new SurveySummaryTeam("Team #1");
             var team2 = new SurveySummaryTeam("Team #2");

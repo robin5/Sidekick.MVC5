@@ -67,9 +67,13 @@ namespace PEClient.Controllers
         }
 
         // GET: LaunchedSurveySummary
-        public ActionResult Summary()
+        public ActionResult Summary(int? id)
         {
-            return View(new SurveySummaryViewModel("Survey-1-1"));
+            if (null == id)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+            return View(new ResultsViewModel((int) id));
         }
     }
 }
