@@ -1,8 +1,8 @@
 ﻿// **********************************************************************************
-// * Copyright (c) 2020 Robin Murray
+// * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: CommentsAboutController.cs
+// * File: LaunchController.cs
 // *
 // * Author: Robin Murray
 // *
@@ -30,16 +30,62 @@
 
 using System.Web.Mvc;
 using PEClient.Models;
+using Microsoft.AspNet.Identity;
 
 namespace PEClient.Controllers
 {
     [Authorize(Roles = "Admin,Instructor")]
-    public class CommentsAboutController : Controller
+    public class LaunchedSurveyController : Controller
     {
-        // GET: CommentsAbout
+        // GET: Launch
         public ActionResult Index()
         {
+            return View(new LaunchViewModel(User.Identity.GetUserId()));
+        }
+
+        // POST: Launch
+        [HttpPost]
+        public ActionResult Index(LaunchViewModel model)
+        {
+            // Test for model validation.
+            if (!ModelState.IsValid)
+            {
+                model.LoadData(User.Identity.GetUserId());
+                return View(model);
+            }
+
+            if (model.Save(User.Identity.GetUserId()))
+            {
+                TempData.SuccessMessage($"Successfully launched {model.LaunchName}.");
+            }
+            else
+            {
+                TempData.ErrorMessage($"Failed to launch {model.LaunchName}. " + model.SaveErrorMessage);
+            }
+
+            return RedirectToAction("Index", "Dashboard");
+        }
+
+        // GET: LaunchedSurveySummary
+        public ActionResult Summary(int? id)
+        {
+            if (null == id)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+            return View(new ResultsViewModel((int) id));
+        }
+
+        // GET: CommentsAbout
+        public ActionResult CommentsAbout()
+        {
             return View(new CommentsAboutViewModel());
+        }
+
+        // GET: CommentsBy
+        public ActionResult CommentsBy()
+        {
+            return View(new SurveyResponsesViewModel());
         }
     }
 }

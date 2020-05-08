@@ -34,8 +34,8 @@
                                 <div class="col reviewee-content">
                                     <h6><span class="sr-student-name">@(student.Name) (@(student.UserName))</span></h6>
                                     <ul>
-                                        <li><a href="@Url.Action("Index", "CommentsAbout")">See comments about @(student.Name)</a></li>
-                                        <li><a href="@Url.Action("Index", "SurveyResponses")">Review @student.Name's surveys: @(100 * @student.Complete)% complete</a></li>
+                                        <li><a href="@Url.Action("CommentsAbout", "LaunchedSurvey")">See comments about @(student.Name)</a></li>
+                                        <li><a href="@Url.Action("CommentsBy", "LaunchedSurvey")">Review @student.Name's surveys: @(100 * @student.Complete)% complete</a></li>
                                     </ul>
                                 </div>
                                 <div id="pie-chart-@(id)" class="col pie-chart" data="[['A',2],['B',3],['N/A',2]]" style="">
