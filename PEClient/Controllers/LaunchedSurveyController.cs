@@ -38,14 +38,14 @@ namespace PEClient.Controllers
     public class LaunchedSurveyController : Controller
     {
         // GET: Launch
-        public ActionResult Index()
+        public ActionResult Create()
         {
             return View(new LaunchViewModel(User.Identity.GetUserId()));
         }
 
         // POST: Launch
         [HttpPost]
-        public ActionResult Index(LaunchViewModel model)
+        public ActionResult Create(LaunchViewModel model)
         {
             // Test for model validation.
             if (!ModelState.IsValid)
@@ -67,7 +67,7 @@ namespace PEClient.Controllers
         }
 
         // GET: LaunchedSurveySummary
-        public ActionResult Summary(int? id)
+        public ActionResult Index(int? id)
         {
             if (null == id)
             {

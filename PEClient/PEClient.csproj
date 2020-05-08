@@ -437,9 +437,9 @@
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Team\Create.cshtml" />
     <Content Include="Views\Survey\Create.cshtml" />
-    <Content Include="Views\LaunchedSurvey\Index.cshtml" />
+    <Content Include="Views\LaunchedSurvey\Create.cshtml" />
     <Content Include="Views\Shared\_SubmitAndCancel.cshtml" />
-    <Content Include="Views\LaunchedSurvey\Summary.cshtml" />
+    <Content Include="Views\LaunchedSurvey\Index.cshtml" />
     <Content Include="Views\LaunchedSurvey\CommentsAbout.cshtml" />
     <Content Include="Views\LaunchedSurvey\CommentsBy.cshtml" />
     <Content Include="Views\Shared\_ToneAnalysis.cshtml" />

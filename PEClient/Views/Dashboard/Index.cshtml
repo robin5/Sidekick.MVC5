@@ -65,7 +65,7 @@
             <ol class="dsh-process">
                 <li>@Html.ActionLink("Create a survey", "Create", "Survey")</li>
                 <li>@Html.ActionLink("Create a peer group", "Create", "Team")</li>
-                <li>@Html.ActionLink("Send a survey to one or more peer groups", "Index", "Launch")</li>
+                <li>@Html.ActionLink("Send a survey to one or more peer groups", "Create", "Launch")</li>
             </ol><!-- dashboard navigation -->
             <hr>
             <div>
@@ -147,7 +147,7 @@
                             <div class="card dsh-card-launched">
                                 <div class="card-body">
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item"><h5 class="card-title">@Html.ActionLink(@surveyInstance.Name, "Summary", "LaunchedSurvey", new { id = surveyInstance.Id }, null)</h5></li>
+                                        <li class="list-group-item"><h5 class="card-title">@Html.ActionLink(@surveyInstance.Name, "Index", "LaunchedSurvey", new { id = surveyInstance.Id }, null)</h5></li>
                                         <li class="list-group-item"><strong>Start: </strong><br>@(surveyInstance.Start)</li>
                                         <li class="list-group-item"><strong>End: </strong><br>@(surveyInstance.End)</li>
                                         <li class="list-group-item"><strong>Status: </strong><br>@(surveyInstance.Status)</li>
