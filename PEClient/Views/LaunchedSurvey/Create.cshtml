@@ -56,7 +56,7 @@
             <div class="alert alert-danger">@Html.ValidationSummary("Errors")</div>
         }
 
-        @using (Html.BeginForm("Index", "Launch", FormMethod.Post, new { @class = "form-launch" }))
+        @using (Html.BeginForm("Create", "LaunchedSurvey", FormMethod.Post, new { @class = "form-launch" }))
         {
             @* -- Launch Name -- *@
 

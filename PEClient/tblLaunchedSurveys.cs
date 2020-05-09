@@ -19,6 +19,7 @@ namespace PEClient
         {
             this.tblLaunchedSurveyQuestions = new HashSet<tblLaunchedSurveyQuestions>();
             this.tblLaunchedSurveyQuestions1 = new HashSet<tblLaunchedSurveyQuestions>();
+            this.tblLaunchedTeams = new HashSet<tblLaunchedTeams>();
         }
     
         public decimal SurveyId { get; set; }
@@ -32,5 +33,7 @@ namespace PEClient
         public virtual ICollection<tblLaunchedSurveyQuestions> tblLaunchedSurveyQuestions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblLaunchedSurveyQuestions> tblLaunchedSurveyQuestions1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblLaunchedTeams> tblLaunchedTeams { get; set; }
     }
 }

@@ -32,6 +32,8 @@ namespace PEClient
         public virtual DbSet<tblLaunchedQuestions> tblLaunchedQuestions { get; set; }
         public virtual DbSet<tblLaunchedSurveyQuestions> tblLaunchedSurveyQuestions { get; set; }
         public virtual DbSet<tblLaunchedSurveys> tblLaunchedSurveys { get; set; }
+        public virtual DbSet<tblLaunchedTeams> tblLaunchedTeams { get; set; }
+        public virtual DbSet<tblLaunchedTeamUsers> tblLaunchedTeamUsers { get; set; }
         public virtual DbSet<tblQuestions> tblQuestions { get; set; }
         public virtual DbSet<tblRoles> tblRoles { get; set; }
         public virtual DbSet<tblSubmissionStatus> tblSubmissionStatus { get; set; }
@@ -44,7 +46,6 @@ namespace PEClient
         public virtual DbSet<tblTeamUsers> tblTeamUsers { get; set; }
         public virtual DbSet<tblUserRoles> tblUserRoles { get; set; }
         public virtual DbSet<tblUsers> tblUsers { get; set; }
-        public virtual DbSet<vwAspNetUsers_GetStudents> vwAspNetUsers_GetStudents { get; set; }
     
         public virtual ObjectResult<spAspNetUsers_GetAllStudents_Result> spAspNetUsers_GetAllStudents()
         {
@@ -85,6 +86,19 @@ namespace PEClient
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spLaunchedSurveys_GetAll_Result>("spLaunchedSurveys_GetAll", idParameter);
         }
     
+        public virtual ObjectResult<spLaunchedSurveyTeams_GetById_Result> spLaunchedSurveyTeams_GetById(string aspNetId, Nullable<decimal> surveyId)
+        {
+            var aspNetIdParameter = aspNetId != null ?
+                new ObjectParameter("AspNetId", aspNetId) :
+                new ObjectParameter("AspNetId", typeof(string));
+    
+            var surveyIdParameter = surveyId.HasValue ?
+                new ObjectParameter("SurveyId", surveyId) :
+                new ObjectParameter("SurveyId", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spLaunchedSurveyTeams_GetById_Result>("spLaunchedSurveyTeams_GetById", aspNetIdParameter, surveyIdParameter);
+        }
+    
         public virtual int spSurvey_Create(string id, string surveyName)
         {
             var idParameter = id != null ?
@@ -120,6 +134,23 @@ namespace PEClient
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spSurvey_GetById_Result>("spSurvey_GetById", aspNetIdParameter, surveyIdParameter);
         }
     
+        public virtual int spSurvey_Update(string aspNetId, Nullable<decimal> surveyId, string surveyName)
+        {
+            var aspNetIdParameter = aspNetId != null ?
+                new ObjectParameter("AspNetId", aspNetId) :
+                new ObjectParameter("AspNetId", typeof(string));
+    
+            var surveyIdParameter = surveyId.HasValue ?
+                new ObjectParameter("SurveyId", surveyId) :
+                new ObjectParameter("SurveyId", typeof(decimal));
+    
+            var surveyNameParameter = surveyName != null ?
+                new ObjectParameter("SurveyName", surveyName) :
+                new ObjectParameter("SurveyName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spSurvey_Update", aspNetIdParameter, surveyIdParameter, surveyNameParameter);
+        }
+    
         public virtual int spTeam_Create(string aspNetId, string teamName)
         {
             var aspNetIdParameter = aspNetId != null ?
@@ -153,23 +184,6 @@ namespace PEClient
                 new ObjectParameter("TeamId", typeof(decimal));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spTeam_GetById_Result>("spTeam_GetById", aspNetIdParameter, teamIdParameter);
-        }
-    
-        public virtual int spSurvey_Update(string aspNetId, Nullable<decimal> surveyId, string surveyName)
-        {
-            var aspNetIdParameter = aspNetId != null ?
-                new ObjectParameter("AspNetId", aspNetId) :
-                new ObjectParameter("AspNetId", typeof(string));
-    
-            var surveyIdParameter = surveyId.HasValue ?
-                new ObjectParameter("SurveyId", surveyId) :
-                new ObjectParameter("SurveyId", typeof(decimal));
-    
-            var surveyNameParameter = surveyName != null ?
-                new ObjectParameter("SurveyName", surveyName) :
-                new ObjectParameter("SurveyName", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spSurvey_Update", aspNetIdParameter, surveyIdParameter, surveyNameParameter);
         }
     }
 }

@@ -276,6 +276,9 @@
     <Compile Include="spLaunchedSurveys_GetAll_Result.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="spLaunchedSurveyTeams_GetById_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="spSurvey_GetAll_Result.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
@@ -292,7 +295,7 @@
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\SurveyResponsesViewModel.cs" />
     <Compile Include="Models\SurveySummaryStudent.cs" />
-    <Compile Include="Models\SurveySummaryTeam.cs" />
+    <Compile Include="Models\SurveyTeam.cs" />
     <Compile Include="Models\ResultsViewModel.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\SurveyCreateViewModel.cs" />
@@ -307,6 +310,12 @@
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblLaunchedSurveys.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblLaunchedTeams.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblLaunchedTeamUsers.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblQuestions.cs">
@@ -348,9 +357,6 @@
     <Compile Include="Validation\DateTimeAttribute.cs" />
     <Compile Include="Validation\MinCount.cs" />
     <Compile Include="Validation\NonNullEmptyOrWhiteSpaceAttribute.cs" />
-    <Compile Include="vwAspNetUsers_GetStudents.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Images\bethany-cirlincione-743f0Dy8bFE-unsplash.jpg" />

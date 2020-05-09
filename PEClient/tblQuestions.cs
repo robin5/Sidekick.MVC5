@@ -17,16 +17,16 @@ namespace PEClient
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblQuestions()
         {
-            this.tblSurveyQuestions = new HashSet<tblSurveyQuestions>();
             this.tblSurveyResponses = new HashSet<tblSurveyResponses>();
+            this.tblSurveyQuestions = new HashSet<tblSurveyQuestions>();
         }
     
         public decimal QuestionId { get; set; }
         public string Text { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSurveyQuestions> tblSurveyQuestions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSurveyResponses> tblSurveyResponses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblSurveyQuestions> tblSurveyQuestions { get; set; }
     }
 }

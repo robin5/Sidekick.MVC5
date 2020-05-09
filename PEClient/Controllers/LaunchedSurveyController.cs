@@ -73,17 +73,19 @@ namespace PEClient.Controllers
             {
                 return RedirectToAction("Index", "Dashboard");
             }
-            return View(new ResultsViewModel((int) id));
+            return View(new ResultsViewModel(User.Identity.GetUserId(), (int)id));
         }
 
         // GET: CommentsAbout
-        public ActionResult CommentsAbout()
+        [Route("LaunchedSurvey/CommentsAbout/{surveyId}/{teamId}/{userId}")]
+        public ActionResult CommentsAbout(int surveyId, int teamId, int userId)
         {
             return View(new CommentsAboutViewModel());
         }
 
         // GET: CommentsBy
-        public ActionResult CommentsBy()
+        [Route("LaunchedSurvey/CommentsBy/{surveyId}/{teamId}/{userId}")]
+        public ActionResult CommentsBy(int surveyId, int teamId, int userId)
         {
             return View(new SurveyResponsesViewModel());
         }

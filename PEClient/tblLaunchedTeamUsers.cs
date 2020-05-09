@@ -12,10 +12,10 @@ namespace PEClient
     using System;
     using System.Collections.Generic;
     
-    public partial class vwAspNetUsers_GetStudents
+    public partial class tblLaunchedTeamUsers
     {
-        public string FullName { get; set; }
-        public string UserName { get; set; }
+        public decimal TeamUserId { get; set; }
+        public decimal TeamId { get; set; }
         public decimal UserId { get; set; }
     }
 }

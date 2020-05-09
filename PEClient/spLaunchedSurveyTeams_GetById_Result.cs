@@ -10,16 +10,15 @@
 namespace PEClient
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tblSurveyQuestions
+    public partial class spLaunchedSurveyTeams_GetById_Result
     {
-        public decimal SurveyQuestionId { get; set; }
         public decimal SurveyId { get; set; }
-        public decimal QuestionId { get; set; }
-        public decimal QsIndex { get; set; }
-    
-        public virtual tblQuestions tblQuestions { get; set; }
-        public virtual tblSurveys tblSurveys { get; set; }
+        public string SurveyName { get; set; }
+        public decimal TeamId { get; set; }
+        public string TeamName { get; set; }
+        public decimal UserId { get; set; }
+        public string FullName { get; set; }
+        public string UserName { get; set; }
     }
 }
