@@ -35,7 +35,7 @@
                                     <h6><span class="sr-student-name">@(user.Name) (@(user.UserName))</span></h6>
                                     <ul>
                                         <li><a href="@Url.Action("CommentsAbout", "LaunchedSurvey", new { surveyId = Model.SurveyId, teamId = team.Id, userId = user.id }, null)">See comments about @(user.Name)</a></li>
-                                        <li><a href="@Url.Action("CommentsBy", "LaunchedSurvey", new { survey = Model.SurveyId, id = user.id }, null)">Review @user.Name's surveys: @(100 * @user.Complete)% complete</a></li>
+                                        <li><a href="@Url.Action("CommentsBy", "LaunchedSurvey", new { surveyId = Model.SurveyId, teamId = team.Id, userId = user.id  }, null)">Review @user.Name's surveys: @(100 * @user.Complete)% complete</a></li>
                                     </ul>
                                 </div>
                                 <div id="pie-chart-@(id)" class="col pie-chart" data="[['A',2],['B',3],['N/A',2]]" style="">
