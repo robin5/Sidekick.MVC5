@@ -37,7 +37,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var surveyName = Model.Questions.Count > 0 ? @Model.Questions[0].Name : "Untitled";
-    var surveyIndex = 1;
+    var questionIndex = 1;
     ViewBag.Title = surveyName;
 }
 
@@ -50,7 +50,7 @@
             @if (null != Model.Id)
             {
                 <li>@Html.ActionLink("Edit survey", "Edit", "Survey", new { id = Model.Id }, null)</li>
-                <li>@Html.ActionLink("Delete survey", "Delete", "Survey", new { id = Model.Id }, null)</li>
+                <li><a href="#staticBackdrop" data-toggle="modal" data-target="#staticBackdrop">Delete survey</a></li>
             }
             <li>@Html.ActionLink("Back to dashboard", "Index", "Dashboard")</li>
         </ul>
@@ -64,7 +64,7 @@
                     @foreach (var question in Model.Questions)
                     {
                         <div class="row">
-                            <div class="col-1 vs-td-index" style="min-width: 2.5rem;">@(surveyIndex++))</div>
+                            <div class="col-1 vs-td-index" style="min-width: 2.5rem;">@(questionIndex++))</div>
                             <div class="col-11 vs-td-question">@question.Text</div>
                         </div>
                     }
@@ -75,5 +75,14 @@
                 <div style="margin-left: 20px"><p>None defined.</p></div>
             }
         </div>
+        @Html.Partial("~/Views/Shared/_Modal.cshtml",
+            new ViewDataDictionary {
+                { "title", "Delete " + surveyName},
+                { "message", "Are you sure?" },
+                { "action-text", "Delete" },
+                { "action-controller", "Survey"},
+                { "action-action", "Delete"},
+                { "action-id", Model.Id},
+        })
     </div>
 </div>

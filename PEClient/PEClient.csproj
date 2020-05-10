@@ -461,6 +461,7 @@
     <Content Include="Views\Survey\Index.cshtml" />
     <Content Include="Views\Survey\Edit.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Shared\_Modal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
