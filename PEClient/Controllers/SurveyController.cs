@@ -100,5 +100,23 @@ namespace PEClient.Controllers
 
             return RedirectToAction("Index", "Dashboard");
         }
+        public ActionResult Delete(int? id)
+        {
+            if (null == id)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+            var model = new SurveyDeleteViewModel((int) id);
+
+            if (model.Delete(User.Identity.GetUserId()))
+            {
+                TempData.SuccessMessage($"Successfully deleted {model.SurveyName}.");
+            }
+            else
+            {
+                TempData.ErrorMessage($"Failed deleting {model.SurveyName}: " + model.SaveErrorMessage);
+            }
+            return View(model);
+        }
     }
 }

@@ -250,6 +250,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
+    <Compile Include="Models\SurveyDeleteViewModel.cs" />
     <Compile Include="Models\SurveyEditViewModel.cs" />
     <Compile Include="Models\SurveyIndexViewModel.cs" />
     <Compile Include="Models\ViewTeamViewModel.cs" />
@@ -462,6 +463,7 @@
     <Content Include="Views\Survey\Edit.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\_Modal.cshtml" />
+    <Content Include="Views\Survey\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
