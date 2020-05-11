@@ -100,23 +100,27 @@ namespace PEClient.Controllers
 
             return RedirectToAction("Index", "Dashboard");
         }
+        [HttpDelete]
         public ActionResult Delete(int? id)
         {
-            if (null == id)
+            if (id != null)
             {
-                return RedirectToAction("Index", "Dashboard");
-            }
-            var model = new SurveyDeleteViewModel((int) id);
+                var model = new SurveyDeleteViewModel(User.Identity.GetUserId(), (int)id);
 
-            if (model.Delete(User.Identity.GetUserId()))
-            {
-                TempData.SuccessMessage($"Successfully deleted {model.SurveyName}.");
+                if (model.Delete())
+                {
+                    TempData.SuccessMessage($"Successfully deleted {model.SurveyName}.");
+                }
+                else
+                {
+                    TempData.ErrorMessage($"Failed deleting {model.SurveyName}: " + model.SaveErrorMessage);
+                }
+                return View(model);
             }
             else
             {
-                TempData.ErrorMessage($"Failed deleting {model.SurveyName}: " + model.SaveErrorMessage);
+                return RedirectToAction("Index", "Dashboard");
             }
-            return View(model);
         }
     }
 }

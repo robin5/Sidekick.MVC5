@@ -54,7 +54,12 @@
                 <strong>@message</strong>
             </div>
             <div class="modal-footer">
-                <a href="@(Url.Action(action, controller, new { id = id }))" type="button" class="btn btn-success">@actionText</a>
+                @using (Html.BeginForm(action, controller, new { id = id }, FormMethod.Post, new { @class = "form-launch" }))
+                {
+                    <input type="submit" value="@actionText" class="btn btn-success" />
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    @Html.AntiForgeryToken()
+                }
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
         </div>

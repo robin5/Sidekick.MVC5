@@ -7,14 +7,16 @@ namespace PEClient.Models
 {
     public class SurveyDeleteViewModel
     {
-        public decimal SurveyId { get; set; }
+        private string _aspNetId;
+        private decimal _surveyId;
         public string SurveyName { get; set; }
         public string SaveErrorMessage { get; set; }
-        public SurveyDeleteViewModel(int surveyId)
+        public SurveyDeleteViewModel(string aspNetId, int surveyId)
         {
-            this.SurveyId = surveyId;
+            this._aspNetId = aspNetId;
+            this._surveyId = surveyId;
         }
-        public bool Delete(string aspNetId)
+        public bool Delete()
         {
             return true;
         }
