@@ -185,5 +185,18 @@ namespace PEClient
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spTeam_GetById_Result>("spTeam_GetById", aspNetIdParameter, teamIdParameter);
         }
+    
+        public virtual int spSurvey_Delete(string aspNetId, Nullable<decimal> surveyId)
+        {
+            var aspNetIdParameter = aspNetId != null ?
+                new ObjectParameter("AspNetId", aspNetId) :
+                new ObjectParameter("AspNetId", typeof(string));
+    
+            var surveyIdParameter = surveyId.HasValue ?
+                new ObjectParameter("SurveyId", surveyId) :
+                new ObjectParameter("SurveyId", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spSurvey_Delete", aspNetIdParameter, surveyIdParameter);
+        }
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -433,6 +433,10 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <Parameter Name="Id" Type="nvarchar" Mode="In" />
           <Parameter Name="SurveyName" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="spSurvey_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
+          <Parameter Name="SurveyId" Type="decimal" Mode="In" />
+        </Function>
         <Function Name="spSurvey_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="nvarchar" Mode="In" />
         </Function>
@@ -549,8 +553,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <End Role="tblLaunchedTeams" EntitySet="tblLaunchedTeams" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1082,7 +1085,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <Parameter Name="EndDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="spLaunchedSurveys_GetAll" ReturnType="Collection(Model.spLaunchedSurveys_GetAll_Result)">
-            <Parameter Name="Id" Mode="In" Type="String" />
+          <Parameter Name="Id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spLaunchedSurveyTeams_GetById" ReturnType="Collection(Model.spLaunchedSurveyTeams_GetById_Result)">
             <Parameter Name="AspNetId" Mode="In" Type="String" />
@@ -1093,7 +1096,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <Parameter Name="SurveyName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spSurvey_GetAll" ReturnType="Collection(Model.spSurvey_GetAll_Result)">
-            <Parameter Name="Id" Mode="In" Type="String" />
+          <Parameter Name="Id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spSurvey_GetById" ReturnType="Collection(Model.spSurvey_GetById_Result)">
             <Parameter Name="AspNetId" Mode="In" Type="String" />
@@ -1109,11 +1112,15 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <Parameter Name="TeamName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spTeam_GetAll" ReturnType="Collection(Model.spTeam_GetAll_Result)">
-            <Parameter Name="Id" Mode="In" Type="String" />
+          <Parameter Name="Id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spTeam_GetById" ReturnType="Collection(Model.spTeam_GetById_Result)">
             <Parameter Name="AspNetId" Mode="In" Type="String" />
             <Parameter Name="TeamId" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="spSurvey_Delete">
+            <Parameter Name="AspNetId" Mode="In" Type="String" />
+            <Parameter Name="SurveyId" Mode="In" Type="Decimal" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spAspNetUsers_GetAllStudents_Result">
@@ -1424,6 +1431,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spSurvey_Delete" FunctionName="Model.Store.spSurvey_Delete" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

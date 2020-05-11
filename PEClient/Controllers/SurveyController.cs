@@ -113,7 +113,7 @@ namespace PEClient.Controllers
                 }
                 else
                 {
-                    TempData.ErrorMessage($"Failed deleting {model.SurveyName}: " + model.SaveErrorMessage);
+                    TempData.ErrorMessage($"Failed deleting {model.SurveyName}: " + model.ErrorMessage);
                 }
                 return View(model);
             }
