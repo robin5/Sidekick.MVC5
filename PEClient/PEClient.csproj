@@ -253,6 +253,7 @@
     <Compile Include="Models\SurveyDeleteViewModel.cs" />
     <Compile Include="Models\SurveyEditViewModel.cs" />
     <Compile Include="Models\SurveyIndexViewModel.cs" />
+    <Compile Include="Models\TeamDeleteViewModel.cs" />
     <Compile Include="Models\ViewTeamViewModel.cs" />
     <Compile Include="PEClientModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -464,6 +465,7 @@
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\_DeleteModal.cshtml" />
     <Content Include="Views\Survey\Delete.cshtml" />
+    <Content Include="Views\Team\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

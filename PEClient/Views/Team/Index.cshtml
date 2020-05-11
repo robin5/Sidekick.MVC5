@@ -46,8 +46,11 @@
     </div>
     <div class="dsh-content">
         <ul class="dsh-process">
-            <li>@Html.ActionLink("Edit team", "Index", "Team")</li>
-            <li>@Html.ActionLink("Delete team", "Index", "Team")</li>
+            @if (null != Model.Id)
+            {
+                <li>@Html.ActionLink("Edit team", "Index", "Team")</li>
+                <li><a href="#staticBackdrop" data-toggle="modal" data-target="#staticBackdrop">Delete team</a></li>
+            }
             <li>@Html.ActionLink("Back to dashboard", "Index", "Dashboard")</li>
         </ul>
         <hr>
@@ -84,5 +87,14 @@
                 <div style="margin-left: 20px"><p>None defined.</p></div>
             }
         </div>
+        @Html.Partial("~/Views/Shared/_DeleteModal.cshtml",
+            new ViewDataDictionary {
+                { "title", "Delete " + teamName},
+                { "message", "Are you sure?" },
+                { "action-text", "Delete" },
+                { "action-controller", "Team"},
+                { "action-action", "Delete"},
+                { "action-id", Model.Id},
+        })
     </div>
 </div>

@@ -355,7 +355,9 @@ warning 6035: The relationship 'FK__tblSurvey__Owner__2E1BDC42' has columns that
 warning 6035: The relationship 'FK__tblTeam__OwnerId__60A75C0F' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK__tblTeam__OwnerId__60A75C0F" />-->
         <Association Name="FK__tblTeamUs__TeamI__6477ECF3">
-          <End Role="tblTeams" Type="Self.tblTeams" Multiplicity="1" />
+          <End Role="tblTeams" Type="Self.tblTeams" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="tblTeamUsers" Type="Self.tblTeamUsers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tblTeams">
@@ -452,6 +454,10 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
         <Function Name="spTeam_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
           <Parameter Name="TeamName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spTeam_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
+          <Parameter Name="TeamId" Type="decimal" Mode="In" />
         </Function>
         <Function Name="spTeam_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="nvarchar" Mode="In" />
@@ -1122,6 +1128,10 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <Parameter Name="AspNetId" Mode="In" Type="String" />
             <Parameter Name="SurveyId" Mode="In" Type="Decimal" />
           </FunctionImport>
+          <FunctionImport Name="spTeam_Delete">
+            <Parameter Name="AspNetId" Mode="In" Type="String" />
+            <Parameter Name="TeamId" Mode="In" Type="Decimal" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spAspNetUsers_GetAllStudents_Result">
           <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
@@ -1432,6 +1442,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spSurvey_Delete" FunctionName="Model.Store.spSurvey_Delete" />
+          <FunctionImportMapping FunctionImportName="spTeam_Delete" FunctionName="Model.Store.spTeam_Delete" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

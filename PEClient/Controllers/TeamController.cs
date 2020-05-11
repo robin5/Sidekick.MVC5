@@ -78,5 +78,27 @@ namespace PEClient.Controllers
 
             return RedirectToAction("Index", "Dashboard");
         }
+        [HttpDelete]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+            else
+            {
+                var model = new TeamDeleteViewModel(User.Identity.GetUserId(), (int)id);
+
+                if (model.Delete())
+                {
+                    TempData.SuccessMessage($"Successfully deleted {model.TeamName}.");
+                }
+                else
+                {
+                    TempData.ErrorMessage($"Failed deleting {model.TeamName}: " + model.ErrorMessage);
+                }
+                return View(model);
+            }
+        }
     }
 }

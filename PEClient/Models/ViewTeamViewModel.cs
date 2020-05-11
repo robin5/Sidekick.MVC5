@@ -40,11 +40,13 @@ namespace PEClient.Models
     public class ViewTeamViewModel
     {
         List<spTeam_GetById_Result> _teamMembers = new List<spTeam_GetById_Result>();
+        public int? Id { get; set; }
         public ViewTeamViewModel()
         {
         }
         public ViewTeamViewModel(string aspNetId, int? teamId)
         {
+            this.Id = teamId;
             LoadTeam(aspNetId, teamId);
         }
 
