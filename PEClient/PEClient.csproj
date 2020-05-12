@@ -206,7 +206,7 @@
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CommentsAboutViewModel.cs" />
-    <Compile Include="Models\CreateTeamViewModel.cs" />
+    <Compile Include="Models\TeamCreateViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\LaunchedSurvey.cs" />
     <Compile Include="Models\ModelUtils.cs" />
@@ -254,7 +254,8 @@
     <Compile Include="Models\SurveyEditViewModel.cs" />
     <Compile Include="Models\SurveyIndexViewModel.cs" />
     <Compile Include="Models\TeamDeleteViewModel.cs" />
-    <Compile Include="Models\ViewTeamViewModel.cs" />
+    <Compile Include="Models\TeamEditViewModel.cs" />
+    <Compile Include="Models\TeamIndexViewModel.cs" />
     <Compile Include="PEClientModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -466,6 +467,7 @@
     <Content Include="Views\Shared\_DeleteModal.cshtml" />
     <Content Include="Views\Survey\Delete.cshtml" />
     <Content Include="Views\Team\Delete.cshtml" />
+    <Content Include="Views\Team\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

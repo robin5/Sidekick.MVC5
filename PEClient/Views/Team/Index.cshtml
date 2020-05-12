@@ -32,7 +32,7 @@
     **********************************************************************************
 *@
 
-@model  PEClient.Models.ViewTeamViewModel
+@model  PEClient.Models.TeamIndexViewModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -48,7 +48,7 @@
         <ul class="dsh-process">
             @if (null != Model.Id)
             {
-                <li>@Html.ActionLink("Edit team", "Index", "Team")</li>
+                <li>@Html.ActionLink("Edit team", "Edit", "Team", new { id = Model.Id }, null)</li>
                 <li><a href="#staticBackdrop" data-toggle="modal" data-target="#staticBackdrop">Delete team</a></li>
             }
             <li>@Html.ActionLink("Back to dashboard", "Index", "Dashboard")</li>

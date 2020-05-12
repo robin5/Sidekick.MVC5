@@ -14,6 +14,7 @@ namespace PEClient
     public partial class spTeam_GetById_Result
     {
         public string TeamName { get; set; }
+        public decimal UserId { get; set; }
         public string FullName { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }

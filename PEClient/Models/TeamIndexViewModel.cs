@@ -37,14 +37,14 @@ using System.Web;
 
 namespace PEClient.Models
 {
-    public class ViewTeamViewModel
+    public class TeamIndexViewModel
     {
         List<spTeam_GetById_Result> _teamMembers = new List<spTeam_GetById_Result>();
         public int? Id { get; set; }
-        public ViewTeamViewModel()
+        public TeamIndexViewModel()
         {
         }
-        public ViewTeamViewModel(string aspNetId, int? teamId)
+        public TeamIndexViewModel(string aspNetId, int? teamId)
         {
             this.Id = teamId;
             LoadTeam(aspNetId, teamId);
