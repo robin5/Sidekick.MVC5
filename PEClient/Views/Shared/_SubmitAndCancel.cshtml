@@ -1,8 +1,9 @@
 ﻿@{
     var submit = ViewData["Submit"] ?? "Submit";
     var cancel = ViewData["Cancel"] ?? "Cancel";
-    var controller = ViewData["Controller"] ?? "Dashboard";
-    var action = ViewData["Action"] ?? "Index";
+    string controller = (string)ViewData["cancel-controller"] ?? "Dashboard";
+    string action = (string)ViewData["cancel-action"] ?? "Index";
+    int? id = (int?)ViewData["cancel-action-id"];
 }
 
 <!-- Submit Button -->
@@ -13,4 +14,11 @@
 &nbsp;|&nbsp;
 
 <!-- Cancel Button -->
-<a id="btn-cancel" href="javascript:history.back()" class="btn btn-danger">@cancel</a>
+@if (id == null)
+{
+    <a id="btn-cancel" href="@Url.Action(action, controller)" class="btn btn-danger">@cancel</a>
+}
+else
+{
+    <a id="btn-cancel" href="@Url.Action(action, controller, new { id = id }, null)" class="btn btn-danger">@cancel</a>
+}

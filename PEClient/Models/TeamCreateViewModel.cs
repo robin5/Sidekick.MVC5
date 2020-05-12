@@ -35,34 +35,44 @@ using PEClient.Validation;
 
 namespace PEClient.Models
 {
-    public class CreateTeamViewModel
+    public class TeamCreateViewModel
     {
-        public string SaveErrorMessage { get; set; }
+        /*****************************************************************
+         *
+         *****************************************************************/
+        private string _saveErrorMessage;
         private string _teamName;
-        private List<decimal> _teamMemberIds = new List<decimal>();
 
         private List<Student> _students = new List<Student>();
         private List<SelectListItem> _candidates = new List<SelectListItem>();
         private List<SelectListItem> _peers = new List<SelectListItem>();
         private List<SelectListItem> _selectedStudents = new List<SelectListItem>();
-        public CreateTeamViewModel()
-        {
-        }
 
-        [NonNullEmptyOrWhiteSpace(ErrorMessage: "A team name cannot be blank.  Please enter a team name.")]
-        public string TeamName
+        /*****************************************************************
+         *
+         *****************************************************************/
+        public string SaveErrorMessage
         {
-            get { return _teamName; }
-            set
+            get
             {
-                // Remove white space from beginning and end of the template's name
-                _teamName = value.Trim();
+                return _saveErrorMessage;
             }
         }
-        public CreateTeamViewModel(string aspNetId)
+
+        /*****************************************************************
+         *
+         *****************************************************************/
+        public TeamCreateViewModel()
+        {
+        }
+        public TeamCreateViewModel(string aspNetId)
         {
             LoadStudents(aspNetId);
         }
+        
+        /*****************************************************************
+         *
+         *****************************************************************/
         public void LoadStudents(string aspNetId)
         {
             using (var db = new PEClientContext())
@@ -84,6 +94,20 @@ namespace PEClient.Models
             }
         }
 
+        /*****************************************************************
+         *                   Fields returned from the view
+         *****************************************************************/
+
+        [NonNullEmptyOrWhiteSpace(ErrorMessage: "A team name cannot be blank.  Please enter a team name.")]
+        public string TeamName
+        {
+            get { return _teamName; }
+            set
+            {
+                // Remove white space from beginning and end of the template's name
+                _teamName = value.Trim();
+            }
+        }
         public List<SelectListItem> Candidates { get { return _candidates; } }
         public IEnumerable<int> CandidateSelection { get; set; }
         public List<SelectListItem> Peers { get { return _peers; } }
@@ -92,29 +116,25 @@ namespace PEClient.Models
         public IEnumerable<int> PeerSelection { get; set; }
         public IEnumerable<Student> PeerDetails { get { return _students; } }
 
-        public bool save(string AspNetId)
+        /*****************************************************************
+         *
+         *****************************************************************/
+        public bool save(string aspNetId)
         {
-            SaveErrorMessage = "";
+            _saveErrorMessage = "";
 
             try
             {
                 using (var db = new PEClientContext())
                 {
-                    db.spTeam_Create(AspNetId, _teamName, PeerSelection);
+                    db.spTeam_Create(aspNetId, _teamName, PeerSelection);
                 }
 
                 return true;
             }
             catch (Exception ex)
             {
-                SaveErrorMessage = ex.Message;
-
-                Exception innerException = ex.InnerException;
-                while (innerException != null)
-                {
-                    SaveErrorMessage += ("\n" + ex.InnerException.Message);
-                    innerException = innerException.InnerException;
-                }
+                _saveErrorMessage = ModelUtils.FormatExceptionMessage(ex);
                 return false;
             }
         }

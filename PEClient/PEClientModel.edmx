@@ -466,6 +466,11 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
           <Parameter Name="TeamId" Type="decimal" Mode="In" />
         </Function>
+        <Function Name="spTeam_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
+          <Parameter Name="TeamId" Type="decimal" Mode="In" />
+          <Parameter Name="TeamName" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblGrades" EntityType="Self.tblGrades" Schema="dbo" store:Type="Tables" />
@@ -967,7 +972,9 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__tblTeamUs__TeamI__6477ECF3">
-          <End Role="tblTeams" Type="Self.tblTeams" Multiplicity="1" />
+          <End Role="tblTeams" Type="Self.tblTeams" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="tblTeamUsers" Type="Self.tblTeamUsers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tblTeams">
@@ -1101,6 +1108,10 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <Parameter Name="Id" Mode="In" Type="String" />
             <Parameter Name="SurveyName" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="spSurvey_Delete">
+            <Parameter Name="AspNetId" Mode="In" Type="String" />
+            <Parameter Name="SurveyId" Mode="In" Type="Decimal" />
+          </FunctionImport>
           <FunctionImport Name="spSurvey_GetAll" ReturnType="Collection(Model.spSurvey_GetAll_Result)">
           <Parameter Name="Id" Mode="In" Type="String" />
           </FunctionImport>
@@ -1117,6 +1128,10 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <Parameter Name="AspNetId" Mode="In" Type="String" />
             <Parameter Name="TeamName" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="spTeam_Delete">
+            <Parameter Name="AspNetId" Mode="In" Type="String" />
+            <Parameter Name="TeamId" Mode="In" Type="Decimal" />
+          </FunctionImport>
           <FunctionImport Name="spTeam_GetAll" ReturnType="Collection(Model.spTeam_GetAll_Result)">
           <Parameter Name="Id" Mode="In" Type="String" />
           </FunctionImport>
@@ -1124,13 +1139,10 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <Parameter Name="AspNetId" Mode="In" Type="String" />
             <Parameter Name="TeamId" Mode="In" Type="Decimal" />
           </FunctionImport>
-          <FunctionImport Name="spSurvey_Delete">
-            <Parameter Name="AspNetId" Mode="In" Type="String" />
-            <Parameter Name="SurveyId" Mode="In" Type="Decimal" />
-          </FunctionImport>
-          <FunctionImport Name="spTeam_Delete">
+          <FunctionImport Name="spTeam_Update">
             <Parameter Name="AspNetId" Mode="In" Type="String" />
             <Parameter Name="TeamId" Mode="In" Type="Decimal" />
+            <Parameter Name="TeamName" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="spAspNetUsers_GetAllStudents_Result">
@@ -1169,6 +1181,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
         </ComplexType>
         <ComplexType Name="spTeam_GetById_Result">
           <Property Type="String" Name="TeamName" Nullable="false" MaxLength="32" />
+          <Property Type="Decimal" Name="UserId" Nullable="false" Precision="10" Scale="0" />
           <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="UserName" Nullable="false" MaxLength="256" />
           <Property Type="String" Name="Email" Nullable="true" MaxLength="256" />
@@ -1404,6 +1417,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spSurvey_Create" FunctionName="Model.Store.spSurvey_Create" />
+          <FunctionImportMapping FunctionImportName="spSurvey_Delete" FunctionName="Model.Store.spSurvey_Delete" />
           <FunctionImportMapping FunctionImportName="spSurvey_GetAll" FunctionName="Model.Store.spSurvey_GetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="Model.spSurvey_GetAll_Result">
@@ -1423,6 +1437,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spSurvey_Update" FunctionName="Model.Store.spSurvey_Update" />
           <FunctionImportMapping FunctionImportName="spTeam_Create" FunctionName="Model.Store.spTeam_Create" />
+          <FunctionImportMapping FunctionImportName="spTeam_Delete" FunctionName="Model.Store.spTeam_Delete" />
           <FunctionImportMapping FunctionImportName="spTeam_GetAll" FunctionName="Model.Store.spTeam_GetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="Model.spTeam_GetAll_Result">
@@ -1435,14 +1450,14 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <ResultMapping>
               <ComplexTypeMapping TypeName="Model.spTeam_GetById_Result">
                 <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spSurvey_Delete" FunctionName="Model.Store.spSurvey_Delete" />
-          <FunctionImportMapping FunctionImportName="spTeam_Delete" FunctionName="Model.Store.spTeam_Delete" />
+          <FunctionImportMapping FunctionImportName="spTeam_Update" FunctionName="Model.Store.spTeam_Update" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

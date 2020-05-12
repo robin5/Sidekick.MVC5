@@ -38,25 +38,24 @@ namespace PEClient.Controllers
     [Authorize(Roles = "Admin,Instructor")]
     public class TeamController : Controller
     {
-        // GET: Index
+        [HttpGet]
         public ActionResult Index(int? id)
         {
             if (null == id)
             {
                 return RedirectToAction("Index", "Dashboard");
             }
-            return View(new ViewTeamViewModel(User.Identity.GetUserId(), id));
+            return View(new TeamIndexViewModel(User.Identity.GetUserId(), id));
         }
 
-        // GET: Create
+        [HttpGet]
         public ActionResult Create()
         {
-            return View(new CreateTeamViewModel(User.Identity.GetUserId()));
+            return View(new TeamCreateViewModel(User.Identity.GetUserId()));
         }
 
-        // POST: Create
         [HttpPost]
-        public ActionResult Create(CreateTeamViewModel model)
+        public ActionResult Create(TeamCreateViewModel model)
         {
             // Test for model validation.
             if (!ModelState.IsValid)
@@ -78,6 +77,41 @@ namespace PEClient.Controllers
 
             return RedirectToAction("Index", "Dashboard");
         }
+
+        [HttpGet]
+        public ActionResult Edit(int? id)
+        {
+            if (null == id)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+            return View(new TeamEditViewModel(User.Identity.GetUserId(), (int)id));
+        }
+
+        [HttpPost]
+        public ActionResult Edit(TeamEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.save(User.Identity.GetUserId()))
+                {
+                    TempData.SuccessMessage($"Successfully updated {model.TeamName}.");
+                }
+                else
+                {
+                    TempData.ErrorMessage($"Failed updating {model.TeamName}: " + model.SaveErrorMessage);
+                }
+                return RedirectToAction("Index", "Dashboard");
+            }
+            else
+            {
+                // Note: The model does not automatically load the students list
+                // so it must be done here before returning the model to the view
+                model.LoadStudents(User.Identity.GetUserId());
+                return View(model);
+            }
+        }
+        
         [HttpDelete]
         public ActionResult Delete(int? id)
         {

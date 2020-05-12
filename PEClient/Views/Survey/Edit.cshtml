@@ -44,11 +44,6 @@
         <h2>Edit: @(Model.SurveyName ?? "Undefined")</h2>
     </div>
     <div class="dsh-content">
-
-        <ul class="dsh-process">
-            <li><a href="javascript:history.back()">Go Back</a></li>
-        </ul>
-        <hr>
         <div id="vs-survey-questions" class="vs-survey-questions">
 
             @if (IsPost)
@@ -112,7 +107,13 @@
 
                 @* -- Submit and Cancel buttons -- *@
 
-                @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml", new ViewDataDictionary { { "Submit", "Update Survey" } })
+                @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml",
+                    new ViewDataDictionary {
+                        { "Submit", "Update Survey" },
+                        { "cancel-controller", "Survey" } ,
+                        { "cancel-action", "Index" } ,
+                        { "cancel-action-id", Model.Id }
+                    })
             }
         </div><!-- vs-survey-questions -->
     </div><!-- dsh-content -->

@@ -112,6 +112,19 @@ namespace PEClient
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spSurvey_Create", idParameter, surveyNameParameter);
         }
     
+        public virtual int spSurvey_Delete(string aspNetId, Nullable<decimal> surveyId)
+        {
+            var aspNetIdParameter = aspNetId != null ?
+                new ObjectParameter("AspNetId", aspNetId) :
+                new ObjectParameter("AspNetId", typeof(string));
+    
+            var surveyIdParameter = surveyId.HasValue ?
+                new ObjectParameter("SurveyId", surveyId) :
+                new ObjectParameter("SurveyId", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spSurvey_Delete", aspNetIdParameter, surveyIdParameter);
+        }
+    
         public virtual ObjectResult<spSurvey_GetAll_Result> spSurvey_GetAll(string id)
         {
             var idParameter = id != null ?
@@ -164,6 +177,19 @@ namespace PEClient
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spTeam_Create", aspNetIdParameter, teamNameParameter);
         }
     
+        public virtual int spTeam_Delete(string aspNetId, Nullable<decimal> teamId)
+        {
+            var aspNetIdParameter = aspNetId != null ?
+                new ObjectParameter("AspNetId", aspNetId) :
+                new ObjectParameter("AspNetId", typeof(string));
+    
+            var teamIdParameter = teamId.HasValue ?
+                new ObjectParameter("TeamId", teamId) :
+                new ObjectParameter("TeamId", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spTeam_Delete", aspNetIdParameter, teamIdParameter);
+        }
+    
         public virtual ObjectResult<spTeam_GetAll_Result> spTeam_GetAll(string id)
         {
             var idParameter = id != null ?
@@ -186,20 +212,7 @@ namespace PEClient
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spTeam_GetById_Result>("spTeam_GetById", aspNetIdParameter, teamIdParameter);
         }
     
-        public virtual int spSurvey_Delete(string aspNetId, Nullable<decimal> surveyId)
-        {
-            var aspNetIdParameter = aspNetId != null ?
-                new ObjectParameter("AspNetId", aspNetId) :
-                new ObjectParameter("AspNetId", typeof(string));
-    
-            var surveyIdParameter = surveyId.HasValue ?
-                new ObjectParameter("SurveyId", surveyId) :
-                new ObjectParameter("SurveyId", typeof(decimal));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spSurvey_Delete", aspNetIdParameter, surveyIdParameter);
-        }
-    
-        public virtual int spTeam_Delete(string aspNetId, Nullable<decimal> teamId)
+        public virtual int spTeam_Update(string aspNetId, Nullable<decimal> teamId, string teamName)
         {
             var aspNetIdParameter = aspNetId != null ?
                 new ObjectParameter("AspNetId", aspNetId) :
@@ -209,7 +222,11 @@ namespace PEClient
                 new ObjectParameter("TeamId", teamId) :
                 new ObjectParameter("TeamId", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spTeam_Delete", aspNetIdParameter, teamIdParameter);
+            var teamNameParameter = teamName != null ?
+                new ObjectParameter("TeamName", teamName) :
+                new ObjectParameter("TeamName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spTeam_Update", aspNetIdParameter, teamIdParameter, teamNameParameter);
         }
     }
 }
