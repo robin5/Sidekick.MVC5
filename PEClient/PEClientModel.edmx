@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -564,7 +564,8 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <End Role="tblLaunchedTeams" EntitySet="tblLaunchedTeams" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1098,7 +1099,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <Parameter Name="EndDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="spLaunchedSurveys_GetAll" ReturnType="Collection(Model.spLaunchedSurveys_GetAll_Result)">
-          <Parameter Name="Id" Mode="In" Type="String" />
+            <Parameter Name="Id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spLaunchedSurveyTeams_GetById" ReturnType="Collection(Model.spLaunchedSurveyTeams_GetById_Result)">
             <Parameter Name="AspNetId" Mode="In" Type="String" />
@@ -1113,7 +1114,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <Parameter Name="SurveyId" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="spSurvey_GetAll" ReturnType="Collection(Model.spSurvey_GetAll_Result)">
-          <Parameter Name="Id" Mode="In" Type="String" />
+            <Parameter Name="Id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spSurvey_GetById" ReturnType="Collection(Model.spSurvey_GetById_Result)">
             <Parameter Name="AspNetId" Mode="In" Type="String" />
@@ -1129,6 +1130,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <Parameter Name="TeamName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spTeam_Delete">
+<<<<<<< HEAD
             <Parameter Name="AspNetId" Mode="In" Type="String" />
             <Parameter Name="TeamId" Mode="In" Type="Decimal" />
           </FunctionImport>
@@ -1140,6 +1142,15 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <Parameter Name="TeamId" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="spTeam_Update">
+=======
+            <Parameter Name="AspNetId" Mode="In" Type="String" />
+            <Parameter Name="TeamId" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="spTeam_GetAll" ReturnType="Collection(Model.spTeam_GetAll_Result)">
+            <Parameter Name="Id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spTeam_GetById" ReturnType="Collection(Model.spTeam_GetById_Result)">
+>>>>>>> b876563996a2021d2c5d5415293b79e5f48afa54
             <Parameter Name="AspNetId" Mode="In" Type="String" />
             <Parameter Name="TeamId" Mode="In" Type="Decimal" />
             <Parameter Name="TeamName" Mode="In" Type="String" />
@@ -1457,7 +1468,10 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+<<<<<<< HEAD
           <FunctionImportMapping FunctionImportName="spTeam_Update" FunctionName="Model.Store.spTeam_Update" />
+=======
+>>>>>>> b876563996a2021d2c5d5415293b79e5f48afa54
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

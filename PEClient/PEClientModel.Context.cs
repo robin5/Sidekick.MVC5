@@ -178,6 +178,7 @@ namespace PEClient
         }
     
         public virtual int spTeam_Delete(string aspNetId, Nullable<decimal> teamId)
+<<<<<<< HEAD
         {
             var aspNetIdParameter = aspNetId != null ?
                 new ObjectParameter("AspNetId", aspNetId) :
@@ -200,6 +201,8 @@ namespace PEClient
         }
     
         public virtual ObjectResult<spTeam_GetById_Result> spTeam_GetById(string aspNetId, Nullable<decimal> teamId)
+=======
+>>>>>>> b876563996a2021d2c5d5415293b79e5f48afa54
         {
             var aspNetIdParameter = aspNetId != null ?
                 new ObjectParameter("AspNetId", aspNetId) :
@@ -209,10 +212,23 @@ namespace PEClient
                 new ObjectParameter("TeamId", teamId) :
                 new ObjectParameter("TeamId", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spTeam_GetById_Result>("spTeam_GetById", aspNetIdParameter, teamIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spTeam_Delete", aspNetIdParameter, teamIdParameter);
         }
     
+<<<<<<< HEAD
         public virtual int spTeam_Update(string aspNetId, Nullable<decimal> teamId, string teamName)
+=======
+        public virtual ObjectResult<spTeam_GetAll_Result> spTeam_GetAll(string id)
+        {
+            var idParameter = id != null ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spTeam_GetAll_Result>("spTeam_GetAll", idParameter);
+        }
+    
+        public virtual ObjectResult<spTeam_GetById_Result> spTeam_GetById(string aspNetId, Nullable<decimal> teamId)
+>>>>>>> b876563996a2021d2c5d5415293b79e5f48afa54
         {
             var aspNetIdParameter = aspNetId != null ?
                 new ObjectParameter("AspNetId", aspNetId) :
@@ -222,11 +238,15 @@ namespace PEClient
                 new ObjectParameter("TeamId", teamId) :
                 new ObjectParameter("TeamId", typeof(decimal));
     
+<<<<<<< HEAD
             var teamNameParameter = teamName != null ?
                 new ObjectParameter("TeamName", teamName) :
                 new ObjectParameter("TeamName", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spTeam_Update", aspNetIdParameter, teamIdParameter, teamNameParameter);
+=======
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spTeam_GetById_Result>("spTeam_GetById", aspNetIdParameter, teamIdParameter);
+>>>>>>> b876563996a2021d2c5d5415293b79e5f48afa54
         }
     }
 }
