@@ -1130,19 +1130,6 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <Parameter Name="TeamName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spTeam_Delete">
-<<<<<<< HEAD
-            <Parameter Name="AspNetId" Mode="In" Type="String" />
-            <Parameter Name="TeamId" Mode="In" Type="Decimal" />
-          </FunctionImport>
-          <FunctionImport Name="spTeam_GetAll" ReturnType="Collection(Model.spTeam_GetAll_Result)">
-          <Parameter Name="Id" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="spTeam_GetById" ReturnType="Collection(Model.spTeam_GetById_Result)">
-            <Parameter Name="AspNetId" Mode="In" Type="String" />
-            <Parameter Name="TeamId" Mode="In" Type="Decimal" />
-          </FunctionImport>
-          <FunctionImport Name="spTeam_Update">
-=======
             <Parameter Name="AspNetId" Mode="In" Type="String" />
             <Parameter Name="TeamId" Mode="In" Type="Decimal" />
           </FunctionImport>
@@ -1150,7 +1137,10 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <Parameter Name="Id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spTeam_GetById" ReturnType="Collection(Model.spTeam_GetById_Result)">
->>>>>>> b876563996a2021d2c5d5415293b79e5f48afa54
+            <Parameter Name="AspNetId" Mode="In" Type="String" />
+            <Parameter Name="TeamId" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="spTeam_Update">
             <Parameter Name="AspNetId" Mode="In" Type="String" />
             <Parameter Name="TeamId" Mode="In" Type="Decimal" />
             <Parameter Name="TeamName" Mode="In" Type="String" />
@@ -1468,10 +1458,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-<<<<<<< HEAD
           <FunctionImportMapping FunctionImportName="spTeam_Update" FunctionName="Model.Store.spTeam_Update" />
-=======
->>>>>>> b876563996a2021d2c5d5415293b79e5f48afa54
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
