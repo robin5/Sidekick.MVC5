@@ -76,47 +76,51 @@
                 @* -- Add User DropDown -- *@
 
                 @Html.LabelFor(m => m.CandidateSelection, "Students", new { @class = "control-label" })<br />
-                @Html.ValidationMessageFor(m => m.PeerSelection, "", new { @class = "alert-danger" })
-                @Html.DropDownListFor(m => m.CandidateSelection, Model.Candidates, "-- select a student --", new { @class = "form-control", style = "display: inline-block; width: 250px;" })
 
-                @* -- Add User Button -- *@
+                <div class="d-flex team-add-students">
+                    @Html.DropDownListFor(m => m.CandidateSelection, Model.Candidates, "-- select a student --", new { @class = "form-control flex-grow-1" })
+                    @* -- Add User Button -- *@
 
-                <button type="button" id="btn-add-team" class="btn btn-primary" name="action" value="add-user" onclick="ShowRow();" style="margin-left: 5px; display: inline;">
-                    Add
-                </button>
-                <br />
+                    <button type="button" id="btn-add-team" class="btn btn-primary" name="action" value="add-user" onclick="ShowRow();" style="margin-left: 5px; display: inline;">
+                        Add
+                    </button>
+                </div>
 
                 @* -- Hidden Peer Group listbox -- *@
 
                 @Html.ListBoxFor(m => m.PeerSelection, Model.Peers, new { @class = "form-control", style = "display: none" })
 
-                <table id="tbl-edit-team" style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; margin-top: 20px; margin-bottom: 20px;">
-                    <tr>
-                        <td colspan="4"><h4 id="table-team-name" style="text-decoration:underline"></h4></td>
-                    </tr>
-                    <tr>
-                        <th class="table-header">Name</th>
-                        <th class="table-header">Username</th>
-                        <th class="table-header-badge"></th>
-                    </tr>
-                    @foreach (var peer in Model.PeerDetails)
-                    {
-                        <tr id="tr-@(peer.id)" style="display: none">
-                            <td class="table-data">@peer.Name</td>
-                            <td class="table-data">@peer.UserName</td>
-                            <td class="table-data-badge">
-                                <span class="badge">
-                                    <a data-row-id="@(peer.id)" href="#0" onclick="deleteRow(event)" class="badge">delete</a>
-                                </span>
-                            </td>
-                        </tr>
-                    }
-                </table>
+                @Html.Label("Peer Group Members", new { @class = "control-label" })
+                @Html.ValidationMessageFor(m => m.PeerSelection, "", new { @class = "alert-danger" })
+                <div class="table-responsive-md">
+                    <table id="tbl-edit-team" class="table table-bordered table-hover tbl-team-create-edit">
+                        <thead class="thead-dark thead-team-create-edit">
+                            <tr>
+                                <th class="table-header">Name</th>
+                                <th class="table-header">Username</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var peer in Model.PeerDetails)
+                            {
+                                <tr id="tr-@(peer.id)" style="display: none" class="table-warning">
+                                    <td class="table-data">@peer.Name</td>
+                                    <td class="table-data">@peer.UserName</td>
+                                    <td class="table-data-badge">
+                                        <a data-row-id="@(peer.id)" href="#0" onclick="deleteRow(event)" class="badge badge-primary badge-letter-spacing">delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
 
                 @* -- Submit and Cancel buttons -- *@
 
-                @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml", 
-                    new ViewDataDictionary { 
+                @Html.Partial("~/Views/Shared/_SubmitAndCancel.cshtml",
+                    new ViewDataDictionary {
+                        { "Submit", "Update Peer Group" },
                         { "cancel-controller", "Team" } ,
                         { "cancel-action", "Index" } ,
                         { "cancel-action-id", Model.Id }
@@ -172,6 +176,7 @@
         function deleteRow(event) {
 
             var userId = event.target.getAttribute('data-row-id');
+            console.log(userId);
             var rowToDelete = `#tr-${userId}`;
             $(rowToDelete).css("display", "none");
             event.preventDefault();

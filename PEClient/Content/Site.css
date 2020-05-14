@@ -76,24 +76,40 @@ textarea {
     max-width: 280px;
 } */
 
-/* CreateTeam Index View */
+/* Team Index View */
 .table-header {
-    padding: 0 20px 10px 0;
+    padding: 10px 20px 10px 0;
     min-width: 130px;
 }
 .table-header-badge {
     padding: 0 20px 10px 0;
 }
 .table-data {
-    padding: 0 20px 10px 0;
+    padding: 10px 20px 10px 0;
 }
 .table-data-badge {
     padding-left: 10px;
     vertical-align: top;
 }
+/* Team Create View */
 
+.team-add-students {
+    margin-bottom: 10px;
+}
+
+.tbl-team-create-edit {
+    margin-bottom: 20px;
+}
+
+.thead-team-create-edit {
+    letter-spacing: 2px;
+}
+
+.badge-letter-spacing {
+    letter-spacing: .5px;
+    font-weight: normal;
+}
 /* SurveySummary page   */
-
 .sr-team-title {
     width: 100%;
     color: #fff;
