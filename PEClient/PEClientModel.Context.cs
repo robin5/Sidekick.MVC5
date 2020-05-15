@@ -99,6 +99,15 @@ namespace PEClient
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spLaunchedSurveyTeams_GetById_Result>("spLaunchedSurveyTeams_GetById", aspNetIdParameter, surveyIdParameter);
         }
     
+        public virtual ObjectResult<spPeerSurveys_GetByAspNetId_Result> spPeerSurveys_GetByAspNetId(string aspNetId)
+        {
+            var aspNetIdParameter = aspNetId != null ?
+                new ObjectParameter("AspNetId", aspNetId) :
+                new ObjectParameter("AspNetId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spPeerSurveys_GetByAspNetId_Result>("spPeerSurveys_GetByAspNetId", aspNetIdParameter);
+        }
+    
         public virtual int spSurvey_Create(string id, string surveyName)
         {
             var idParameter = id != null ?

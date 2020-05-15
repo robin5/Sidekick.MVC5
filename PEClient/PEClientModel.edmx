@@ -446,6 +446,9 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
           <Parameter Name="SurveyId" Type="decimal" Mode="In" />
         </Function>
+        <Function Name="spPeerSurveys_GetByAspNetId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="spSurvey_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="nvarchar" Mode="In" />
           <Parameter Name="SurveyName" Type="varchar" Mode="In" />
@@ -1145,6 +1148,9 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <Parameter Name="AspNetId" Mode="In" Type="String" />
             <Parameter Name="SurveyId" Mode="In" Type="Decimal" />
           </FunctionImport>
+          <FunctionImport Name="spPeerSurveys_GetByAspNetId" ReturnType="Collection(Model.spPeerSurveys_GetByAspNetId_Result)">
+            <Parameter Name="AspNetId" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="spSurvey_Create">
             <Parameter Name="Id" Mode="In" Type="String" />
             <Parameter Name="SurveyName" Mode="In" Type="String" />
@@ -1206,6 +1212,18 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <Property Type="Decimal" Name="UserId" Nullable="false" Precision="10" Scale="0" />
           <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="UserName" Nullable="false" MaxLength="256" />
+        </ComplexType>
+        <ComplexType Name="spPeerSurveys_GetByAspNetId_Result">
+          <Property Type="Int32" Name="SurveyId" Nullable="false" />
+          <Property Type="Int32" Name="TeamId" Nullable="false" />
+          <Property Type="Decimal" Name="UserId" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="SurveyName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TeamName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="OwnerId" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="OwnerName" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="StartDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EndDate" Nullable="false" Precision="23" />
         </ComplexType>
         <ComplexType Name="spSurvey_GetAll_Result">
           <Property Type="String" Name="Name" Nullable="false" MaxLength="40" />
@@ -1454,6 +1472,22 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spPeerSurveys_GetByAspNetId" FunctionName="Model.Store.spPeerSurveys_GetByAspNetId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.spPeerSurveys_GetByAspNetId_Result">
+                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="SurveyName" ColumnName="SurveyName" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

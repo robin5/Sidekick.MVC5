@@ -287,6 +287,9 @@
     <Compile Include="spLaunchedSurveyTeams_GetById_Result.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="spPeerSurveys_GetByAspNetId_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="spSurvey_GetAll_Result.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>

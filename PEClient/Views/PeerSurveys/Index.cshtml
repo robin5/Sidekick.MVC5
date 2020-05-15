@@ -44,31 +44,48 @@
         <h2>My Peer Evaluations</h2>
     </div>
     <div class="dsh-content">
-        <div style="display: flex; flex-wrap: wrap;">
 
-            @* Generate launched survey cards *@
 
-            @if (Model.LaunchedSurveys.Count > 0)
-            {
-                foreach (var surveyInstance in Model.LaunchedSurveys)
-                {
-                    <div class="card dsh-card-launched">
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><h5 class="card-title">@Html.ActionLink(@surveyInstance.Name, "Index", "LaunchedSurvey", new { id = surveyInstance.Id }, null)</h5></li>
-                                <li class="list-group-item"><strong>Start: </strong><br>@(surveyInstance.Start)</li>
-                                <li class="list-group-item"><strong>End: </strong><br>@(surveyInstance.End)</li>
-                                <li class="list-group-item"><strong>Status: </strong><br>@(surveyInstance.Status)</li>
-                            </ul>
-                        </div><!-- card-body -->
-                    </div><!-- card -->
-                }
-            }
-            else
-            {
-                <div class="dsh-no-items"><p>None defined.</p></div>
-            }
-        </div><!-- flex row -->
+        <div class="table-responsive-md">
+            <table id="tbl-edit-team" class="table table-bordered table-hover tbl-team-create-edit">
+                <thead class="thead-dark thead-team-create-edit">
+                    <tr>
+                        <th class="table-header">Survey</th>
+                        <th class="table-header">Peer Group</th>
+                        <th class="table-header">From</th>
+                        <th class="table-header">Starts</th>
+                        <th class="table-header">Ends</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Surveys.Count > 0)
+                    {
+                        foreach (var survey in Model.Surveys)
+                        {
+                            <tr class="table-warning">
+                                <td class="table-data">@survey.SurveyName</td>
+                                <td class="table-data">@survey.TeamName</td>
+                                <td class="table-data">@survey.OwnerName</td>
+                                <td class="table-data">@survey.StartDate</td>
+                                <td class="table-data">@survey.EndDate</td>
+                                <td class="table-data-badge">
+                                    <a data-row-id="@survey.SurveyId" href="#0" class="badge badge-primary badge-letter-spacing">start</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr class="table-warning">
+                            <td colspan="6">
+                                <em>You have no surveys at this time</em>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
         <hr>
         @Html.Partial("~/Views/Shared/_Footer.cshtml")
     </div>
