@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -31,48 +39,41 @@
           <Property Name="GradeId" Type="tinyint" Nullable="false" />
           <Property Name="Text" Type="char" MaxLength="1" />
         </EntityType>
-        <EntityType Name="tblLaunchedQuestions">
-          <Key>
-            <PropertyRef Name="QuestionId" />
-          </Key>
-          <Property Name="QuestionId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Text" Type="varchar" MaxLength="512" Nullable="false" />
-        </EntityType>
         <EntityType Name="tblLaunchedSurveyQuestions">
           <Key>
             <PropertyRef Name="SurveyQuestionId" />
           </Key>
-          <Property Name="SurveyQuestionId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="SurveyId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
-          <Property Name="QuestionId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
-          <Property Name="QsIndex" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="SurveyQuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SurveyId" Type="int" Nullable="false" />
+          <Property Name="QsIndex" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="512" />
         </EntityType>
         <EntityType Name="tblLaunchedSurveys">
           <Key>
             <PropertyRef Name="SurveyId" />
           </Key>
-          <Property Name="SurveyId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="SurveyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="OwnerId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
           <Property Name="StartDate" Type="datetime" Nullable="false" />
           <Property Name="EndDate" Type="datetime" Nullable="false" />
-          <Property Name="Released" Type="decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="Released" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tblLaunchedTeams">
           <Key>
             <PropertyRef Name="TeamId" />
           </Key>
-          <Property Name="TeamId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="TeamId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="OwnerId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
-          <Property Name="SurveyId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="SurveyId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tblLaunchedTeamUsers">
           <Key>
             <PropertyRef Name="TeamUserId" />
           </Key>
-          <Property Name="TeamUserId" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TeamId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="TeamUserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeamId" Type="int" Nullable="false" />
           <Property Name="UserId" Type="decimal" Precision="10" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="tblQuestions">
@@ -176,18 +177,6 @@
           <Property Name="Identity" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="FullName" Type="nvarchar" MaxLength="100" />
         </EntityType>
-        <Association Name="FK__tblLaunchedSurvey__Quest__440B1D61">
-          <End Role="tblLaunchedQuestions" Type="Self.tblLaunchedQuestions" Multiplicity="1" />
-          <End Role="tblLaunchedSurveyQuestions" Type="Self.tblLaunchedSurveyQuestions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblLaunchedQuestions">
-              <PropertyRef Name="QuestionId" />
-            </Principal>
-            <Dependent Role="tblLaunchedSurveyQuestions">
-              <PropertyRef Name="QuestionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__tblLaunchedSurvey__Surve__403A8C7D">
           <End Role="tblLaunchedSurveys" Type="Self.tblLaunchedSurveys" Multiplicity="1" />
           <End Role="tblLaunchedSurveyQuestions" Type="Self.tblLaunchedSurveyQuestions" Multiplicity="*" />
@@ -395,6 +384,20 @@ warning 6035: The relationship 'FK__tblTeamUsers__AspNetUsers_UserId' has column
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_LaunchedTeams_AspNetUsers_UserId' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_LaunchedTeams_AspNetUsers_UserId" />-->
@@ -416,6 +419,18 @@ warning 6035: The relationship 'FK_tblLaunchedSurveys_AspNetUsers_UserId' has co
         <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_tblLaunchedTeamUsers_AspNetUsers_UserId" />-->
+        <Association Name="FK_tblLaunchedTeamUsers_LaunchedTeams_TeamId">
+          <End Role="tblLaunchedTeams" Type="Self.tblLaunchedTeams" Multiplicity="1" />
+          <End Role="tblLaunchedTeamUsers" Type="Self.tblLaunchedTeamUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblLaunchedTeams">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="tblLaunchedTeamUsers">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="spAspNetUsers_GetAllStudents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spLaunch_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
@@ -472,9 +487,9 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <Parameter Name="TeamName" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblGrades" EntityType="Self.tblGrades" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblLaunchedQuestions" EntityType="Self.tblLaunchedQuestions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLaunchedSurveyQuestions" EntityType="Self.tblLaunchedSurveyQuestions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLaunchedSurveys" EntityType="Self.tblLaunchedSurveys" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLaunchedTeams" EntityType="Self.tblLaunchedTeams" Schema="dbo" store:Type="Tables" />
@@ -491,10 +506,6 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <EntitySet Name="tblTeamUsers" EntityType="Self.tblTeamUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUserRoles" EntityType="Self.tblUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__tblLaunchedSurvey__Quest__440B1D61" Association="Self.FK__tblLaunchedSurvey__Quest__440B1D61">
-            <End Role="tblLaunchedQuestions" EntitySet="tblLaunchedQuestions" />
-            <End Role="tblLaunchedSurveyQuestions" EntitySet="tblLaunchedSurveyQuestions" />
-          </AssociationSet>
           <AssociationSet Name="FK__tblLaunchedSurvey__Surve__403A8C7D" Association="Self.FK__tblLaunchedSurvey__Surve__403A8C7D">
             <End Role="tblLaunchedSurveys" EntitySet="tblLaunchedSurveys" />
             <End Role="tblLaunchedSurveyQuestions" EntitySet="tblLaunchedSurveyQuestions" />
@@ -559,9 +570,17 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <End Role="tblUsers" EntitySet="tblUsers" />
             <End Role="tblUserRoles" EntitySet="tblUserRoles" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
           <AssociationSet Name="FK_LaunchedTeams_LaunchedSurveys_SurveyId" Association="Self.FK_LaunchedTeams_LaunchedSurveys_SurveyId">
             <End Role="tblLaunchedSurveys" EntitySet="tblLaunchedSurveys" />
             <End Role="tblLaunchedTeams" EntitySet="tblLaunchedTeams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblLaunchedTeamUsers_LaunchedTeams_TeamId" Association="Self.FK_tblLaunchedTeamUsers_LaunchedTeams_TeamId">
+            <End Role="tblLaunchedTeams" EntitySet="tblLaunchedTeams" />
+            <End Role="tblLaunchedTeamUsers" EntitySet="tblLaunchedTeamUsers" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -569,6 +588,15 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" FromRole="AspNetUserRoles" ToRole="AspNetUsers" />
+        </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -587,6 +615,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserId" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="AspNetUserRoles" Relationship="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserRoles" />
         </EntityType>
         <EntityType Name="tblGrades">
           <Key>
@@ -596,23 +625,14 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <Property Name="Text" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="tblSurveyResponses" Relationship="Self.FK__tblSurvey__Grade__571DF1D5" FromRole="tblGrades" ToRole="tblSurveyResponses" />
         </EntityType>
-        <EntityType Name="tblLaunchedQuestions">
-          <Key>
-            <PropertyRef Name="QuestionId" />
-          </Key>
-          <Property Name="QuestionId" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Text" Type="String" MaxLength="512" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tblLaunchedSurveyQuestions" Relationship="Self.FK__tblLaunchedSurvey__Quest__440B1D61" FromRole="tblLaunchedQuestions" ToRole="tblLaunchedSurveyQuestions" />
-        </EntityType>
         <EntityType Name="tblLaunchedSurveyQuestions">
           <Key>
             <PropertyRef Name="SurveyQuestionId" />
           </Key>
-          <Property Name="SurveyQuestionId" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SurveyId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
-          <Property Name="QuestionId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
-          <Property Name="QsIndex" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
-          <NavigationProperty Name="tblLaunchedQuestions" Relationship="Self.FK__tblLaunchedSurvey__Quest__440B1D61" FromRole="tblLaunchedSurveyQuestions" ToRole="tblLaunchedQuestions" />
+          <Property Name="SurveyQuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SurveyId" Type="Int32" Nullable="false" />
+          <Property Name="QsIndex" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tblLaunchedSurveys" Relationship="Self.FK__tblLaunchedSurvey__Surve__403A8C7D" FromRole="tblLaunchedSurveyQuestions" ToRole="tblLaunchedSurveys" />
           <NavigationProperty Name="tblLaunchedSurveys1" Relationship="Self.FK__tblLaunchedSurvey__Surve__4316F928" FromRole="tblLaunchedSurveyQuestions" ToRole="tblLaunchedSurveys" />
         </EntityType>
@@ -620,12 +640,12 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <Key>
             <PropertyRef Name="SurveyId" />
           </Key>
-          <Property Name="SurveyId" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SurveyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="OwnerId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Released" Type="Decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="Released" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tblLaunchedSurveyQuestions" Relationship="Self.FK__tblLaunchedSurvey__Surve__403A8C7D" FromRole="tblLaunchedSurveys" ToRole="tblLaunchedSurveyQuestions" />
           <NavigationProperty Name="tblLaunchedSurveyQuestions1" Relationship="Self.FK__tblLaunchedSurvey__Surve__4316F928" FromRole="tblLaunchedSurveys" ToRole="tblLaunchedSurveyQuestions" />
           <NavigationProperty Name="tblLaunchedTeams" Relationship="Self.FK_LaunchedTeams_LaunchedSurveys_SurveyId" FromRole="tblLaunchedSurveys" ToRole="tblLaunchedTeams" />
@@ -634,19 +654,21 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <Key>
             <PropertyRef Name="TeamId" />
           </Key>
-          <Property Name="TeamId" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TeamId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="OwnerId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
-          <Property Name="SurveyId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="SurveyId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tblLaunchedSurveys" Relationship="Self.FK_LaunchedTeams_LaunchedSurveys_SurveyId" FromRole="tblLaunchedTeams" ToRole="tblLaunchedSurveys" />
+          <NavigationProperty Name="tblLaunchedTeamUsers" Relationship="Self.FK_tblLaunchedTeamUsers_LaunchedTeams_TeamId" FromRole="tblLaunchedTeams" ToRole="tblLaunchedTeamUsers" />
         </EntityType>
         <EntityType Name="tblLaunchedTeamUsers">
           <Key>
             <PropertyRef Name="TeamUserId" />
           </Key>
-          <Property Name="TeamUserId" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TeamId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="TeamUserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <NavigationProperty Name="tblLaunchedTeams" Relationship="Self.FK_tblLaunchedTeamUsers_LaunchedTeams_TeamId" FromRole="tblLaunchedTeamUsers" ToRole="tblLaunchedTeams" />
         </EntityType>
         <EntityType Name="tblQuestions">
           <Key>
@@ -776,6 +798,20 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <NavigationProperty Name="tblSurveyResponses1" Relationship="Self.FK__tblSurvey__Revie__5629CD9C" FromRole="tblUsers" ToRole="tblSurveyResponses" />
           <NavigationProperty Name="tblUserRoles" Relationship="Self.FK__tblUserRo__UserI__6C190EBB" FromRole="tblUsers" ToRole="tblUserRoles" />
         </EntityType>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__tblSurvey__Grade__571DF1D5">
           <End Role="tblGrades" Type="Self.tblGrades" Multiplicity="1" />
           <End Role="tblSurveyResponses" Type="Self.tblSurveyResponses" Multiplicity="*" />
@@ -785,18 +821,6 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             </Principal>
             <Dependent Role="tblSurveyResponses">
               <PropertyRef Name="GradeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__tblLaunchedSurvey__Quest__440B1D61">
-          <End Role="tblLaunchedQuestions" Type="Self.tblLaunchedQuestions" Multiplicity="1" />
-          <End Role="tblLaunchedSurveyQuestions" Type="Self.tblLaunchedSurveyQuestions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblLaunchedQuestions">
-              <PropertyRef Name="QuestionId" />
-            </Principal>
-            <Dependent Role="tblLaunchedSurveyQuestions">
-              <PropertyRef Name="QuestionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -833,6 +857,18 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             </Principal>
             <Dependent Role="tblLaunchedTeams">
               <PropertyRef Name="SurveyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblLaunchedTeamUsers_LaunchedTeams_TeamId">
+          <End Role="tblLaunchedTeams" Type="Self.tblLaunchedTeams" Multiplicity="1" />
+          <End Role="tblLaunchedTeamUsers" Type="Self.tblLaunchedTeamUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblLaunchedTeams">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="tblLaunchedTeamUsers">
+              <PropertyRef Name="TeamId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -999,9 +1035,9 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="PEClientContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
           <EntitySet Name="tblGrades" EntityType="Self.tblGrades" />
-          <EntitySet Name="tblLaunchedQuestions" EntityType="Self.tblLaunchedQuestions" />
           <EntitySet Name="tblLaunchedSurveyQuestions" EntityType="Self.tblLaunchedSurveyQuestions" />
           <EntitySet Name="tblLaunchedSurveys" EntityType="Self.tblLaunchedSurveys" />
           <EntitySet Name="tblLaunchedTeams" EntityType="Self.tblLaunchedTeams" />
@@ -1018,13 +1054,13 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <EntitySet Name="tblTeamUsers" EntityType="Self.tblTeamUsers" />
           <EntitySet Name="tblUserRoles" EntityType="Self.tblUserRoles" />
           <EntitySet Name="tblUsers" EntityType="Self.tblUsers" />
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
           <AssociationSet Name="FK__tblSurvey__Grade__571DF1D5" Association="Self.FK__tblSurvey__Grade__571DF1D5">
             <End Role="tblGrades" EntitySet="tblGrades" />
             <End Role="tblSurveyResponses" EntitySet="tblSurveyResponses" />
-          </AssociationSet>
-          <AssociationSet Name="FK__tblLaunchedSurvey__Quest__440B1D61" Association="Self.FK__tblLaunchedSurvey__Quest__440B1D61">
-            <End Role="tblLaunchedQuestions" EntitySet="tblLaunchedQuestions" />
-            <End Role="tblLaunchedSurveyQuestions" EntitySet="tblLaunchedSurveyQuestions" />
           </AssociationSet>
           <AssociationSet Name="FK__tblLaunchedSurvey__Surve__403A8C7D" Association="Self.FK__tblLaunchedSurvey__Surve__403A8C7D">
             <End Role="tblLaunchedSurveys" EntitySet="tblLaunchedSurveys" />
@@ -1037,6 +1073,10 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <AssociationSet Name="FK_LaunchedTeams_LaunchedSurveys_SurveyId" Association="Self.FK_LaunchedTeams_LaunchedSurveys_SurveyId">
             <End Role="tblLaunchedSurveys" EntitySet="tblLaunchedSurveys" />
             <End Role="tblLaunchedTeams" EntitySet="tblLaunchedTeams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblLaunchedTeamUsers_LaunchedTeams_TeamId" Association="Self.FK_tblLaunchedTeamUsers_LaunchedTeams_TeamId">
+            <End Role="tblLaunchedTeams" EntitySet="tblLaunchedTeams" />
+            <End Role="tblLaunchedTeamUsers" EntitySet="tblLaunchedTeamUsers" />
           </AssociationSet>
           <AssociationSet Name="FK__tblSurvey__Quest__5441852A" Association="Self.FK__tblSurvey__Quest__5441852A">
             <End Role="tblQuestions" EntitySet="tblQuestions" />
@@ -1152,17 +1192,17 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <Property Type="Decimal" Name="UserId" Nullable="false" Precision="10" Scale="0" />
         </ComplexType>
         <ComplexType Name="spLaunchedSurveys_GetAll_Result">
-          <Property Type="Decimal" Name="SurveyId" Nullable="false" Precision="10" Scale="0" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="40" />
+          <Property Type="Int32" Name="SurveyId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
           <Property Type="DateTime" Name="StartDate" Nullable="false" Precision="23" />
           <Property Type="DateTime" Name="EndDate" Nullable="false" Precision="23" />
-          <Property Type="Decimal" Name="Released" Nullable="false" Precision="1" Scale="0" />
+          <Property Type="Boolean" Name="Released" Nullable="false" />
         </ComplexType>
         <ComplexType Name="spLaunchedSurveyTeams_GetById_Result">
-          <Property Type="Decimal" Name="SurveyId" Nullable="false" Precision="10" Scale="0" />
-          <Property Type="String" Name="SurveyName" Nullable="false" MaxLength="40" />
-          <Property Type="Decimal" Name="TeamId" Nullable="false" Precision="10" Scale="0" />
-          <Property Type="String" Name="TeamName" Nullable="false" MaxLength="32" />
+          <Property Type="Int32" Name="SurveyId" Nullable="false" />
+          <Property Type="String" Name="SurveyName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="TeamId" Nullable="false" />
+          <Property Type="String" Name="TeamName" Nullable="false" MaxLength="50" />
           <Property Type="Decimal" Name="UserId" Nullable="false" Precision="10" Scale="0" />
           <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="UserName" Nullable="false" MaxLength="256" />
@@ -1193,6 +1233,14 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="PEClientContext">
+          <EntitySetMapping Name="AspNetUserRoles">
+            <EntityTypeMapping TypeName="Model.AspNetUserRoles">
+              <MappingFragment StoreEntitySet="AspNetUserRoles">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="Model.AspNetUsers">
               <MappingFragment StoreEntitySet="AspNetUsers">
@@ -1221,21 +1269,13 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tblLaunchedQuestions">
-            <EntityTypeMapping TypeName="Model.tblLaunchedQuestions">
-              <MappingFragment StoreEntitySet="tblLaunchedQuestions">
-                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
-                <ScalarProperty Name="Text" ColumnName="Text" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tblLaunchedSurveyQuestions">
             <EntityTypeMapping TypeName="Model.tblLaunchedSurveyQuestions">
               <MappingFragment StoreEntitySet="tblLaunchedSurveyQuestions">
                 <ScalarProperty Name="SurveyQuestionId" ColumnName="SurveyQuestionId" />
                 <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
-                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
                 <ScalarProperty Name="QsIndex" ColumnName="QsIndex" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

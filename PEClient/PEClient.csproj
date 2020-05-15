@@ -202,10 +202,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspNetUserRoles.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="AspNetUsers.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\PeerSurveysController.cs" />
     <Compile Include="Models\CommentsAboutViewModel.cs" />
+    <Compile Include="Models\PeerSurveysViewModel.cs" />
     <Compile Include="Models\TeamCreateViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\LaunchedSurvey.cs" />
@@ -304,9 +309,6 @@
     <Compile Include="Models\SurveyCreateViewModel.cs" />
     <Compile Include="Models\ToneAnalysisViewModel.cs" />
     <Compile Include="tblGrades.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblLaunchedQuestions.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblLaunchedSurveyQuestions.cs">
@@ -468,6 +470,7 @@
     <Content Include="Views\Survey\Delete.cshtml" />
     <Content Include="Views\Team\Delete.cshtml" />
     <Content Include="Views\Team\Edit.cshtml" />
+    <Content Include="Views\PeerSurveys\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

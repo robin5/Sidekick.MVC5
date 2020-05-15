@@ -101,7 +101,7 @@ namespace PEClient.Models
                         Name = launchedSurvey.Name,
                         Start = launchedSurvey.StartDate.ToString(),
                         End = launchedSurvey.EndDate.ToString(),
-                        Status = launchedSurvey.Released == 0 ? "Not Released" : "Released"
+                        Status = launchedSurvey.Released ? "Not Released" : "Released"
                     }); ;
                 }
             }

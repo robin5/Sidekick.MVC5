@@ -14,11 +14,19 @@ namespace PEClient
     
     public partial class tblLaunchedTeams
     {
-        public decimal TeamId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblLaunchedTeams()
+        {
+            this.tblLaunchedTeamUsers = new HashSet<tblLaunchedTeamUsers>();
+        }
+    
+        public int TeamId { get; set; }
         public string Name { get; set; }
         public decimal OwnerId { get; set; }
-        public decimal SurveyId { get; set; }
+        public int SurveyId { get; set; }
     
         public virtual tblLaunchedSurveys tblLaunchedSurveys { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblLaunchedTeamUsers> tblLaunchedTeamUsers { get; set; }
     }
 }

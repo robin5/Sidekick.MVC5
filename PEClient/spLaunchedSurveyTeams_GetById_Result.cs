@@ -13,9 +13,9 @@ namespace PEClient
     
     public partial class spLaunchedSurveyTeams_GetById_Result
     {
-        public decimal SurveyId { get; set; }
+        public int SurveyId { get; set; }
         public string SurveyName { get; set; }
-        public decimal TeamId { get; set; }
+        public int TeamId { get; set; }
         public string TeamName { get; set; }
         public decimal UserId { get; set; }
         public string FullName { get; set; }

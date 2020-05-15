@@ -14,6 +14,12 @@ namespace PEClient
     
     public partial class AspNetUsers
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public AspNetUsers()
+        {
+            this.AspNetUserRoles = new HashSet<AspNetUserRoles>();
+        }
+    
         public string Id { get; set; }
         public string Email { get; set; }
         public bool EmailConfirmed { get; set; }
@@ -28,5 +34,8 @@ namespace PEClient
         public string UserName { get; set; }
         public string FullName { get; set; }
         public decimal UserId { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
     }
 }

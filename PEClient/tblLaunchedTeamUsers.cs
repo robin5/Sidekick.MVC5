@@ -14,8 +14,10 @@ namespace PEClient
     
     public partial class tblLaunchedTeamUsers
     {
-        public decimal TeamUserId { get; set; }
-        public decimal TeamId { get; set; }
+        public int TeamUserId { get; set; }
+        public int TeamId { get; set; }
         public decimal UserId { get; set; }
+    
+        public virtual tblLaunchedTeams tblLaunchedTeams { get; set; }
     }
 }

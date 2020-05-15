@@ -27,9 +27,9 @@ namespace PEClient
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<tblGrades> tblGrades { get; set; }
-        public virtual DbSet<tblLaunchedQuestions> tblLaunchedQuestions { get; set; }
         public virtual DbSet<tblLaunchedSurveyQuestions> tblLaunchedSurveyQuestions { get; set; }
         public virtual DbSet<tblLaunchedSurveys> tblLaunchedSurveys { get; set; }
         public virtual DbSet<tblLaunchedTeams> tblLaunchedTeams { get; set; }

@@ -10,13 +10,13 @@
 namespace PEClient
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class spLaunchedSurveys_GetAll_Result
+    public partial class AspNetUserRoles
     {
-        public int SurveyId { get; set; }
-        public string Name { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime EndDate { get; set; }
-        public bool Released { get; set; }
+        public string UserId { get; set; }
+        public string RoleId { get; set; }
+    
+        public virtual AspNetUsers AspNetUsers { get; set; }
     }
 }

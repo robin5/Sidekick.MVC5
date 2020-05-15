@@ -22,12 +22,12 @@ namespace PEClient
             this.tblLaunchedTeams = new HashSet<tblLaunchedTeams>();
         }
     
-        public decimal SurveyId { get; set; }
+        public int SurveyId { get; set; }
         public string Name { get; set; }
         public decimal OwnerId { get; set; }
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
-        public decimal Released { get; set; }
+        public bool Released { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblLaunchedSurveyQuestions> tblLaunchedSurveyQuestions { get; set; }
