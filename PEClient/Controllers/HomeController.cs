@@ -40,6 +40,13 @@ namespace PEClient.Controllers
     {
         public ActionResult Index()
         {
+            if (Request.IsAuthenticated)
+            {
+                if (User.IsInRole("Instructor") || User.IsInRole("Admin"))
+                    return RedirectToAction("Index", "Dashboard");
+                else
+                    return RedirectToAction("Index", "PeerSurveys");
+            }
             return View();
         }
 
