@@ -16,7 +16,7 @@ namespace PEClient
     {
         public int TeamUserId { get; set; }
         public int TeamId { get; set; }
-        public decimal UserId { get; set; }
+        public int UserId { get; set; }
     
         public virtual tblLaunchedTeams tblLaunchedTeams { get; set; }
     }

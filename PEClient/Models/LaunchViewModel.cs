@@ -128,11 +128,11 @@ namespace PEClient.Models
 
             try
             {
-                Decimal surveyId;
+                int surveyId;
                 DateTime startDate;
                 DateTime endDate;
 
-                if (Decimal.TryParse(Survey, out surveyId) &&
+                if (Int32.TryParse(Survey, out surveyId) &&
                     DateTime.TryParse(StartDateTime, out startDate) &&
                     DateTime.TryParse(EndDateTime, out endDate))
                 {

@@ -39,6 +39,6 @@ namespace PEClient.Models
     {
         public string Name;
         public string UserName;
-        public decimal id;
+        public int id;
     }
 }

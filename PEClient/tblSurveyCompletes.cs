@@ -14,10 +14,10 @@ namespace PEClient
     
     public partial class tblSurveyCompletes
     {
-        public decimal SurveyCompleteId { get; set; }
-        public decimal SurveyId { get; set; }
-        public decimal Reviewee { get; set; }
-        public decimal Reviewer { get; set; }
+        public int SurveyCompleteId { get; set; }
+        public int SurveyId { get; set; }
+        public int Reviewee { get; set; }
+        public int Reviewer { get; set; }
         public byte SubmissionId { get; set; }
     
         public virtual tblSubmissionStatus tblSubmissionStatus { get; set; }

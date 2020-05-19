@@ -21,14 +21,12 @@ namespace PEClient
             this.tblSurveyQuestions = new HashSet<tblSurveyQuestions>();
         }
     
-        public decimal SurveyId { get; set; }
+        public int SurveyId { get; set; }
         public string Name { get; set; }
-        public decimal OwnerId { get; set; }
-        public Nullable<decimal> InstanceId { get; set; }
+        public int OwnerId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSurveyCompletes> tblSurveyCompletes { get; set; }
-        public virtual tblSurveyInstances tblSurveyInstances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSurveyQuestions> tblSurveyQuestions { get; set; }
     }

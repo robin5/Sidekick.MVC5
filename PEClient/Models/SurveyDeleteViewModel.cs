@@ -40,7 +40,7 @@ namespace PEClient.Models
     public class SurveyDeleteViewModel
     {
         private string _aspNetId;
-        private decimal _surveyId;
+        private int _surveyId;
         public string SurveyName { get; set; }
         public string ErrorMessage { get; set; }
         public SurveyDeleteViewModel(string aspNetId, int surveyId)

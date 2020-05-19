@@ -38,6 +38,6 @@ namespace PEClient.Models
     public class Survey
     {
         public string Name { get; set; }
-        public decimal Id { get; set; }
+        public int Id { get; set; }
     }
 }

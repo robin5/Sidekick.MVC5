@@ -97,7 +97,7 @@ namespace PEClient.Models
             {
                 using (var db = new PEClientContext())
                 {
-                    db.sp_CreateSurvey(identity, _surveyName, _questions);
+                    db.spSurvey_Create(identity, _surveyName, _questions);
                 }
 
                 return true;

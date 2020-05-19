@@ -14,7 +14,7 @@ namespace PEClient
     public partial class spSurvey_GetById_Result
     {
         public string Name { get; set; }
-        public decimal QsIndex { get; set; }
+        public int QsIndex { get; set; }
         public string Text { get; set; }
     }
 }

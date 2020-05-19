@@ -14,12 +14,11 @@ namespace PEClient
     
     public partial class tblSurveyQuestions
     {
-        public decimal SurveyQuestionId { get; set; }
-        public decimal SurveyId { get; set; }
-        public decimal QuestionId { get; set; }
-        public decimal QsIndex { get; set; }
+        public int SurveyQuestionId { get; set; }
+        public int SurveyId { get; set; }
+        public int QsIndex { get; set; }
+        public string Text { get; set; }
     
-        public virtual tblQuestions tblQuestions { get; set; }
         public virtual tblSurveys tblSurveys { get; set; }
     }
 }

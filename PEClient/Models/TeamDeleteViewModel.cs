@@ -8,7 +8,7 @@ namespace PEClient.Models
     public class TeamDeleteViewModel
     {
         private string _aspNetId;
-        private decimal _teamId;
+        private int _teamId;
         public string TeamName { get; set; }
         public string ErrorMessage { get; set; }
         public TeamDeleteViewModel(string aspNetId, int surveyId)

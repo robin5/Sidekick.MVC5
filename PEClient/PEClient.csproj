@@ -290,6 +290,9 @@
     <Compile Include="spPeerSurveys_GetByAspNetId_Result.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="spResponses_GetBySurveyIdTeamId_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="spSurvey_GetAll_Result.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
@@ -326,9 +329,6 @@
     <Compile Include="tblLaunchedTeamUsers.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblQuestions.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="tblRoles.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
@@ -336,9 +336,6 @@
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblSurveyCompletes.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblSurveyInstances.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblSurveyQuestions.cs">

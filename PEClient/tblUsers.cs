@@ -19,12 +19,10 @@ namespace PEClient
         {
             this.tblSurveyCompletes = new HashSet<tblSurveyCompletes>();
             this.tblSurveyCompletes1 = new HashSet<tblSurveyCompletes>();
-            this.tblSurveyResponses = new HashSet<tblSurveyResponses>();
-            this.tblSurveyResponses1 = new HashSet<tblSurveyResponses>();
             this.tblUserRoles = new HashSet<tblUserRoles>();
         }
     
-        public decimal UserId { get; set; }
+        public int UserId { get; set; }
         public string Identity { get; set; }
         public string FullName { get; set; }
     
@@ -32,10 +30,6 @@ namespace PEClient
         public virtual ICollection<tblSurveyCompletes> tblSurveyCompletes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblSurveyCompletes> tblSurveyCompletes1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSurveyResponses> tblSurveyResponses { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblSurveyResponses> tblSurveyResponses1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblUserRoles> tblUserRoles { get; set; }
     }

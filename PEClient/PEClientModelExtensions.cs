@@ -41,7 +41,7 @@ namespace PEClient
                 }
             }
         }
-        public static void sp_CreateSurvey(this PEClientContext db, string identity, string surveyName, List<string> questions)
+        public static void spSurvey_Create(this PEClientContext db, string aspNetId, string surveyName, List<string> questions)
         {
             // Assembling the table parameter requires the following 3 steps:
 
@@ -67,19 +67,19 @@ namespace PEClient
             // Define the Parameters for the stored procedure call
             SqlParameter[] parameters =
             {
-                new SqlParameter // @Id
+                new SqlParameter // @AspNetId
                 {
                     //SqlDbType = SqlDbType.UniqueIdentifier,
                     SqlDbType = SqlDbType.NVarChar,
                     Size = 128,
                     Direction = ParameterDirection.Input,
-                    ParameterName = "Id",
-                    Value = identity
+                    ParameterName = "AspNetId",
+                    Value = aspNetId
                 },
                 new SqlParameter // @SurveyName
                 {
-                    SqlDbType = SqlDbType.VarChar,
-                    Size = 40,
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size = 50,
                     Direction = ParameterDirection.Input,
                     ParameterName = "SurveyName",
                     Value = surveyName
@@ -98,16 +98,16 @@ namespace PEClient
             // it's own transaction for your SP.  In that case you don't need internal transaction 
             // in DB or you must detect it with @@trancount and/or XACT_STATE() and change your logic
             db.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction,
-                "exec spSurvey_Create @Id, @SurveyName, @Questions", parameters);
+                "exec spSurvey_Create @AspNetId, @SurveyName, @Questions", parameters);
         }
-        public static void spSurvey_Update(this PEClientContext db, string aspNetId, decimal surveyId, string surveyName, List<string> questions)
+        public static void spSurvey_Update(this PEClientContext db, string aspNetId, int surveyId, string surveyName, List<string> questions)
         {
             QuestionsList questionsList = new QuestionsList(questions);
 
             // Define the Parameters for the stored procedure call
             SqlParameter[] parameters =
             {
-                new SqlParameter // @Id
+                new SqlParameter // @AspNetId
                 {
                     //SqlDbType = SqlDbType.UniqueIdentifier,
                     SqlDbType = SqlDbType.NVarChar,
@@ -118,17 +118,15 @@ namespace PEClient
                 },
                 new SqlParameter // @SurveyId
                 {
-                    SqlDbType = SqlDbType.Decimal,
-                    Precision = 10,
-                    Scale = 2,
+                    SqlDbType = SqlDbType.Int,
                     Direction = ParameterDirection.Input,
                     ParameterName = "SurveyId",
                     Value = surveyId
                 },
                 new SqlParameter // @SurveyName
                 {
-                    SqlDbType = SqlDbType.VarChar,
-                    Size = 40,
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size = 50,
                     Direction = ParameterDirection.Input,
                     ParameterName = "SurveyName",
                     Value = surveyName
@@ -149,13 +147,13 @@ namespace PEClient
             db.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction,
                 "exec spSurvey_Update @AspNetId, @SurveyId, @SurveyName, @Questions", parameters);
         }
-        public static void spTeam_Create(this PEClientContext db, string identity, string teamName, IEnumerable<int> userIds)
+        public static void spTeam_Create(this PEClientContext db, string aspNetId, string teamName, IEnumerable<int> userIds)
         {
             // Assembling the table parameter requires the following 3 steps:
 
             // (1) Define the schema for a row in the QuestionList table-type in SQL Server
             var tableSchema = new List<SqlMetaData>(1) {
-                        new SqlMetaData("UserId", SqlDbType.Decimal)
+                        new SqlMetaData("UserId", SqlDbType.Int)
                     }.ToArray();
 
             // (2) Create table for holding the tables rows
@@ -165,7 +163,7 @@ namespace PEClient
             foreach (int userId in userIds)
             {
                 var row = new SqlDataRecord(tableSchema);
-                row.SetSqlDecimal(0, userId); // Add UserId
+                row.SetSqlInt32(0, userId); // Add UserId
                 tblUserIds.Add(row);
             }
 
@@ -179,12 +177,12 @@ namespace PEClient
                     Size = 128,
                     Direction = ParameterDirection.Input,
                     ParameterName = "AspNetId",
-                    Value = identity
+                    Value = aspNetId
                 },
                 new SqlParameter // @TeamName
                 {
-                    SqlDbType = SqlDbType.VarChar,
-                    Size = 40,
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size = 50,
                     Direction = ParameterDirection.Input,
                     ParameterName = "TeamName",
                     Value = teamName
@@ -205,13 +203,13 @@ namespace PEClient
             db.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction,
                 "exec spTeam_Create @AspNetId, @TeamName, @UserIds", parameters);
         }
-        public static void spTeam_Update(this PEClientContext db, string identity, decimal teamId, string teamName, IEnumerable<int> userIds)
+        public static void spTeam_Update(this PEClientContext db, string aspNetId, int teamId, string teamName, IEnumerable<int> userIds)
         {
             // Assembling the table parameter requires the following 3 steps:
 
             // (1) Define the schema for a row in the QuestionList table-type in SQL Server
             var tableSchema = new List<SqlMetaData>(1) {
-                        new SqlMetaData("UserId", SqlDbType.Decimal)
+                        new SqlMetaData("UserId", SqlDbType.Int)
                     }.ToArray();
 
             // (2) Create table for holding the tables rows
@@ -221,7 +219,7 @@ namespace PEClient
             foreach (int userId in userIds)
             {
                 var row = new SqlDataRecord(tableSchema);
-                row.SetSqlDecimal(0, userId); // Add UserId
+                row.SetSqlInt32(0, userId); // Add UserId
                 tblUserIds.Add(row);
             }
 
@@ -235,21 +233,19 @@ namespace PEClient
                     Size = 128,
                     Direction = ParameterDirection.Input,
                     ParameterName = "AspNetId",
-                    Value = identity
+                    Value = aspNetId
                 },
                 new SqlParameter // @TeamId
                 {
-                    SqlDbType = SqlDbType.Decimal,
-                    Precision = 10,
-                    Scale = 2,
+                    SqlDbType = SqlDbType.Int,
                     Direction = ParameterDirection.Input,
                     ParameterName = "TeamId",
                     Value = teamId
                 },
                 new SqlParameter // @TeamName
                 {
-                    SqlDbType = SqlDbType.VarChar,
-                    Size = 40,
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size = 50,
                     Direction = ParameterDirection.Input,
                     ParameterName = "TeamName",
                     Value = teamName
@@ -270,13 +266,13 @@ namespace PEClient
             db.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction,
                 "exec spTeam_Update @AspNetId, @TeamId, @TeamName, @UserIds", parameters);
         }
-        public static void spLaunch_Create(this PEClientContext db, string identity, string launchName, decimal surveyId, DateTime startDate, DateTime endDate, IEnumerable<int> teamIds)
+        public static void spLaunch_Create(this PEClientContext db, string aspNetId, string launchName, int surveyId, DateTime startDate, DateTime endDate, IEnumerable<int> teamIds)
         {
             // Assembling the table parameter requires the following 3 steps:
 
             // (1) Define the schema for a row in the TeamIdList table-type in SQL Server
             var tableSchema = new List<SqlMetaData>(1) {
-                        new SqlMetaData("TeamId", SqlDbType.Decimal)
+                        new SqlMetaData("TeamId", SqlDbType.Int)
                     }.ToArray();
 
             // (2) Create table for holding the tables rows
@@ -286,7 +282,7 @@ namespace PEClient
             foreach (int teamId in teamIds)
             {
                 var row = new SqlDataRecord(tableSchema);
-                row.SetSqlDecimal(0, teamId); // Add UserId
+                row.SetSqlInt32(0, teamId); // Add UserId
                 tblTeamIds.Add(row);
             }
 
@@ -300,21 +296,19 @@ namespace PEClient
                     Size = 128,
                     Direction = ParameterDirection.Input,
                     ParameterName = "AspNetId",
-                    Value = identity
+                    Value = aspNetId
                 },
                 new SqlParameter // @LaunchName
                 {
-                    SqlDbType = SqlDbType.VarChar,
-                    Size = 40,
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size = 50,
                     Direction = ParameterDirection.Input,
                     ParameterName = "LaunchName",
                     Value = launchName
                 },
                 new SqlParameter // @SurveyId
                 {
-                    SqlDbType = SqlDbType.Decimal,
-                    Precision = 10,
-                    Scale = 2,
+                    SqlDbType = SqlDbType.Int,
                     Direction = ParameterDirection.Input,
                     ParameterName = "SurveyId",
                     Value = surveyId

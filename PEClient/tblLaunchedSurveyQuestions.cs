@@ -14,12 +14,19 @@ namespace PEClient
     
     public partial class tblLaunchedSurveyQuestions
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblLaunchedSurveyQuestions()
+        {
+            this.tblSurveyResponses = new HashSet<tblSurveyResponses>();
+        }
+    
         public int SurveyQuestionId { get; set; }
         public int SurveyId { get; set; }
         public int QsIndex { get; set; }
         public string Text { get; set; }
     
         public virtual tblLaunchedSurveys tblLaunchedSurveys { get; set; }
-        public virtual tblLaunchedSurveys tblLaunchedSurveys1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblSurveyResponses> tblSurveyResponses { get; set; }
     }
 }

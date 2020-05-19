@@ -14,16 +14,16 @@ namespace PEClient
     
     public partial class tblSurveyResponses
     {
-        public decimal ResponseId { get; set; }
-        public decimal QuestionId { get; set; }
-        public decimal Reviewee { get; set; }
-        public decimal Reviewer { get; set; }
+        public int ResponseId { get; set; }
+        public int QuestionId { get; set; }
+        public int Reviewee { get; set; }
+        public int Reviewer { get; set; }
         public string Text { get; set; }
         public byte GradeId { get; set; }
+        public int TeamId { get; set; }
     
         public virtual tblGrades tblGrades { get; set; }
-        public virtual tblQuestions tblQuestions { get; set; }
-        public virtual tblUsers tblUsers { get; set; }
-        public virtual tblUsers tblUsers1 { get; set; }
+        public virtual tblLaunchedSurveyQuestions tblLaunchedSurveyQuestions { get; set; }
+        public virtual tblLaunchedTeams tblLaunchedTeams { get; set; }
     }
 }

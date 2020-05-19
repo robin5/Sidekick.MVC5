@@ -17,7 +17,7 @@ namespace PEClient
         public string SurveyName { get; set; }
         public int TeamId { get; set; }
         public string TeamName { get; set; }
-        public decimal UserId { get; set; }
+        public int UserId { get; set; }
         public string FullName { get; set; }
         public string UserName { get; set; }
     }

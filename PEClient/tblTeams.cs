@@ -20,9 +20,9 @@ namespace PEClient
             this.tblTeamUsers = new HashSet<tblTeamUsers>();
         }
     
-        public decimal TeamId { get; set; }
+        public int TeamId { get; set; }
         public string Name { get; set; }
-        public decimal OwnerId { get; set; }
+        public int OwnerId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblTeamUsers> tblTeamUsers { get; set; }

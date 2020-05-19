@@ -11,17 +11,21 @@ namespace PEClient
 {
     using System;
     
-    public partial class spPeerSurveys_GetByAspNetId_Result
+    public partial class spResponses_GetBySurveyIdTeamId_Result
     {
         public int SurveyId { get; set; }
-        public int TeamId { get; set; }
-        public int UserId { get; set; }
         public string SurveyName { get; set; }
+        public int SurveyQuestionId { get; set; }
+        public int Index { get; set; }
+        public string Text { get; set; }
+        public int TeamId { get; set; }
         public string TeamName { get; set; }
-        public string FullName { get; set; }
-        public int OwnerId { get; set; }
-        public string OwnerName { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime EndDate { get; set; }
+        public Nullable<int> ReviewerId { get; set; }
+        public string ReviewerName { get; set; }
+        public int RevieweeId { get; set; }
+        public string RevieweeName { get; set; }
+        public string RevieweeUserName { get; set; }
+        public Nullable<byte> GradeId { get; set; }
+        public string Text1 { get; set; }
     }
 }

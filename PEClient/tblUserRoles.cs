@@ -14,8 +14,8 @@ namespace PEClient
     
     public partial class tblUserRoles
     {
-        public decimal UserRoleId { get; set; }
-        public decimal UserId { get; set; }
+        public int UserRoleId { get; set; }
+        public int UserId { get; set; }
         public byte RoleId { get; set; }
     
         public virtual tblRoles tblRoles { get; set; }

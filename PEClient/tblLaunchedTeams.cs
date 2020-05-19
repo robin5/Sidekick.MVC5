@@ -18,15 +18,18 @@ namespace PEClient
         public tblLaunchedTeams()
         {
             this.tblLaunchedTeamUsers = new HashSet<tblLaunchedTeamUsers>();
+            this.tblSurveyResponses = new HashSet<tblSurveyResponses>();
         }
     
         public int TeamId { get; set; }
         public string Name { get; set; }
-        public decimal OwnerId { get; set; }
+        public int OwnerId { get; set; }
         public int SurveyId { get; set; }
     
         public virtual tblLaunchedSurveys tblLaunchedSurveys { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblLaunchedTeamUsers> tblLaunchedTeamUsers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblSurveyResponses> tblSurveyResponses { get; set; }
     }
 }

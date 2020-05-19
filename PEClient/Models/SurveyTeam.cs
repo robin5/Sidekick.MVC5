@@ -8,7 +8,7 @@ namespace PEClient.Models
     public class SurveyTeam: Team
     {
         private List<SurveySummaryStudent> _users = new List<SurveySummaryStudent>();
-        public SurveyTeam(string name, decimal id)
+        public SurveyTeam(string name, int id)
         {
             this.Name = name;
             this.Id = id;

@@ -8,10 +8,10 @@ namespace PEClient.Models
     public class ResultsViewModel
     {
         private List<Team> _teams = new List<Team>();
-        private decimal _surveyId = -1;
+        private int _surveyId = -1;
         private string _surveyName = String.Empty;
         public string SurveyName { get { return _surveyName; } }
-        public decimal SurveyId { get { return _surveyId; } }
+        public int SurveyId { get { return _surveyId; } }
         public IEnumerable<Team> Teams { get { return _teams; } }
         public ResultsViewModel(string aspNetId, int surveyId)
         {
