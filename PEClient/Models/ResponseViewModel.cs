@@ -9,39 +9,13 @@ using System.Web;
 
 namespace PEClient.Models
 {
-    public class PeerSurveysViewModel
+    public class ResponseViewModel
     {
         public List<spPeerSurveys_GetByAspNetId_Result> _surveys = new List<spPeerSurveys_GetByAspNetId_Result>();
-        public PeerSurveysViewModel(string aspNetId)
+        public ResponseViewModel(string aspNetId)
         {
             LoadData(aspNetId);
-
-            //_launchedSurveys.Add(new LaunchedSurvey
-            //{
-            //    Id = 0,
-            //    Name = "Survey #1",
-            //    Start = "12/25/2020 00:00",
-            //    End = "12/26/2020 11:59",
-            //    Status = "Ready",
-            //});
-            //_launchedSurveys.Add(new LaunchedSurvey
-            //{
-            //    Id = 0,
-            //    Name = "Survey #2",
-            //    Start = "12/25/2021 00:00",
-            //    End = "12/26/2021 11:59",
-            //    Status = "Ready",
-            //});
-            //_launchedSurveys.Add(new LaunchedSurvey
-            //{
-            //    Id = 0,
-            //    Name = "Survey #3",
-            //    Start = "12/25/2022 00:00",
-            //    End = "12/26/2022 11:59",
-            //    Status = "Ready",
-            //});
         }
-
         private void LoadData(string aspNetId)
         {
             using (var db = new PEClientContext())

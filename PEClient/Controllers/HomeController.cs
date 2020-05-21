@@ -45,7 +45,7 @@ namespace PEClient.Controllers
                 if (User.IsInRole("Instructor") || User.IsInRole("Admin"))
                     return RedirectToAction("Index", "Dashboard");
                 else
-                    return RedirectToAction("Index", "PeerSurveys");
+                    return RedirectToAction("Index", "Response");
             }
             return View();
         }

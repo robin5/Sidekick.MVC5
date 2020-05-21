@@ -32,7 +32,7 @@
     **********************************************************************************
 *@
 
-@model  PEClient.Models.PeerSurveysViewModel
+@model  PEClient.Models.ResponseViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -70,7 +70,10 @@
                                 <td class="table-data">@survey.StartDate</td>
                                 <td class="table-data">@survey.EndDate</td>
                                 <td class="table-data-badge">
-                                    <a data-row-id="@survey.SurveyId" href="#0" class="badge badge-primary badge-letter-spacing">start</a>
+                                    <a 
+                                       data-row-id="@survey.SurveyId" 
+                                       href="@Url.Action("Edit", "Response", new { surveyId = survey.SurveyId, teamId = survey.TeamId }, null)" 
+                                       class="badge badge-primary badge-letter-spacing">start</a>
                                 </td>
                             </tr>
                         }

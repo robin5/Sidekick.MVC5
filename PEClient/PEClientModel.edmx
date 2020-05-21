@@ -1070,7 +1070,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <Property Type="String" Name="SurveyName" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="SurveyQuestionId" Nullable="false" />
           <Property Type="Int32" Name="Index" Nullable="false" />
-          <Property Type="String" Name="Text" Nullable="true" MaxLength="512" />
+          <Property Type="String" Name="Question" Nullable="true" MaxLength="512" />
           <Property Type="Int32" Name="TeamId" Nullable="false" />
           <Property Type="String" Name="TeamName" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="ReviewerId" Nullable="true" />
@@ -1079,7 +1079,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <Property Type="String" Name="RevieweeName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="RevieweeUserName" Nullable="false" MaxLength="256" />
           <Property Type="Byte" Name="GradeId" Nullable="true" />
-          <Property Type="String" Name="Text1" Nullable="true" MaxLength="512" />
+          <Property Type="String" Name="Answer" Nullable="true" MaxLength="512" />
         </ComplexType>
         <ComplexType Name="spSurvey_GetAll_Result">
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
@@ -1336,7 +1336,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
                 <ScalarProperty Name="SurveyName" ColumnName="SurveyName" />
                 <ScalarProperty Name="SurveyQuestionId" ColumnName="SurveyQuestionId" />
                 <ScalarProperty Name="Index" ColumnName="Index" />
-                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
                 <ScalarProperty Name="TeamId" ColumnName="TeamId" />
                 <ScalarProperty Name="TeamName" ColumnName="TeamName" />
                 <ScalarProperty Name="ReviewerId" ColumnName="ReviewerId" />
@@ -1345,7 +1345,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
                 <ScalarProperty Name="RevieweeName" ColumnName="RevieweeName" />
                 <ScalarProperty Name="RevieweeUserName" ColumnName="RevieweeUserName" />
                 <ScalarProperty Name="GradeId" ColumnName="GradeId" />
-                <ScalarProperty Name="Text1" ColumnName="Text1" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

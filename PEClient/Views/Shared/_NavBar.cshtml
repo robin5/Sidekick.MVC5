@@ -15,7 +15,7 @@
                 }
                 @if (User.Identity.IsAuthenticated && (User.IsInRole("Student")))
                 {
-                    <li class="nav-item">@Html.ActionLink("Peer Surveys", "Index", "PeerSurveys", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Peer Surveys", "Index", "Response", null, new { @class = "nav-link" })</li>
                 }
                 <li class="nav-item">@Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })</li>
                 <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })</li>

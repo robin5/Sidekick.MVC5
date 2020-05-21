@@ -1,0 +1,55 @@
+﻿@model PEClient.Models.ResponseEditViewModel
+
+@{
+    ViewBag.Title = "My Responses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-md dsh-container">
+    <div class="dsh-title">
+        <h2>@Model.ReviewerName Responses to @Model.SurveyName (@Model.TeamName)</h2>
+    </div>
+    <div class="dsh-content container-fluid">
+
+        @{
+            var toneIndex = 0;
+            var qIndex = 1;
+            var questionAdded = false;
+            var ResponseGroups = Model.Responses.GroupBy(c => c.Index);
+        }
+
+        @foreach (var responseGroup in ResponseGroups)
+        {
+            questionAdded = false;
+            <div class="cb-question-group">
+
+                @foreach (var question in responseGroup)
+                {
+                    if (!questionAdded)
+                    {
+                        <button class="cb-question btn btn-info" type="button" data-toggle="collapse" data-target="#templates@(qIndex)" aria-expanded="false" aria-controls="collapseExample">
+                            <p><span class="cb-question-index">@(qIndex).</span> @(question.Question)</p>
+                        </button>
+                        questionAdded = true;
+                    }
+
+                    <div id="templates@(qIndex)" class="collapse">
+                        <div class="cb-answer-group">
+                            <p class="cb-student-and-grade">@(question.RevieweeName) - Grade: @(question.GradeId)</p>
+                            <div class="cb-textarea">
+                                <textarea class="cb-textarea form-control">@(question.Answer)</textarea>
+                            </div>
+
+                            @Html.Partial("~/Views/Shared/_ToneAnalysis.cshtml", null, new ViewDataDictionary { { "ToneIndex", toneIndex.ToString() } })
+                            <hr>
+                            @{
+                                toneIndex++;
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+            qIndex++;
+        }
+    </div>
+</div>

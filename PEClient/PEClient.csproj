@@ -208,9 +208,11 @@
     <Compile Include="AspNetUsers.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\PeerSurveysController.cs" />
+    <Compile Include="Controllers\ResponseController.cs" />
     <Compile Include="Models\CommentsAboutViewModel.cs" />
-    <Compile Include="Models\PeerSurveysViewModel.cs" />
+    <Compile Include="Models\Response.cs" />
+    <Compile Include="Models\ResponseEditViewModel.cs" />
+    <Compile Include="Models\ResponseViewModel.cs" />
     <Compile Include="Models\TeamCreateViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\LaunchedSurvey.cs" />
@@ -470,7 +472,8 @@
     <Content Include="Views\Survey\Delete.cshtml" />
     <Content Include="Views\Team\Delete.cshtml" />
     <Content Include="Views\Team\Edit.cshtml" />
-    <Content Include="Views\PeerSurveys\Index.cshtml" />
+    <Content Include="Views\Response\Index.cshtml" />
+    <Content Include="Views\Response\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

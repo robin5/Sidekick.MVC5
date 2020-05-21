@@ -34,12 +34,38 @@ using System.Web.Mvc;
 namespace PEClient.Controllers
 {
     [Authorize(Roles = "Student")]
-    public class PeerSurveysController : Controller
+    public class ResponseController : Controller
     {
         // GET: Student
         public ActionResult Index()
         {
-            return View(new PeerSurveysViewModel(User.Identity.GetUserId()));
+            return View(new ResponseViewModel(User.Identity.GetUserId()));
+        }
+        // GET: Edit peer survey response
+        [Route("Response/Edit/{surveyId}/{teamId}")]
+        public ActionResult Edit(int surveyId, int teamId)
+        {
+            return View(new ResponseEditViewModel(User.Identity.GetUserId(), surveyId, teamId));
+        }
+        // POST: Edit peer survey response
+        [HttpPost]
+        public ActionResult Edit(ResponseEditViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (model.save(User.Identity.GetUserId()))
+            {
+                TempData.SuccessMessage($"Successfully updated {model.SurveyName}.");
+            }
+            else
+            {
+                TempData.ErrorMessage($"Failed updating {model.SurveyName}: " + model.SaveErrorMessage);
+            }
+
+            return RedirectToAction("Index", "Dashboard");
         }
     }
 }
