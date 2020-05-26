@@ -1,0 +1,13 @@
+﻿@{
+    byte? grade = (byte?)ViewData["Grade"];
+    int index = (int)ViewData["Index"];
+}
+
+    <select name="GradeId[@index]">
+        <option value=""  @(grade == null ? "Selected" : "")>-- Please Select --</option>
+        <option value="1" @(grade == 1 ? "Selected" : "")>&nbsp;&nbsp;A</option>
+        <option value="2" @(grade == 2 ? "Selected" : "")>&nbsp;&nbsp;B</option>
+        <option value="3" @(grade == 3 ? "Selected" : "")>&nbsp;&nbsp;C</option>
+        <option value="4" @(grade == 4 ? "Selected" : "")>&nbsp;&nbsp;D</option>
+        <option value="5" @(grade == 5 ? "Selected" : "")>&nbsp;&nbsp;F</option>
+    </select>

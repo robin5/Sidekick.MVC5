@@ -29,6 +29,7 @@
 // **********************************************************************************
 using Microsoft.AspNet.Identity;
 using PEClient.Models;
+using System.Diagnostics;
 using System.Web.Mvc;
 
 namespace PEClient.Controllers
@@ -36,27 +37,28 @@ namespace PEClient.Controllers
     [Authorize(Roles = "Student")]
     public class ResponseController : Controller
     {
-        // GET: Student
+        [HttpGet]
         public ActionResult Index()
         {
             return View(new ResponseViewModel(User.Identity.GetUserId()));
         }
-        // GET: Edit peer survey response
+
+        [HttpGet]
         [Route("Response/Edit/{surveyId}/{teamId}")]
         public ActionResult Edit(int surveyId, int teamId)
         {
             return View(new ResponseEditViewModel(User.Identity.GetUserId(), surveyId, teamId));
         }
-        // POST: Edit peer survey response
-        [HttpPost]
-        public ActionResult Edit(ResponseEditViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
 
-            if (model.save(User.Identity.GetUserId()))
+        [HttpPost]
+        [Route("Response/Edit/{surveyId}/{teamId}")]
+        public ActionResult Edit(int surveyId, int teamId, ResponseEditViewModel model)
+        {
+            // if submit button was pressed then set the submit flag 
+            // otherwise clear the submit flag
+            bool submitFlag = "submit" == Request.Form.Get("submit");
+
+            if (model.save(User.Identity.GetUserId(), submitFlag))
             {
                 TempData.SuccessMessage($"Successfully updated {model.SurveyName}.");
             }
@@ -65,7 +67,7 @@ namespace PEClient.Controllers
                 TempData.ErrorMessage($"Failed updating {model.SurveyName}: " + model.SaveErrorMessage);
             }
 
-            return RedirectToAction("Index", "Dashboard");
+            return RedirectToAction("Index", "Response");
         }
     }
 }

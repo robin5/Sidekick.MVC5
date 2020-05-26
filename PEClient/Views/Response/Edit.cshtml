@@ -14,42 +14,86 @@
         @{
             var toneIndex = 0;
             var qIndex = 1;
-            var questionAdded = false;
+            var questionDisplayed = false;
             var ResponseGroups = Model.Responses.GroupBy(c => c.Index);
         }
 
-        @foreach (var responseGroup in ResponseGroups)
+        @if (IsPost)
         {
-            questionAdded = false;
-            <div class="cb-question-group">
+            <br><div class="alert alert-danger">@Html.ValidationSummary("Errors")</div>
+        }
 
-                @foreach (var question in responseGroup)
-                {
-                    if (!questionAdded)
-                    {
-                        <button class="cb-question btn btn-info" type="button" data-toggle="collapse" data-target="#templates@(qIndex)" aria-expanded="false" aria-controls="collapseExample">
-                            <p><span class="cb-question-index">@(qIndex).</span> @(question.Question)</p>
-                        </button>
-                        questionAdded = true;
-                    }
-
-                    <div id="templates@(qIndex)" class="collapse">
-                        <div class="cb-answer-group">
-                            <p class="cb-student-and-grade">@(question.RevieweeName) - Grade: @(question.GradeId)</p>
-                            <div class="cb-textarea">
-                                <textarea class="cb-textarea form-control">@(question.Answer)</textarea>
-                            </div>
-
-                            @Html.Partial("~/Views/Shared/_ToneAnalysis.cshtml", null, new ViewDataDictionary { { "ToneIndex", toneIndex.ToString() } })
-                            <hr>
-                            @{
-                                toneIndex++;
-                            }
-                        </div>
-                    </div>
-                }
+        @using (Html.BeginForm("Edit", "Response", FormMethod.Post, new { @class = "form-launch" }))
+        {
+            <div>
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.SurveyId)
+                @Html.HiddenFor(m => m.SurveyName)
+                @Html.HiddenFor(m => m.TeamId)
+                @Html.HiddenFor(m => m.TeamName)
+                @Html.HiddenFor(m => m.ReviewerId)
+                @Html.HiddenFor(m => m.ReviewerName)
             </div>
-            qIndex++;
+
+            int rowId = -1;
+
+            foreach (var responseGroup in ResponseGroups)
+            {
+                questionDisplayed = false;
+
+                <div class="cb-question-group">
+
+                    @foreach (var question in responseGroup)
+                    {
+                        rowId++;
+
+                        if (!questionDisplayed)
+                        {
+                            <button class="cb-question btn btn-info" type="button" data-toggle="collapse" data-target="#templates@(qIndex)" aria-expanded="false" aria-controls="collapseExample">
+                                <p><span class="cb-question-index">@(qIndex).</span> @(question.Question)</p>
+                            </button>
+                            questionDisplayed = true;
+                        }
+
+                        <div id="templates@(qIndex)" class="collapse">
+                            <div class="cb-answer-group">
+                                <p class="cb-student-and-grade">
+                                    @(question.RevieweeName) - Grade:
+
+                                    @Html.Partial("~/Views/Shared/_GradeSelect.cshtml",
+                                        new ViewDataDictionary
+                                        {
+                                            { "Grade", question.GradeId },
+                                            { "Index", rowId }
+                                        })
+
+                                </p>
+                                <div class="cb-textarea">
+                                    <input type="hidden" name="ResponseQuestionId[@(rowId)]" value="@question.SurveyQuestionId" />
+                                    <input type="hidden" name="ResponseRevieweeId[@(rowId)]" value="@question.RevieweeId" />
+                                    <textarea ID="q-@question.SurveyQuestionId-@question.RevieweeId" class="cb-textarea form-control" name="ResponseText[@(rowId)]">@(question.Answer)</textarea>
+                                </div>
+
+                                @Html.Partial("~/Views/Shared/_ToneAnalysis.cshtml", null, new ViewDataDictionary { { "ToneIndex", toneIndex.ToString() } })
+                                <hr>
+                                @{
+                                    toneIndex++;
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+                qIndex++;
+            }
+            <hr />
+            <!-- Submit Button -->
+            <button id="btn-submit" name="submit" type="submit" class="btn btn-success" value="save">
+                Save
+            </button>
+            <button id="btn-submit" name="submit" type="submit" class="btn btn-success" value="submit">
+                Submit
+            </button>
+            <a id="btn-cancel" href="@Url.Action("Index", "Response")" class="btn btn-danger">Cancel</a>
         }
     </div>
 </div>

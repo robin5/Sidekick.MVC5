@@ -212,6 +212,7 @@
     <Compile Include="Models\CommentsAboutViewModel.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\ResponseEditViewModel.cs" />
+    <Compile Include="Models\ResponseUpdate.cs" />
     <Compile Include="Models\ResponseViewModel.cs" />
     <Compile Include="Models\TeamCreateViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
@@ -474,6 +475,7 @@
     <Content Include="Views\Team\Edit.cshtml" />
     <Content Include="Views\Response\Index.cshtml" />
     <Content Include="Views\Response\Edit.cshtml" />
+    <Content Include="Views\Shared\_GradeSelect.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using PEClient.Models;
 
 namespace PEClient
 {
@@ -342,6 +343,77 @@ namespace PEClient
             // in DB or you must detect it with @@trancount and/or XACT_STATE() and change your logic
             db.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction,
                 "exec spLaunch_Create @AspNetId, @LaunchName, @SurveyId, @StartDate, @EndDate, @TeamIds", parameters);
+        }
+        public static void spResponses_Update(this PEClientContext db, string aspNetId, IEnumerable<ResponseUpdate> Responses, bool submit)
+        {
+            // Assembling the table parameter requires the following 3 steps:
+
+            // (1) Define the schema for a row in the QuestionList table-type in SQL Server
+            var tableSchema = new List<SqlMetaData>(1) {
+                        new SqlMetaData("QuestionId", SqlDbType.Int),
+                        new SqlMetaData("Reviewee", SqlDbType.Int),
+                        new SqlMetaData("Reviewer", SqlDbType.Int),
+                        new SqlMetaData("Text", SqlDbType.Text),
+                        new SqlMetaData("GradeId", SqlDbType.TinyInt),
+                        new SqlMetaData("TeamId", SqlDbType.Int)
+                    }.ToArray();
+
+            // (2) Create table for holding the tables rows
+            var tblResponses = new List<SqlDataRecord>();
+
+            // (3) Insert rows into the table
+            foreach (ResponseUpdate response in Responses)
+            {
+                var tableRow = new SqlDataRecord(tableSchema);
+                tableRow.SetSqlInt32(0, response.QuestionId); // Set index value and increment index
+                tableRow.SetSqlInt32(1, response.Reviewee); // Set index value and increment index
+                tableRow.SetSqlInt32(2, response.Reviewer); // Set index value and increment index
+                tableRow.SetSqlString(3, response.Text); // Add Question text
+                if (null == response.GradeId)
+                {
+                    tableRow.SetDBNull(4); // Set index value and increment index
+                }
+                else
+                {
+                    tableRow.SetSqlByte(4, (byte)response.GradeId); // Set index value and increment index
+                }
+                tableRow.SetSqlInt32(5, response.TeamId); // Set index value and increment index
+                tblResponses.Add(tableRow);
+            }
+
+            // Define the Parameters for the stored procedure call
+            SqlParameter[] parameters =
+            {
+                new SqlParameter // @AspNetId
+                {
+                    SqlDbType = SqlDbType.NVarChar,
+                    Size = 128,
+                    Direction = ParameterDirection.Input,
+                    ParameterName = "AspNetId",
+                    Value = aspNetId
+                },
+                new SqlParameter // @Responses
+                {
+                    SqlDbType = SqlDbType.Structured,
+                    Direction = ParameterDirection.Input,
+                    ParameterName = "Responses",
+                    TypeName = "[dbo].[ResponseList]",
+                    Value = tblResponses
+                },
+                new SqlParameter // @TeamId
+                {
+                    SqlDbType = SqlDbType.Bit,
+                    Direction = ParameterDirection.Input,
+                    ParameterName = "Submit",
+                    Value = submit
+                }
+            };
+
+            // Do not forget to use "DoNotEnsureTransaction" because if you don't EF will start 
+            // it's own transaction for your SP.  In that case you don't need internal transaction 
+            // in DB or you must detect it with @@trancount and/or XACT_STATE() and change your logic
+            db.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction,
+                "exec spResponses_Update @AspNetId, @Responses, @submit", parameters);
         }
     }
 }

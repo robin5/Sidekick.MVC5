@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="6933f623a5ed494d8830d68bc539da6d" Name="Diagram1">
+      <Diagram DiagramId="e91f1aff2ffd491da368fc17d7383759" Name="Diagram1">
         <EntityTypeShape EntityType="Model.AspNetUserRoles" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.AspNetUsers" Width="1.5" PointX="0.75" PointY="13.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.tblGrades" Width="1.5" PointX="8" PointY="1.375" IsExpanded="true" />

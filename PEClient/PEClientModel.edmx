@@ -394,6 +394,10 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
           <Parameter Name="SurveyId" Type="int" Mode="In" />
           <Parameter Name="TeamId" Type="int" Mode="In" />
         </Function>
+        <Function Name="spResponses_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
+          <Parameter Name="Submit" Type="bit" Mode="In" />
+        </Function>
         <Function Name="spSurvey_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspNetId" Type="nvarchar" Mode="In" />
           <Parameter Name="SurveyName" Type="nvarchar" Mode="In" />
@@ -991,6 +995,10 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
             <Parameter Name="SurveyId" Mode="In" Type="Int32" />
             <Parameter Name="TeamId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="spResponses_Update">
+            <Parameter Name="AspNetId" Mode="In" Type="String" />
+            <Parameter Name="Submit" Mode="In" Type="Boolean" />
+          </FunctionImport>
           <FunctionImport Name="spSurvey_Create">
             <Parameter Name="AspNetId" Mode="In" Type="String" />
             <Parameter Name="SurveyName" Mode="In" Type="String" />
@@ -1349,6 +1357,7 @@ warning 6035: The relationship 'FK_tblLaunchedTeamUsers_AspNetUsers_UserId' has 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spResponses_Update" FunctionName="Model.Store.spResponses_Update" />
           <FunctionImportMapping FunctionImportName="spSurvey_Create" FunctionName="Model.Store.spSurvey_Create" />
           <FunctionImportMapping FunctionImportName="spSurvey_Delete" FunctionName="Model.Store.spSurvey_Delete" />
           <FunctionImportMapping FunctionImportName="spSurvey_GetAll" FunctionName="Model.Store.spSurvey_GetAll">

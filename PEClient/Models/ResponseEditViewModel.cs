@@ -11,32 +11,32 @@ namespace PEClient.Models
         public int? SurveyId
         {
             get;
-            private set;
+            set;
         }
         public string SurveyName
         {
             get;
-            private set;
+            set;
         }
         public int? TeamId
         {
             get;
-            private set;
+            set;
         }
         public string TeamName
         {
             get;
-            private set;
+            set;
         }
         public int? ReviewerId
         {
             get;
-            private set;
+            set;
         }
         public string ReviewerName
         {
             get;
-            private set;
+            set;
         }
         public List<Response> Responses
         {
@@ -47,6 +47,26 @@ namespace PEClient.Models
         {
             get;
             private set;
+        }
+        public List<string> ResponseText
+        {
+            get;
+            set;
+        }
+        public List<string> ResponseQuestionId
+        {
+            get;
+            set;
+        }
+        public List<string> ResponseRevieweeId
+        {
+            get;
+            set;
+        }
+        public List<string> GradeId
+        {
+            get;
+            set;
         }
         public ResponseEditViewModel()
         {
@@ -90,25 +110,86 @@ namespace PEClient.Models
                 }
             }
         }
-        public bool save(string identity)
+        public bool save(string identity, bool submitFlag)
         {
             SaveErrorMessage = "";
 
-            //try
-            //{
-            //    using (var db = new PEClientContext())
-            //    {
-            //        db.spSurvey_Update(identity, Id, _surveyName, _editedQuestions);
-            //    }
+            List<ResponseUpdate> responses = new List<ResponseUpdate>();
+            try
+            {
+                int questionId;
+                int reviewee;
+                int reviewer;
+                byte? gradeId;
+                byte tmp;
+                int teamId;
 
-            //    return true;
-            //}
-            //catch (Exception ex)
-            //{
-            //    SaveErrorMessage = ModelUtils.FormatExceptionMessage(ex);
-            //    return false;
-            //}
-            return false;
+                if (ReviewerId == null)
+                {
+                    throw new Exception("Unknown user encountered");
+                }
+
+                for (int i = 0; i < ResponseQuestionId.Count; ++i)
+                {
+                    if (!int.TryParse(ResponseQuestionId[i], out questionId) &&
+                        int.TryParse(ResponseRevieweeId[i], out reviewee) &&
+                        int.TryParse(ResponseQuestionId[i], out teamId))
+                    {
+                        continue;
+                    }
+
+                    if (GradeId[i] == "")
+                    {
+                        gradeId = null;
+                    }
+                    else if (!byte.TryParse(GradeId[i], out tmp))
+                    {
+                        continue;
+                    }
+                    else if (tmp < 1 || tmp > 5)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        gradeId = tmp;
+                    }
+
+                    if (int.TryParse(ResponseQuestionId[i], out questionId) &&
+                        int.TryParse(ResponseRevieweeId[i], out reviewee) &&
+                        int.TryParse(ResponseQuestionId[i], out teamId))
+                    {
+                        responses.Add(new ResponseUpdate
+                        {
+                            QuestionId = questionId,
+                            Reviewee = reviewee,
+                            Reviewer = (int)ReviewerId,
+                            Text = ResponseText[i],
+                            GradeId = gradeId,
+                            TeamId = (int)TeamId
+                        });
+                    }
+                }
+
+                if (responses.Count > 0)
+                {
+                    using (var db = new PEClientContext())
+                    {
+                        db.spResponses_Update(identity, responses, submitFlag);
+                    }
+                }
+                else
+                {
+                    throw new Exception("Invalid input encountered!");
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                SaveErrorMessage = ModelUtils.FormatExceptionMessage(ex);
+                return false;
+            }
         }
     }
 }
