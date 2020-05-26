@@ -1,51 +1,95 @@
-﻿
-var rowId = -1;
+﻿function addBlankRow() {
 
-function addBlankRow() {
-    $('#survey-questions').append(NextBlankQuestion());
-    enumerateQuestions();
+    // The row Id of the next blank question row is
+    // the same as the number of class "question-row" rows found
+    const rowId = document.querySelectorAll(".question-row").length;
+
+    // Get the survey-questions div and add a blank row to it
+    document.querySelector("#survey-questions").append(BlankQuestion(rowId));
 }
 
-function NextBlankQuestion() {
+function BlankQuestion(rowId) {
 
-    // Test for first time adding a row
-    if (rowId == -1) {
-        // Note: Each textarea question has been decorated with the q-textarea class
-        // Calculate the next row ID from the number of q-textarea found
-        rowId = $('.q-textarea').length - 1;
-    }
+    /* create a div that resembles the following
+    <div id="row-id-0 + class="question-row survey-question-container">
+        <div class="survey-question-box">'
+            <textarea id="question-0 class="q-textarea form-control" name="Questions[0]" required ></textarea>
+        </div>
+        <div class="survey-delete-box">
+            <a href="#" data-row-id=0 onclick="deleteRow(event)">delete</a>
+        </div>
+    </div>
+    */
+    const row = document.createElement("div");
+    row.id = `row-id-${rowId}`;
+    row.classList.add("question-row");
+    row.classList.add("survey-question-container");
 
-    rowId++;
+    const questionDiv = document.createElement("div");
+    questionDiv.classList.add("survey-question-box");
+    row.appendChild(questionDiv);
 
-    tr = '<div id="row-id-' + rowId + '" class="survey-question-container">';
-    tr += '<div class="survey-question-box">';
-    tr += '    <textarea id="question-' + rowId + '_Id" class="q-textarea form-control" name = "EditedQuestions[' + rowId + ']" required ></textarea>';
-    tr += '</div>';
+    const textarea = document.createElement("textarea");
+    textarea.id = `question-${rowId}`;
+    textarea.name = `Questions[${rowId}]`;
+    textarea.classList.add("q-textarea");
+    textarea.classList.add("form-control");
+    textarea.required = true;
+    questionDiv.appendChild(textarea);
 
-    tr += '<div class="survey-delete-box">';
-    tr += '    <a href="#" data-row-id="' + rowId + '" onclick="deleteRow(event)">delete</a>';
-    tr += '</div></div>';
-    return tr;
+    const deleteDiv = document.createElement("div");
+    deleteDiv.classList.add("survey-delete-box");
+    row.appendChild(deleteDiv);
+
+    const deleteAnchor = document.createElement("a");
+    deleteAnchor.href = "#";
+    deleteAnchor.setAttribute("data-row-id", rowId);
+    deleteAnchor.setAttribute("onclick", "deleteRow(event)");
+    deleteAnchor.classList.add("delete-anchor");
+    deleteAnchor.appendChild(document.createTextNode("delete"));
+    deleteDiv.appendChild(deleteAnchor);
+
+    return row;
 }
 
 // Deletes a row from the table and prevents the anchor from firing.
 function deleteRow(event) {
-    var rowToDelete = "#row-id-" + event.target.getAttribute('data-row-id');
-    $(rowToDelete).remove();
+    const rowId = "#row-id-" + event.target.getAttribute("data-row-id");
+    if (null != rowId) {
+        const rowToDelete = document.querySelector(rowId);
+        if (null != rowToDelete) {
+            rowToDelete.remove();
+            enumerateQuestions();
+        }
+    }
     event.preventDefault();
-    enumerateQuestions();
 }
 
 // Enumerates the question input elements so they will be transmitted
 // as an array that is zero indexed and not sparse
 function enumerateQuestions() {
 
-    var qid = 0;
+    // Get the div containing the survey question
+    const rows = document.querySelectorAll(".question-row");
 
-    $('.q-textarea').each(function () {
-        $(this).attr("name", "EditedQuestions[" + qid + "]");
-        $(this).attr("id", "question-" + qid);
-        ++qid;
-    });
+    // for each row in the div
+    for (var rowId = 0; rowId < rows.length; ++rowId) {
+
+        var row = rows[rowId];
+
+        // rename the rows id attribute
+        row.id = `row-id-${rowId}`;
+
+        // rename the textarea's id and name attributes
+        let textarea = row.querySelector(".q-textarea");
+        if (null != textarea) {
+            textarea.id = `question-${rowId}`;
+            textarea.name = `Questions[${rowId}]`;
+        }
+
+        let anchor = row.querySelector(".delete-anchor");
+        if (null != anchor) {
+            anchor.setAttribute("data-row-id", rowId);
+        }
+    }
 }
-

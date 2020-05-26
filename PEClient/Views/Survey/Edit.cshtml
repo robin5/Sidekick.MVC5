@@ -75,18 +75,18 @@
                 @* -- Survey Questions -- *@
 
                 <label class="control-label">Questions</label><span>&nbsp;&nbsp;</span>
-                @Html.ValidationMessageFor(m => m.EditedQuestions, "", new { @class = "alert-danger" })
+                @Html.ValidationMessageFor(m => m.Questions, "", new { @class = "alert-danger" })
 
                 <div id="survey-questions">
 
-                    @if (Model != null && Model.Questions != null)
+                    @if (Model != null && Model.SavedQuestions != null)
                     {
                         int rowId = 0;
-                        foreach (var question in Model.Questions)
+                        foreach (var question in Model.SavedQuestions)
                         {
-                            <div id="row-id-@(rowId)" class="survey-question-container">
+                            <div id="row-id-@(rowId)" class="question-row survey-question-container">
                                 <div class="survey-question-box">
-                                    <textarea id="question-@(rowId)" class="q-textarea form-control" name="EditedQuestions[@(rowId)]" required>@(question.Text)</textarea>
+                                    <textarea id="question-@(rowId)" class="q-textarea form-control" name="Questions[@(rowId)]" required>@(question.Text)</textarea>
                                 </div>
                                 <div class="survey-delete-box">
                                     <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>

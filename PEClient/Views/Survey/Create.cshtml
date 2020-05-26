@@ -85,12 +85,12 @@
                         int rowId = 0;
                         foreach (string question in Model.Questions)
                         {
-                            <div id="row-id-@(rowId)" class="survey-question-container">
+                            <div id="row-id-@(rowId)" class="question-row survey-question-container">
                                 <div class="survey-question-box">
                                     <textarea id="question-@(rowId)" class="q-textarea form-control" name="Questions[@(rowId)]" required>@(question)</textarea>
                                 </div>
                                 <div class="survey-delete-box">
-                                    <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>
+                                    <a class="delete-anchor" href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>
                                 </div>
                             </div>
 
@@ -116,5 +116,5 @@
 </div><!-- container -->
 
 @section scripts{
-    <script src="~/Content/js/SurveyCreate.js"></script>
+    <script src="~/Content/js/SurveyEdit.js"></script>
 }

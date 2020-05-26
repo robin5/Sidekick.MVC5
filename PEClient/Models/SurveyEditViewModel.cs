@@ -10,8 +10,8 @@ namespace PEClient.Models
     public class SurveyEditViewModel
     {
         private string _surveyName;
-        List<spSurvey_GetById_Result> _questions = new List<spSurvey_GetById_Result>();
-        List<string> _editedQuestions = new List<string>();
+        List<spSurvey_GetById_Result> _savedQuestions = new List<spSurvey_GetById_Result>();
+        List<string> _questions = new List<string>();
         public string SaveErrorMessage { get; set; }
         public int Id { get; set; }
         public SurveyEditViewModel()
@@ -33,15 +33,15 @@ namespace PEClient.Models
                 foreach (var question in questions)
                 {
                     _surveyName = question.Name;
-                    _questions.Add(question);
+                    _savedQuestions.Add(question);
                 }
             }
         }
-        public List<spSurvey_GetById_Result> Questions
+        public List<spSurvey_GetById_Result> SavedQuestions
         {
             get
             {
-                return _questions;
+                return _savedQuestions;
             }
         }
         public bool save(string identity)
@@ -52,7 +52,7 @@ namespace PEClient.Models
             {
                 using (var db = new PEClientContext())
                 {
-                    db.spSurvey_Update(identity, Id, _surveyName, _editedQuestions);
+                    db.spSurvey_Update(identity, Id, _surveyName, _questions);
                 }
 
                 return true;
@@ -82,22 +82,22 @@ namespace PEClient.Models
         [Required(ErrorMessage = "Questions missing.")]
         [MinCount(1, "Peer Evaluations must have at least one question")]
         [NonNullEmptyOrWhiteSpace(ErrorMessage: "A Survey question cannot be blank.")]
-        public List<string> EditedQuestions
+        public List<string> Questions
         {
             get
             {
-                return _editedQuestions;
+                return _questions;
             }
             set
             {
-                _editedQuestions = value;
-                _questions = new List<spSurvey_GetById_Result>();
+                _questions = value;
+                _savedQuestions = new List<spSurvey_GetById_Result>();
 
                 // Remove white space from beginning and end of each template question
-                for (int i = 0; i < _editedQuestions.Count; ++i)
+                for (int i = 0; i < _questions.Count; ++i)
                 {
-                    _editedQuestions[i] = _editedQuestions[i].Trim();
-                    _questions.Add(new spSurvey_GetById_Result { Name = _surveyName, QsIndex = i, Text = _editedQuestions[i] });
+                    _questions[i] = _questions[i].Trim();
+                    _savedQuestions.Add(new spSurvey_GetById_Result { Name = _surveyName, QsIndex = i, Text = _questions[i] });
                 }
             }
         }
