@@ -42,11 +42,23 @@ function BlankQuestion(rowId) {
     row.appendChild(deleteDiv);
 
     const deleteAnchor = document.createElement("a");
-    deleteAnchor.href = "#";
+    deleteAnchor.href = "#0";
     deleteAnchor.setAttribute("data-row-id", rowId);
-    deleteAnchor.setAttribute("onclick", "deleteRow(event)");
     deleteAnchor.classList.add("delete-anchor");
     deleteAnchor.appendChild(document.createTextNode("delete"));
+
+    // On the click event delete a row from the table and prevent the anchor from firing.
+    deleteAnchor.onclick = function(event) {
+        const rowId = "#row-id-" + event.target.getAttribute("data-row-id");
+        if (null != rowId) {
+            const rowToDelete = document.querySelector(rowId);
+            if (null != rowToDelete) {
+                rowToDelete.remove();
+                enumerateQuestions();
+            }
+        }
+        event.preventDefault();
+    };
     deleteDiv.appendChild(deleteAnchor);
 
     return row;
