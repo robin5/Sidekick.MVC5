@@ -60,6 +60,8 @@
         }
         @using (Html.BeginForm("Index", "Dashboard", FormMethod.Get, new { @class = "form-launch" }))
         {
+            @Html.AntiForgeryToken()
+
             <!-- Submit Button -->
             <button id="btn-submit" name="action" type="submit" class="btn btn-success" value="submit">
                 Continue

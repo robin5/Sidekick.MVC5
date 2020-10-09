@@ -25,8 +25,8 @@
 
         @using (Html.BeginForm("Edit", "Response", FormMethod.Post, new { @class = "form-launch" }))
         {
+            @Html.AntiForgeryToken()
             <div>
-                @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.SurveyId)
                 @Html.HiddenFor(m => m.SurveyName)
                 @Html.HiddenFor(m => m.TeamId)

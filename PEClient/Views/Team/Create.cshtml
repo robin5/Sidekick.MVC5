@@ -56,6 +56,8 @@
 
             @using (Html.BeginForm("Create", "Team", FormMethod.Post, new { @class = "form-launch" }))
             {
+                @Html.AntiForgeryToken()
+
                 @* -- Team Name -- *@
 
                 @Html.LabelFor(m => m.TeamName, "Peer Group Name", new { @class = "control-label", style = "display: block;" });
@@ -67,7 +69,7 @@
                     autofocus = "",
                     placeholder = "Enter name of team",
                     required = true,
-                    style="margin-bottom: 10px"
+                    style = "margin-bottom: 10px"
                 });
 
                 @* -- Add User DropDown -- *@

@@ -58,6 +58,7 @@
 
         @using (Html.BeginForm("Create", "LaunchedSurvey", FormMethod.Post, new { @class = "form-launch" }))
         {
+            @Html.AntiForgeryToken()
             @* -- Launch Name -- *@
 
             @Html.LabelFor(m => m.LaunchName, "Launch Name", new { @class = "control-label" })<br />
