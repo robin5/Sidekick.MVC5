@@ -79,7 +79,7 @@
 
                 @* Generate survey instance cards *@
 
-                @if (Model.Surveys.Count > 0)
+                @if (Model.Surveys.Count() > 0)
                 {
                     foreach (var survey in Model.Surveys)
                     {
@@ -109,7 +109,7 @@
 
                 @* Generate survey instance cards *@
 
-                @if (Model.Teams.Count > 0)
+                @if (Model.Teams.Count() > 0)
                 {
                     foreach (var team in Model.Teams)
                     {
@@ -140,7 +140,7 @@
 
                 @* Generate launched survey cards *@
 
-                @if (Model.LaunchedSurveys.Count > 0)
+                @if (Model.LaunchedSurveys.Count() > 0)
                 {
                     foreach (var surveyInstance in Model.LaunchedSurveys)
                     {

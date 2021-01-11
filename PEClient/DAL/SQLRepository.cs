@@ -1,10 +1,8 @@
 ﻿// **********************************************************************************
-// * Copyright (c) 2019 Robin Murray
+// * Copyright (c) 2021 Robin Murray
 // **********************************************************************************
 // *
-// * File: DashboardViewModel.cs
-// *
-// * Description: View model for the Template controller and view
+// * File: SQLRepository.cs
 // *
 // * Author: Robin Murray
 // *
@@ -29,30 +27,23 @@
 // *   THE SOFTWARE.
 // * 
 // **********************************************************************************
-
+using PEClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace PEClient.Models
+namespace PEClient.DAL
 {
-    public class DashboardViewModel
+    public class SQLRepository : IRepository
     {
-        public List<Survey> _surveys = new List<Survey>();
-        public List<Team> _teams = new List<Team>();
-        public List<LaunchedSurvey> _launchedSurveys = new List<LaunchedSurvey>();
-        public DashboardViewModel(string aspNetId)
-        {
-            LoadSurveys(aspNetId);
-            LoadTeams(aspNetId);
-            LoadLaunchedSurveys(aspNetId);
-        }
         //
         // Summary:
         //     Loads surveys from the database into the model.
-        private void LoadSurveys(string identity)
+        public IEnumerable<Survey> GetAllSurveys(string identity)
         {
+            List<Survey> _surveys = new List<Survey>();
+
             using (var db = new PEClientContext())
             {
                 // Query database for surveys for the given identity
@@ -64,12 +55,15 @@ namespace PEClient.Models
                     _surveys.Add(new Survey { Name = survey.Name, Id = survey.SurveyId });
                 }
             }
+            return _surveys;
         }
         //
         // Summary:
         //     Loads teams from the database into the model.
-        private void LoadTeams(string identity)
+        public IEnumerable<Team> GetAllTeams(string identity)
         {
+            List<Team> _teams = new List<Team>();
+
             using (var db = new PEClientContext())
             {
                 // Query database for teams owned by the given identity
@@ -81,12 +75,15 @@ namespace PEClient.Models
                     _teams.Add(new Team { Name = team.Name, Id = team.TeamId });
                 }
             }
+            return _teams;
         }
         //
         // Summary:
         //     Loads launched surveys from the database into the model.
-        private void LoadLaunchedSurveys(string identity)
+        public IEnumerable<LaunchedSurvey> GetAllLaunchedSurveys(string identity)
         {
+            List<LaunchedSurvey> _launchedSurveys = new List<LaunchedSurvey>();
+
             using (var db = new PEClientContext())
             {
                 // Query database for launched surveys owned by the given identity
@@ -105,27 +102,7 @@ namespace PEClient.Models
                     }); ;
                 }
             }
-        }
-        public List<Survey> Surveys
-        {
-            get
-            {
-                return _surveys;
-            }
-        }
-        public List<Team> Teams
-        {
-            get
-            {
-                return _teams;
-            }
-        }
-        public List<LaunchedSurvey> LaunchedSurveys
-        {
-            get
-            {
-                return _launchedSurveys;
-            }
+            return _launchedSurveys;
         }
     }
 }

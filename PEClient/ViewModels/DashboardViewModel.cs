@@ -2,7 +2,9 @@
 // * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: DashboardController.cs
+// * File: DashboardViewModel.cs
+// *
+// * Description: View model for the Template controller and view
 // *
 // * Author: Robin Murray
 // *
@@ -28,31 +30,18 @@
 // * 
 // **********************************************************************************
 
-using System.Web.Mvc;
-using PEClient.Models;
-using Microsoft.AspNet.Identity;
 using PEClient.DAL;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
-namespace PEClient.Controllers
+namespace PEClient.Models
 {
-    [Authorize(Roles = "Admin,Instructor")]
-    public class DashboardController : Controller
+    public class DashboardViewModel
     {
-        private IRepository repository = new SQLRepository();
-
-        // GET: Dashboard
-        public ActionResult Index()
-        {
-            var aspNetId = User.Identity.GetUserId();
-
-            var viewModel = new DashboardViewModel
-            {
-                Surveys = repository.GetAllSurveys(aspNetId),
-                Teams = repository.GetAllTeams(aspNetId),
-                LaunchedSurveys = repository.GetAllLaunchedSurveys(aspNetId)
-            };
-
-            return View(viewModel);
-        }
+        public IEnumerable<Survey> Surveys { get; set; }
+        public IEnumerable<Team> Teams { get; set; }
+        public IEnumerable<LaunchedSurvey> LaunchedSurveys { get; set; }
     }
 }

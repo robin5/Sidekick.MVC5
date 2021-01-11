@@ -1,8 +1,8 @@
 ﻿// **********************************************************************************
-// * Copyright (c) 2019 Robin Murray
+// * Copyright (c) 2021 Robin Murray
 // **********************************************************************************
 // *
-// * File: DashboardController.cs
+// * File: IRepository.cs
 // *
 // * Author: Robin Murray
 // *
@@ -27,32 +27,27 @@
 // *   THE SOFTWARE.
 // * 
 // **********************************************************************************
-
-using System.Web.Mvc;
 using PEClient.Models;
-using Microsoft.AspNet.Identity;
-using PEClient.DAL;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
-namespace PEClient.Controllers
+namespace PEClient.DAL
 {
-    [Authorize(Roles = "Admin,Instructor")]
-    public class DashboardController : Controller
+    public interface IRepository
     {
-        private IRepository repository = new SQLRepository();
-
-        // GET: Dashboard
-        public ActionResult Index()
-        {
-            var aspNetId = User.Identity.GetUserId();
-
-            var viewModel = new DashboardViewModel
-            {
-                Surveys = repository.GetAllSurveys(aspNetId),
-                Teams = repository.GetAllTeams(aspNetId),
-                LaunchedSurveys = repository.GetAllLaunchedSurveys(aspNetId)
-            };
-
-            return View(viewModel);
-        }
+        //
+        // Summary:
+        //     Loads surveys from the database into the model.
+        IEnumerable<Survey> GetAllSurveys(string identity);
+        //
+        // Summary:
+        //     Loads teams from the database into the model.
+        IEnumerable<Team> GetAllTeams(string identity);
+        //
+        // Summary:
+        //     Loads launched surveys from the database into the model.
+        IEnumerable<LaunchedSurvey> GetAllLaunchedSurveys(string identity);
     }
 }

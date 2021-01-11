@@ -209,13 +209,15 @@
       <DependentUpon>PEClientModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ResponseController.cs" />
+    <Compile Include="DAL\IRepository.cs" />
+    <Compile Include="DAL\SQLRepository.cs" />
     <Compile Include="Models\CommentsAboutViewModel.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\ResponseEditViewModel.cs" />
     <Compile Include="Models\ResponseUpdate.cs" />
     <Compile Include="Models\ResponseViewModel.cs" />
     <Compile Include="Models\TeamCreateViewModel.cs" />
-    <Compile Include="Models\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="Models\LaunchedSurvey.cs" />
     <Compile Include="Models\ModelUtils.cs" />
     <Compile Include="Models\Survey.cs" />
