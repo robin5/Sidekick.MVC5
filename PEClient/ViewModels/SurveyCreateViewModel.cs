@@ -48,64 +48,30 @@ namespace PEClient.Models
 {
     public class SurveyCreateViewModel
     {
-        private string _surveyName;
-        private List<string> _questions = new List<string>();
-
-        public string SaveErrorMessage { get; set; }
-
-        public SurveyCreateViewModel()
-        {
-        }
+        private string name;
+        private IEnumerable<string> questions = new List<string>();
 
         [NonNullEmptyOrWhiteSpace(ErrorMessage: "A Survey's name cannot be blank.")]
-        public string SurveyName 
+        public string Name 
         { 
-            get { return _surveyName; } 
+            get { return name; } 
             set
             {
-                // Remove white space from beginning and end of the template's name
-                _surveyName = value.Trim();
+                // Remove white space surrounding survey's name
+                name = value.Trim();
             }
         }
 
         [Required(ErrorMessage = "Questions missing.")]
         [MinCount(1, "Peer Evaluations must have at least one question")]
         [NonNullEmptyOrWhiteSpace(ErrorMessage: "A Survey question cannot be blank.")]
-        public List<string> Questions 
+        public IEnumerable<string> Questions
         {
-            get
-            {
-                return _questions;
-            }
+            get { return questions; }
             set
             {
-                _questions = value;
-
-                // Remove white space from beginning and end of each template question
-                for (int i = 0; i < _questions.Count; ++i)
-                {
-                    _questions[i] = _questions[i].Trim();
-                }
-            }
-        }
-
-        public bool save(string identity)
-        {
-            SaveErrorMessage = "";
-
-            try
-            {
-                using (var db = new PEClientContext())
-                {
-                    db.spSurvey_Create(identity, _surveyName, _questions);
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                SaveErrorMessage = ModelUtils.FormatExceptionMessage(ex);
-                return false;
+                // Remove white space surrounding each question
+                questions = value.Select(x => x.Trim()).ToArray();
             }
         }
     }

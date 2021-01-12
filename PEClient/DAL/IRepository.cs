@@ -37,6 +37,7 @@ namespace PEClient.DAL
 {
     public interface IRepository
     {
+
         //
         // Summary:
         //     Loads surveys from the database into the model.
@@ -49,5 +50,9 @@ namespace PEClient.DAL
         // Summary:
         //     Loads launched surveys from the database into the model.
         IEnumerable<LaunchedSurvey> GetAllLaunchedSurveys(string identity);
+        Survey AddSurvey(string identity, Survey survey);
+        Survey GetSurvey(string identity, int id);
+        Survey UpdateSurvey(string identity, Survey survey);
+        Survey DeleteSurvey(string identity, int id);
     }
 }

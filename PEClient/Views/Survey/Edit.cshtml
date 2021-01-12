@@ -41,12 +41,12 @@
 
 <div class="container-md dsh-container">
     <div class="dsh-title">
-        <h2>Edit: @(Model.SurveyName ?? "Undefined")</h2>
+        <h2>Edit: @(Model.Name)</h2>
     </div>
     <div class="dsh-content">
         <div id="vs-survey-questions" class="vs-survey-questions">
 
-            @if (IsPost)
+            @if (!ViewData.ModelState.IsValid)
             {
                 <div class="alert alert-danger">@Html.ValidationSummary()</div>
             }
@@ -61,9 +61,9 @@
 
                 @* -- Survey Name -- *@
 
-                @Html.LabelFor(m => m.SurveyName, "Survey Name", new { @class = "control-label" }) <span>&nbsp;&nbsp;</span>
-                @Html.ValidationMessageFor(m => m.SurveyName, "", new { @class = "alert-danger" })
-                @Html.TextBoxFor(m => m.SurveyName, new
+                @Html.LabelFor(m => m.Name, "Survey Name", new { @class = "control-label" }) <span>&nbsp;&nbsp;</span>
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "alert-danger" })
+                @Html.TextBoxFor(m => m.Name, new
                 {
                     title = "Enter a descriptive name for the this peer evaluation cycle",
                     @class = "form-control",
@@ -79,14 +79,14 @@
 
                 <div id="survey-questions">
 
-                    @if (Model != null && Model.SavedQuestions != null)
+                    @if (Model != null && Model.Questions != null)
                     {
                         int rowId = 0;
-                        foreach (var question in Model.SavedQuestions)
+                        foreach (var question in Model.Questions)
                         {
                             <div id="row-id-@(rowId)" class="question-row survey-question-container">
                                 <div class="survey-question-box">
-                                    <textarea id="question-@(rowId)" class="q-textarea form-control" name="Questions[@(rowId)]" required>@(question.Text)</textarea>
+                                    <textarea id="question-@(rowId)" class="q-textarea form-control" name="Questions[@(rowId)]" required>@(question)</textarea>
                                 </div>
                                 <div class="survey-delete-box">
                                     <a href="#" data-row-id="@(rowId)" onclick="deleteRow(event)">delete</a>

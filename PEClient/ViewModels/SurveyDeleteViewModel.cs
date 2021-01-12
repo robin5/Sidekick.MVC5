@@ -39,32 +39,6 @@ namespace PEClient.Models
 {
     public class SurveyDeleteViewModel
     {
-        private string _aspNetId;
-        private int _surveyId;
-        public string SurveyName { get; set; }
-        public string ErrorMessage { get; set; }
-        public SurveyDeleteViewModel(string aspNetId, int surveyId)
-        {
-            this._aspNetId = aspNetId;
-            this._surveyId = surveyId;
-        }
-        public bool Delete()
-        {
-            ErrorMessage = "";
-
-            try
-            {
-                using (var db = new PEClientContext())
-                {
-                    db.spSurvey_Delete(_aspNetId, _surveyId);
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = ModelUtils.FormatExceptionMessage(ex);
-                return false;
-            }
-        }
+        public string Name { get; set; }
     }
 }

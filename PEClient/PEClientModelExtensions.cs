@@ -23,7 +23,7 @@ namespace PEClient
                     return tblQuestions;
                 }
             }
-            public QuestionsList(List<string> questions)
+            public QuestionsList(IEnumerable<string> questions)
             {
                 // Define the schema for a row in the QuestionList table-type in SQL Server
                 var tableSchema = new List<SqlMetaData>(1) {
@@ -42,7 +42,7 @@ namespace PEClient
                 }
             }
         }
-        public static void spSurvey_Create(this PEClientContext db, string aspNetId, string surveyName, List<string> questions)
+        public static void spSurvey_Create(this PEClientContext db, string aspNetId, string surveyName, IEnumerable<string> questions)
         {
             // Assembling the table parameter requires the following 3 steps:
 
@@ -98,10 +98,12 @@ namespace PEClient
             // Do not forget to use "DoNotEnsureTransaction" because if you don't EF will start 
             // it's own transaction for your SP.  In that case you don't need internal transaction 
             // in DB or you must detect it with @@trancount and/or XACT_STATE() and change your logic
-            db.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction,
+            var result = db.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction,
                 "exec spSurvey_Create @AspNetId, @SurveyName, @Questions", parameters);
+
+            // TODO: should return ID of new survey currently only returns -1
         }
-        public static void spSurvey_Update(this PEClientContext db, string aspNetId, int surveyId, string surveyName, List<string> questions)
+        public static void spSurvey_Update(this PEClientContext db, string aspNetId, int surveyId, string surveyName, IEnumerable<string> questions)
         {
             QuestionsList questionsList = new QuestionsList(questions);
 

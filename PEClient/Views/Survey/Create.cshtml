@@ -62,9 +62,9 @@
 
                 @* -- Survey Name -- *@
 
-                @Html.LabelFor(m => m.SurveyName, "Survey Name", new { @class = "control-label" })
-                @Html.ValidationMessageFor(m => m.SurveyName, "", new { @class = "alert-danger validation-msg" })
-                @Html.TextBoxFor(m => m.SurveyName, new
+                @Html.LabelFor(m => m.Name, "Survey Name", new { @class = "control-label" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "alert-danger validation-msg" })
+                @Html.TextBoxFor(m => m.Name, new
                 {
                     title = "Enter a descriptive name for the this peer evaluation cycle",
                     @class = "form-control",

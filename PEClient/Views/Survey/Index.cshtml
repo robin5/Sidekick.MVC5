@@ -35,10 +35,10 @@
 @model  PEClient.Models.SurveyIndexViewModel
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var surveyName = Model.Questions.Count > 0 ? @Model.Questions[0].Name : "Untitled";
-    var questionIndex = 1;
+    var surveyName = Model.Name;
     ViewBag.Title = surveyName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var questionIndex = 1;
 }
 
 <div class="container-md dsh-container">
@@ -47,25 +47,22 @@
     </div>
     <div class="dsh-content">
         <ul class="dsh-process">
-            @if (null != Model.Id)
-            {
-                <li>@Html.ActionLink("Edit survey", "Edit", "Survey", new { id = Model.Id }, null)</li>
-                <li><a href="#staticBackdrop" data-toggle="modal" data-target="#staticBackdrop">Delete survey</a></li>
-            }
+            <li>@Html.ActionLink("Edit survey", "Edit", "Survey", new { id = Model.Id }, null)</li>
+            <li><a href="#staticBackdrop" data-toggle="modal" data-target="#staticBackdrop">Delete survey</a></li>
             <li>@Html.ActionLink("Back to dashboard", "Index", "Dashboard")</li>
         </ul>
         <hr>
         <div id="vs-survey-questions" class="vs-survey-questions">
             @* Generate survey instance cards *@
 
-            @if (Model.Questions.Count > 0)
+            @if (Model.Questions.Count() > 0)
             {
                 <div class="container-fluid">
                     @foreach (var question in Model.Questions)
                     {
                         <div class="row">
                             <div class="col-1 vs-td-index" style="min-width: 2.5rem;">@(questionIndex++))</div>
-                            <div class="col-11 vs-td-question">@question.Text</div>
+                            <div class="col-11 vs-td-question">@question</div>
                         </div>
                     }
                 </div>

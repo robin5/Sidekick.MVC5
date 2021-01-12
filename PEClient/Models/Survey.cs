@@ -39,5 +39,6 @@ namespace PEClient.Models
     {
         public string Name { get; set; }
         public int Id { get; set; }
+        public IEnumerable<string> Questions { get; set; }
     }
 }

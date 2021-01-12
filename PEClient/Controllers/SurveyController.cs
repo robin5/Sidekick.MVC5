@@ -31,96 +31,162 @@
 using System.Web.Mvc;
 using PEClient.Models;
 using Microsoft.AspNet.Identity;
+using PEClient.DAL;
+using System.Linq;
+using System;
 
 namespace PEClient.Controllers
 {
     [Authorize(Roles = "Admin,Instructor")]
     public class SurveyController : Controller
     {
-        // GET: Displays a survey with the "Index" view
-        public ActionResult Index(int? id)
+        private IRepository repository = new SQLRepository();
+
+        [HttpGet]
+        [Route("Survey/Index/{id:int}")]
+        public ActionResult Index(int id)
         {
-            if (null == id)
+            try
             {
-                return RedirectToAction("Index", "Dashboard");
+                var survey = repository.GetSurvey(User.Identity.GetUserId(), id);
+
+                if (null != survey)
+                {
+                    return View(new SurveyIndexViewModel
+                    {
+                        Id = id,
+                        Questions = survey.Questions,
+                        Name = survey.Name,
+                    });
+                }
             }
-            return View(new SurveyIndexViewModel(User.Identity.GetUserId(), id));
+            catch (Exception ex)
+            {
+                // TODO: Log the exception
+            }
+            TempData.ErrorMessage($"Survey not found");
+            return RedirectToAction("Index", "Dashboard");
         }
-        // GET: Create a Survey with the "Create" view
+
+        [HttpGet]
         public ActionResult Create()
         {
-            return View(new SurveyCreateViewModel());
+            try
+            {
+                return View(new SurveyCreateViewModel());
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log the exception
+            }
+            return RedirectToAction("Index", "Dashboard");
         }
-        // POST: Create a Survey with the "Create" view
-        [HttpPost]
-        public ActionResult Create(SurveyCreateViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
 
-            if (model.save(User.Identity.GetUserId()))
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(SurveyCreateViewModel vm)
+        {
+            try
             {
-                TempData.SuccessMessage($"Successfully added {model.SurveyName} to peer evaluation templates.");
+                if (!ModelState.IsValid)
+                {
+                    return View(vm);
+                }
+
+                var survey = new Survey
+                {
+                    Name = vm.Name,
+                    Questions = vm.Questions
+                };
+
+                repository.AddSurvey(User.Identity.GetUserId(), survey);
+                TempData.SuccessMessage($"Successfully added survey");
             }
-            else
+            catch (Exception ex)
             {
-                TempData.ErrorMessage($"Failed adding {model.SurveyName} to peer evaluation templates: " + model.SaveErrorMessage);
+                TempData.ErrorMessage($"Failed adding survey: " + ex.Message);
             }
 
             return RedirectToAction("Index", "Dashboard");
         }
-        // GET: Create a Survey with the "Edit" view
-        public ActionResult Edit(int? id)
-        {
-            if (null == id)
-            {
-                return RedirectToAction("Index", "Dashboard");
-            }
-            return View(new SurveyEditViewModel(User.Identity.GetUserId(), (int) id));
-        }
-        // POST: Create a Survey with the "Edit" view
-        [HttpPost]
-        public ActionResult Edit(SurveyEditViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
 
-            if (model.save(User.Identity.GetUserId()))
+        [HttpGet]
+        [Route("Survey/Edit/{id:int}")]
+        public ActionResult Edit(int id)
+        {
+            try
             {
-                TempData.SuccessMessage($"Successfully updated {model.SurveyName}.");
+                var survey = repository.GetSurvey(User.Identity.GetUserId(), id);
+
+                if (null != survey)
+                {
+                    return View(new SurveyEditViewModel
+                    {
+                        Id = id,
+                        Name = survey.Name,
+                        Questions = survey.Questions,
+                    });
+                }
             }
-            else
+            catch (Exception ex)
             {
-                TempData.ErrorMessage($"Failed updating {model.SurveyName}: " + model.SaveErrorMessage);
+                // TODO: Log the exception
+            }
+            TempData.ErrorMessage($"Survey not found");
+            return RedirectToAction("Index", "Dashboard");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(SurveyEditViewModel vm)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(vm);
+                }
+
+                var survey = new Survey
+                {
+                    Id = vm.Id,
+                    Name = vm.Name,
+                    Questions = vm.Questions
+                };
+
+                repository.UpdateSurvey(User.Identity.GetUserId(), survey);
+                TempData.SuccessMessage($"Successfully updated {vm.Name}.");
+            }
+            catch (Exception ex)
+            {
+                TempData.ErrorMessage($"Failed updating {vm.Name}: " + ex.Message);
             }
 
             return RedirectToAction("Index", "Dashboard");
         }
+
         [HttpDelete]
-        public ActionResult Delete(int? id)
+        [ValidateAntiForgeryToken]
+        [Route("Survey/Delete/{id:int}")]
+        public ActionResult Delete(int id)
         {
-            if (id != null)
-            {
-                var model = new SurveyDeleteViewModel(User.Identity.GetUserId(), (int)id);
-
-                if (model.Delete())
+            try {
+                var survey = repository.DeleteSurvey(User.Identity.GetUserId(), id);
+                if (null != survey)
                 {
-                    TempData.SuccessMessage($"Successfully deleted {model.SurveyName}.");
+                    TempData.SuccessMessage($"Successfully deleted {survey.Name}.");
+                    return View(new SurveyDeleteViewModel
+                    {
+                        Name = survey.Name
+                    });
                 }
-                else
-                {
-                    TempData.ErrorMessage($"Failed deleting {model.SurveyName}: " + model.ErrorMessage);
-                }
-                return View(model);
             }
-            else
+            catch (Exception ex)
             {
-                return RedirectToAction("Index", "Dashboard");
+                // TODO: Log the exception
             }
+            TempData.ErrorMessage($"Survey not found");
+            return RedirectToAction("Index", "Dashboard");
         }
     }
 }

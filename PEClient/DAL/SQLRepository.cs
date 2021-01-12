@@ -104,5 +104,79 @@ namespace PEClient.DAL
             }
             return _launchedSurveys;
         }
+        public Survey AddSurvey(string identity, Survey survey)
+        {
+            try
+            {
+                using (var db = new PEClientContext())
+                {
+                    db.spSurvey_Create(identity, survey.Name, survey.Questions);
+                }
+
+                // TODO: Must set Survey.Id at some point before returning result
+
+                return survey;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ModelUtils.FormatExceptionMessage(ex));
+            }
+        }
+        public Survey GetSurvey(string identity, int id)
+        {
+            Survey survey = null;
+
+            using (var db = new PEClientContext())
+            {
+                var result = db.spSurvey_GetById(identity, id).ToList();
+
+                if (result.Count() > 0)
+                {
+                    survey = new Survey
+                    {
+                        Id = id,
+                        Name = result.First().Name,
+                        Questions = result.Select(x => x.Text)
+                    };
+                }
+            }
+
+            return survey;
+        }
+        public Survey UpdateSurvey(string identity, Survey survey)
+        {
+            try
+            {
+                using (var db = new PEClientContext())
+                {
+                    db.spSurvey_Update(identity, survey.Id, survey.Name, survey.Questions);
+                }
+
+                return survey;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ModelUtils.FormatExceptionMessage(ex));
+            }
+        }
+        public Survey DeleteSurvey(string identity, int id)
+        {
+            Survey survey;
+            try
+            {
+                if (null != (survey = GetSurvey(identity, id)))
+                {
+                    using (var db = new PEClientContext())
+                    {
+                        db.spSurvey_Delete(identity, id);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ModelUtils.FormatExceptionMessage(ex));
+            }
+            return survey;
+        }
     }
 }

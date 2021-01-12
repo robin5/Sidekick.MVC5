@@ -260,9 +260,9 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
-    <Compile Include="Models\SurveyDeleteViewModel.cs" />
-    <Compile Include="Models\SurveyEditViewModel.cs" />
-    <Compile Include="Models\SurveyIndexViewModel.cs" />
+    <Compile Include="ViewModels\SurveyDeleteViewModel.cs" />
+    <Compile Include="ViewModels\SurveyEditViewModel.cs" />
+    <Compile Include="ViewModels\SurveyIndexViewModel.cs" />
     <Compile Include="Models\TeamDeleteViewModel.cs" />
     <Compile Include="Models\TeamEditViewModel.cs" />
     <Compile Include="Models\TeamIndexViewModel.cs" />
@@ -317,7 +317,7 @@
     <Compile Include="Models\SurveyTeam.cs" />
     <Compile Include="Models\ResultsViewModel.cs" />
     <Compile Include="Models\Team.cs" />
-    <Compile Include="Models\SurveyCreateViewModel.cs" />
+    <Compile Include="ViewModels\SurveyCreateViewModel.cs" />
     <Compile Include="Models\ToneAnalysisViewModel.cs" />
     <Compile Include="tblGrades.cs">
       <DependentUpon>PEClientModel.tt</DependentUpon>
