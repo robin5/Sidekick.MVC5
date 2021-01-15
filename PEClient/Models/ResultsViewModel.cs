@@ -29,7 +29,7 @@ namespace PEClient.Models
                     var user = new SurveySummaryStudent { 
                         UserName = oTeam.UserName, 
                         Name = oTeam.FullName, 
-                        id = oTeam.UserId, 
+                        Id = oTeam.UserId, 
                         Complete = 0.667f };
 
                     // The survey's name and ID will be the same for 

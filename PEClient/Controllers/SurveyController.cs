@@ -137,6 +137,7 @@ namespace PEClient.Controllers
         }
 
         [HttpPost]
+        [Route("Survey/Edit/{id:int}")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(SurveyEditViewModel vm)
         {

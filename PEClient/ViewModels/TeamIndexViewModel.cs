@@ -1,8 +1,10 @@
 ﻿// **********************************************************************************
-// * Copyright (c) 2021 Robin Murray
+// * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: IRepository.cs
+// * File: TeamIndexViewModel.cs
+// *
+// * Description: View model for the TeamController's Index view
 // *
 // * Author: Robin Murray
 // *
@@ -27,27 +29,15 @@
 // *   THE SOFTWARE.
 // * 
 // **********************************************************************************
-using PEClient.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace PEClient.DAL
+using System.Collections.Generic;
+
+namespace PEClient.Models
 {
-    public interface IRepository
+    public class TeamIndexViewModel
     {
-        IEnumerable<Survey> GetAllSurveys(string identity);
-        IEnumerable<Team> GetAllTeams(string identity);
-        IEnumerable<LaunchedSurvey> GetAllLaunchedSurveys(string identity);
-        IEnumerable<Student> GetAllStudents(string identity);
-        Survey AddSurvey(string identity, Survey survey);
-        Survey GetSurvey(string identity, int id);
-        Survey UpdateSurvey(string identity, Survey survey);
-        Survey DeleteSurvey(string identity, int id);
-        bool AddTeam(string identity, string name, IEnumerable<int> members);
-        Team GetTeam(string identity, int id);
-        bool UpdateTeam(string identity, int id, string name, IEnumerable<int> members);
-        Team DeleteTeam(string identity, int id);
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public IEnumerable<spTeam_GetById_Result> Members { get; set; }
     }
 }

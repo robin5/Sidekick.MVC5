@@ -216,7 +216,7 @@
     <Compile Include="Models\ResponseEditViewModel.cs" />
     <Compile Include="Models\ResponseUpdate.cs" />
     <Compile Include="Models\ResponseViewModel.cs" />
-    <Compile Include="Models\TeamCreateViewModel.cs" />
+    <Compile Include="ViewModels\TeamCreateViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="Models\LaunchedSurvey.cs" />
     <Compile Include="Models\ModelUtils.cs" />
@@ -263,9 +263,9 @@
     <Compile Include="ViewModels\SurveyDeleteViewModel.cs" />
     <Compile Include="ViewModels\SurveyEditViewModel.cs" />
     <Compile Include="ViewModels\SurveyIndexViewModel.cs" />
-    <Compile Include="Models\TeamDeleteViewModel.cs" />
-    <Compile Include="Models\TeamEditViewModel.cs" />
-    <Compile Include="Models\TeamIndexViewModel.cs" />
+    <Compile Include="ViewModels\TeamDeleteViewModel.cs" />
+    <Compile Include="ViewModels\TeamEditViewModel.cs" />
+    <Compile Include="ViewModels\TeamIndexViewModel.cs" />
     <Compile Include="PEClientModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

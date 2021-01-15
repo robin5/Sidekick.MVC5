@@ -2,9 +2,7 @@
 // * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: ViewTeamViewModel.cs
-// *
-// * Description: View model for the ViewTeam controller and view
+// * File: TeamEditViewModel.cs
 // *
 // * Author: Robin Murray
 // *
@@ -30,50 +28,10 @@
 // * 
 // **********************************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
 namespace PEClient.Models
 {
-    public class TeamIndexViewModel
+    public class TeamEditViewModel : TeamCreateViewModel
     {
-        List<spTeam_GetById_Result> _teamMembers = new List<spTeam_GetById_Result>();
-        public int? Id { get; set; }
-        public TeamIndexViewModel()
-        {
-        }
-        public TeamIndexViewModel(string aspNetId, int? teamId)
-        {
-            this.Id = teamId;
-            LoadTeam(aspNetId, teamId);
-        }
-
-        public void LoadTeam(string aspNetId, int? teamId)
-        {
-            if (null != teamId)
-            {
-                using (var db = new PEClientContext())
-                {
-                    // Query database for surveys for the given identity
-                    var members = db.spTeam_GetById(aspNetId, teamId);
-
-                    // Cycle through result of database query and load data into the model
-                    foreach (var member in members)
-                    {
-                        _teamMembers.Add(member);
-                    }
-                }
-            }
-        }
-
-        public List<spTeam_GetById_Result> TeamMembers
-        {
-            get
-            {
-                return _teamMembers;
-            }
-        }
+        public int Id { get; set; }
     }
 }

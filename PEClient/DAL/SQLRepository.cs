@@ -104,6 +104,30 @@ namespace PEClient.DAL
             }
             return _launchedSurveys;
         }
+       
+        public IEnumerable<Student> GetAllStudents(string identity)
+        {
+            List<Student> students = new List<Student>();
+
+            using (var db = new PEClientContext())
+            {
+                // Get students from database
+                var users = db.spAspNetUsers_GetAllStudents();
+
+                // Cycle through result of database query and load data into the model
+                foreach (var user in users)
+                {
+                    students.Add(new Student { 
+                        UserName = user.UserName, 
+                        Name = user.FullName, 
+                        Id = user.UserId,
+                    });
+                }
+            }
+
+            return students;
+        }
+
         public Survey AddSurvey(string identity, Survey survey)
         {
             try
@@ -177,6 +201,88 @@ namespace PEClient.DAL
                 throw new Exception(ModelUtils.FormatExceptionMessage(ex));
             }
             return survey;
+        }
+        public bool AddTeam(string identity, string name, IEnumerable<int> members)
+        {
+            bool success = false;
+            //Team team = null;
+
+            try
+            {
+                using (var db = new PEClientContext())
+                {
+                    db.spTeam_Create(identity, name, members);
+                }
+
+                //team = GetTeam(id);
+
+                // TODO: Must set Team.Id at some point before returning result
+
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ModelUtils.FormatExceptionMessage(ex));
+            }
+            return success;
+        }
+        public Team GetTeam(string identity, int id)
+        {
+            Team team = null;
+
+            using (var db = new PEClientContext())
+            {
+                var result = db.spTeam_GetById(identity, id).ToList();
+
+                if (result.Count() > 0)
+                {
+                    team = new Team
+                    {
+                        Id = id,
+                        Name = result.First().TeamName,
+                        Members = result
+                    };
+                }
+            }
+
+            return team;
+        }
+        public bool UpdateTeam(string identity, int id, string name, IEnumerable<int> members)
+        {
+            bool success;
+            try
+            {
+                using (var db = new PEClientContext())
+                {
+                    db.spTeam_Update(identity, id, name, members);
+                }
+
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ModelUtils.FormatExceptionMessage(ex));
+            }
+            return success;
+        }
+        public Team DeleteTeam(string identity, int id)
+        {
+            Team team;
+            try
+            {
+                if (null != (team = GetTeam(identity, id)))
+                {
+                    using (var db = new PEClientContext())
+                    {
+                        db.spTeam_Delete(identity, id);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ModelUtils.FormatExceptionMessage(ex));
+            }
+            return team;
         }
     }
 }

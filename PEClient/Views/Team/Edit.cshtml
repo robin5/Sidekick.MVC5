@@ -41,12 +41,12 @@
 <div class="container-md sc-container">
 
     <div class="dsh-title">
-        <h2>Edit: @(Model.TeamName ?? "Undefined")</h2>
+        <h2>Edit: @Model.TeamName</h2>
     </div>
 
     <div class="dsh-content">
         <div id="vs-survey-questions" class="vs-survey-questions">
-            @if (IsPost) // Validation Summary
+            @if (!ViewData.ModelState.IsValid) // Validation Summary
             {
                 <div class="alert alert-danger">@Html.ValidationSummary()</div>
             }
@@ -61,7 +61,7 @@
 
                 @* -- Team Name -- *@
 
-                @Html.LabelFor(m => m.TeamName, "Team Name", new { @class = "control-label", style = "display: block;" });
+                @Html.LabelFor(m => m.TeamName, "Peer Group Name", new { @class = "control-label", style = "display: block;" });
                 @Html.ValidationMessageFor(m => m.TeamName, "", new { @class = "alert-danger" });
                 @Html.TextBoxFor(m => m.TeamName, new
                 {
@@ -69,31 +69,63 @@
                     title = "Enter a name for this peer group",
                     autofocus = "",
                     placeholder = "Enter name of team",
-                    required = true
+                    required = true,
+                    style = "margin-bottom: 10px"
                 });
                 <br />
 
                 @* -- Add User DropDown -- *@
 
-                @Html.LabelFor(m => m.CandidateSelection, "Students", new { @class = "control-label" })<br />
-
+                @Html.LabelFor(m => m.Students, "Students", new { @class = "control-label" })<br />
                 <div class="d-flex team-add-students">
-                    @Html.DropDownListFor(m => m.CandidateSelection, Model.Candidates, "-- select a student --", new { @class = "form-control flex-grow-1" })
+                    <select id="Student" class="form-control flex-grow-1">
+                        <option>-- select a student --</option>
+                        @foreach (var student in Model.Students)
+                        {
+                            <option value="@student.Id">@student.Name (@student.UserName)</option>
+                        }
+                    </select>
+
                     @* -- Add User Button -- *@
 
-                    <button type="button" id="btn-add-team" class="btn btn-primary" name="action" value="add-user" onclick="ShowRow();" style="margin-left: 5px; display: inline;">
+                    <button type="button"
+                            id="btn-add-team"
+                            class="btn btn-primary"
+                            name="action"
+                            value="add-user"
+                            onclick="ShowRow();"
+                            style="margin-left: 5px; display: inline;">
                         Add
                     </button>
                 </div>
 
                 @* -- Hidden Peer Group listbox -- *@
 
-                @Html.ListBoxFor(m => m.PeerSelection, Model.Peers, new { @class = "form-control", style = "display: none" })
+                if (Model.PeerSelection == null)
+                {
+                    Model.PeerSelection = new List<int>();
+                }
+                <select id="PeerSelection" name="PeerSelection" class="form-control" style="display: none" multiple>
+                    @foreach (var student in Model.Students)
+                    {
+                        if (Model.PeerSelection.Contains(student.Id))
+                        {
+                            <option value="@student.Id" selected></option>
+                        }
+                        else
+                        {
+                            <option value="@student.Id"></option>
+                        }
+                    }
+                </select>
 
-                @Html.Label("Peer Group Members", new { @class = "control-label" })
+                @* -- Peer Group table -- *@
+
+                @Html.Label("Peer Group Members", new { @class = "control-label", style = "display: block;" })
                 @Html.ValidationMessageFor(m => m.PeerSelection, "", new { @class = "alert-danger" })
+
                 <div class="table-responsive-md">
-                    <table id="tbl-edit-team" class="table table-bordered table-hover tbl-team-create-edit">
+                    <table id="tbl-create-team" class="table table-bordered table-hover tbl-team-create-edit">
                         <thead class="thead-dark thead-team-create-edit">
                             <tr>
                                 <th class="table-header">Name</th>
@@ -102,13 +134,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var peer in Model.PeerDetails)
+                            @foreach (var member in Model.Students)
                             {
-                                <tr id="tr-@(peer.id)" style="display: none" class="table-warning">
-                                    <td class="table-data">@peer.Name</td>
-                                    <td class="table-data">@peer.UserName</td>
-                                    <td class="table-data-badge">
-                                        <a data-row-id="@(peer.id)" href="#0" onclick="deleteRow(event)" class="badge badge-primary badge-letter-spacing">delete</a>
+                                <tr id="tr-@(member.Id)" style="display: none" class="table-warning">
+                                    <td id="td-@(member.Id)">@member.Name</td>
+                                    <td>@member.UserName</td>
+                                    <td>
+                                        <a data-row-id="@(member.Id)"
+                                           href="#0"
+                                           onclick="deleteRow(event)"
+                                           class="badge badge-primary badge-letter-spacing">delete</a>
                                     </td>
                                 </tr>
                             }
@@ -153,14 +188,14 @@
         // Shows the row corresponding to a selected peers user ID
         function ShowRow() {
 
-            var userId = $("#CandidateSelection").val();
+            var userId = $("#Student").val();
 
             if ("" != userId) {
 
                 var tableRow = $(`#tr-${userId}`);
 
                 if (tableRow.css("display") == "table-row") {
-                    var name = $(`#CandidateSelection option[value='${userId}']`).text();
+                    var name = $(`#td-${userId}`).text();
                     alert(name + " is already a member of the team!");
                     return;
                 }
@@ -176,7 +211,6 @@
         function deleteRow(event) {
 
             var userId = event.target.getAttribute('data-row-id');
-            console.log(userId);
             var rowToDelete = `#tr-${userId}`;
             $(rowToDelete).css("display", "none");
             event.preventDefault();

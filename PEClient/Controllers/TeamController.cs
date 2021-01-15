@@ -31,108 +31,175 @@
 using System.Web.Mvc;
 using PEClient.Models;
 using Microsoft.AspNet.Identity;
-using System.Diagnostics;
+using PEClient.DAL;
+using System;
+using System.Linq;
 
 namespace PEClient.Controllers
 {
     [Authorize(Roles = "Admin,Instructor")]
     public class TeamController : Controller
     {
+        private IRepository repository = new SQLRepository();
+
         [HttpGet]
-        public ActionResult Index(int? id)
+        [Route("Team/Index/{id:int}")]
+        public ActionResult Index(int id)
         {
-            if (null == id)
+            try
             {
-                return RedirectToAction("Index", "Dashboard");
+                var team = repository.GetTeam(User.Identity.GetUserId(), id);
+
+                if (null != team)
+                {
+                    return View(new TeamIndexViewModel
+                    {
+                        Id = id,
+                        Name = team.Name,
+                        Members = team.Members
+                    });
+                }
             }
-            return View(new TeamIndexViewModel(User.Identity.GetUserId(), id));
+            catch (Exception ex)
+            {
+                // TODO: Log the exception
+            }
+            TempData.ErrorMessage($"Team not found");
+            return RedirectToAction("Index", "Dashboard");
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            return View(new TeamCreateViewModel(User.Identity.GetUserId()));
+            try
+            {
+                return View(new TeamCreateViewModel
+                {
+                    Students = repository.GetAllStudents(User.Identity.GetUserId())
+                });
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log the exception
+            }
+            return RedirectToAction("Index", "Dashboard");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(TeamCreateViewModel model)
         {
-            // Test for model validation.
-            if (!ModelState.IsValid)
+            try
             {
-                // Note: The model does not automatically load the students list
-                // so it must be done here before returning the model to the view
-                model.LoadStudents(User.Identity.GetUserId());
-                return View(model);
-            }
+                // Test for model validation.
+                if (!ModelState.IsValid)
+                {
+                    // Note: The model does not automatically load the students list
+                    // so it must be done here before returning the model to the view
+                    model.Students = repository.GetAllStudents(User.Identity.GetUserId());
+                    return View(model);
+                }
 
-            if (model.save(User.Identity.GetUserId()))
-            {
-                TempData.SuccessMessage($"Successfully added {model.TeamName} to peer groups.");
+                if (repository.AddTeam(User.Identity.GetUserId(), model.TeamName, model.PeerSelection))
+                {
+                    TempData.SuccessMessage($"Successfully added {model.TeamName} to peer groups.");
+                }
+                else
+                {
+                    TempData.ErrorMessage($"Failed adding {model.TeamName} to peer groups");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                TempData.ErrorMessage($"Failed adding {model.TeamName} to peer groups: " + model.SaveErrorMessage);
+                // TODO: Log the exception
+                TempData.ErrorMessage($"Failed adding team");
             }
 
             return RedirectToAction("Index", "Dashboard");
         }
 
         [HttpGet]
-        public ActionResult Edit(int? id)
+        [Route("Team/Edit/{id:int}")]
+        public ActionResult Edit(int id)
         {
-            if (null == id)
+            try
             {
-                return RedirectToAction("Index", "Dashboard");
+                var aspNetId = User.Identity.GetUserId();
+                var team = repository.GetTeam(aspNetId, id);
+                var students = repository.GetAllStudents(aspNetId);
+
+                if (null != team)
+                {
+                    return View(new TeamEditViewModel
+                    {
+                        Id = team.Id,
+                        TeamName = team.Name,
+                        PeerSelection = team.Members.Select(x => x.UserId).ToList(),
+                        Students = students
+                    });
+                }
             }
-            return View(new TeamEditViewModel(User.Identity.GetUserId(), (int)id));
+            catch (Exception ex)
+            {
+                // TODO: Log the exception
+            }
+            TempData.ErrorMessage($"Team not found");
+            return RedirectToAction("Index", "Dashboard");
         }
 
         [HttpPost]
-        public ActionResult Edit(TeamEditViewModel model)
+        [Route("Team/Edit/{id:int}")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(TeamEditViewModel vm)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (model.save(User.Identity.GetUserId()))
+                if (!ModelState.IsValid)
                 {
-                    TempData.SuccessMessage($"Successfully updated {model.TeamName}.");
+                    vm.Students = repository.GetAllStudents(User.Identity.GetUserId());
+                    return View(vm);
                 }
-                else
-                {
-                    TempData.ErrorMessage($"Failed updating {model.TeamName}: " + model.SaveErrorMessage);
-                }
-                return RedirectToAction("Index", "Dashboard");
-            }
-            else
-            {
-                // Note: The model does not automatically load the students list
-                // so it must be done here before returning the model to the view
-                model.LoadStudents(User.Identity.GetUserId());
-                return View(model);
-            }
-        }
-        
-        [HttpDelete]
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return RedirectToAction("Index", "Dashboard");
-            }
-            else
-            {
-                var model = new TeamDeleteViewModel(User.Identity.GetUserId(), (int)id);
 
-                if (model.Delete())
-                {
-                    TempData.SuccessMessage($"Successfully deleted {model.TeamName}.");
+                if (repository.UpdateTeam(User.Identity.GetUserId(), vm.Id, vm.TeamName, vm.PeerSelection)){
+                    TempData.SuccessMessage($"Successfully updated {vm.TeamName}.");
                 }
                 else
                 {
-                    TempData.ErrorMessage($"Failed deleting {model.TeamName}: " + model.ErrorMessage);
+                    TempData.ErrorMessage($"Failed updating {vm.TeamName}");
                 }
-                return View(model);
             }
+            catch (Exception ex)
+            {
+                // TODO: Log the exception
+                TempData.ErrorMessage($"Failed updating {vm.TeamName}");
+            }
+
+            return RedirectToAction("Index", "Dashboard");
+        }
+
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        [Route("Team/Delete/{id:int}")]
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                var team = repository.DeleteTeam(User.Identity.GetUserId(), id);
+                if (null != team)
+                {
+                    TempData.SuccessMessage($"Successfully deleted {team.Name}.");
+                    return View(new TeamDeleteViewModel
+                    {
+                        TeamName = team.Name
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log the exception
+            }
+            TempData.ErrorMessage($"Team not found");
+            return RedirectToAction("Index", "Dashboard");
         }
     }
 }

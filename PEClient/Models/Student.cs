@@ -37,8 +37,8 @@ namespace PEClient.Models
 {
     public class Student
     {
-        public string Name;
-        public string UserName;
-        public int id;
+        public string Name { get; set; }
+        public string UserName { get; set; }
+        public int Id { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 ﻿// **********************************************************************************
-// * Copyright (c) 2021 Robin Murray
+// * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: IRepository.cs
+// * File: CreateTeamModel.cs
 // *
 // * Author: Robin Murray
 // *
@@ -27,27 +27,31 @@
 // *   THE SOFTWARE.
 // * 
 // **********************************************************************************
-using PEClient.Models;
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Web.Mvc;
+using PEClient.Validation;
 
-namespace PEClient.DAL
+namespace PEClient.Models
 {
-    public interface IRepository
+    public class TeamCreateViewModel
     {
-        IEnumerable<Survey> GetAllSurveys(string identity);
-        IEnumerable<Team> GetAllTeams(string identity);
-        IEnumerable<LaunchedSurvey> GetAllLaunchedSurveys(string identity);
-        IEnumerable<Student> GetAllStudents(string identity);
-        Survey AddSurvey(string identity, Survey survey);
-        Survey GetSurvey(string identity, int id);
-        Survey UpdateSurvey(string identity, Survey survey);
-        Survey DeleteSurvey(string identity, int id);
-        bool AddTeam(string identity, string name, IEnumerable<int> members);
-        Team GetTeam(string identity, int id);
-        bool UpdateTeam(string identity, int id, string name, IEnumerable<int> members);
-        Team DeleteTeam(string identity, int id);
+        private string _teamName;
+
+        [NonNullEmptyOrWhiteSpace(ErrorMessage: "A team name cannot be blank.  Please enter a team name.")]
+        public string TeamName
+        {
+            get { return _teamName; }
+            set
+            {
+                // Remove white space from beginning and end of the template's name
+                _teamName = value.Trim();
+            }
+        }
+        [MinCount(1, ErrorMessage: "Please add one or more users to the peer group.")]
+        public IEnumerable<int> PeerSelection { get; set; }
+
+        public IEnumerable<Student> Students { get; set; }
     }
 }
