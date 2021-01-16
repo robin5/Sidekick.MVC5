@@ -5,8 +5,8 @@ using System.Web;
 
 namespace PEClient.Models
 {
-    public class SurveySummaryStudent : Student
+    public class TeamStudentSummaries : Team
     {
-        public float Complete;
+        public List<StudentSummary> StudentSummaries { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 ﻿// **********************************************************************************
-// * Copyright (c) 2021 Robin Murray
+// * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: IRepository.cs
+// * File: StudentSummary.cs
 // *
 // * Author: Robin Murray
 // *
@@ -28,26 +28,15 @@
 // * 
 // **********************************************************************************
 
-using System.Collections.Generic;
-using PEClient.Models;
-
-namespace PEClient.DAL
+namespace PEClient.Models
 {
-    public interface IRepository
+    public class StudentSummary : Student
     {
-        IEnumerable<Survey> GetAllSurveys(string identity);
-        IEnumerable<Team> GetAllTeams(string identity);
-        IEnumerable<LaunchedSurvey> GetAllLaunchedSurveys(string identity);
-        IEnumerable<Student> GetAllStudents(string identity);
-        Survey AddSurvey(string identity, Survey survey);
-        Survey GetSurvey(string identity, int id);
-        Survey UpdateSurvey(string identity, Survey survey);
-        Survey DeleteSurvey(string identity, int id);
-        bool AddTeam(string identity, string name, IEnumerable<int> members);
-        Team GetTeam(string identity, int id);
-        bool UpdateTeam(string identity, int id, string name, IEnumerable<int> members);
-        Team DeleteTeam(string identity, int id);
-        bool AddLaunchedSurvey(string identity, LaunchedSurvey launchedSurvey);
-        IEnumerable<StudentSummary> GetStudentSummaries(string identity, int surveyId);
+        public float Complete;
+        public string PieData { get; set; } = "[['A',2],['B',3],['N/A',2]]";
+        public int SurveyId { get; set; }
+        public string SurveyName { get; set; }
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
     }
 }

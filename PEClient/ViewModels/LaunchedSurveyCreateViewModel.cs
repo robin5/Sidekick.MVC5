@@ -1,8 +1,8 @@
 ﻿// **********************************************************************************
-// * Copyright (c) 2021 Robin Murray
+// * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: IRepository.cs
+// * File: LaunchedSurveyCreateViewModel.cs
 // *
 // * Author: Robin Murray
 // *
@@ -28,26 +28,35 @@
 // * 
 // **********************************************************************************
 
+using System;
 using System.Collections.Generic;
-using PEClient.Models;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web.Mvc;
+using PEClient.Validation;
 
-namespace PEClient.DAL
+namespace PEClient.Models
 {
-    public interface IRepository
+    public class LaunchedSurveyCreateViewModel
     {
-        IEnumerable<Survey> GetAllSurveys(string identity);
-        IEnumerable<Team> GetAllTeams(string identity);
-        IEnumerable<LaunchedSurvey> GetAllLaunchedSurveys(string identity);
-        IEnumerable<Student> GetAllStudents(string identity);
-        Survey AddSurvey(string identity, Survey survey);
-        Survey GetSurvey(string identity, int id);
-        Survey UpdateSurvey(string identity, Survey survey);
-        Survey DeleteSurvey(string identity, int id);
-        bool AddTeam(string identity, string name, IEnumerable<int> members);
-        Team GetTeam(string identity, int id);
-        bool UpdateTeam(string identity, int id, string name, IEnumerable<int> members);
-        Team DeleteTeam(string identity, int id);
-        bool AddLaunchedSurvey(string identity, LaunchedSurvey launchedSurvey);
-        IEnumerable<StudentSummary> GetStudentSummaries(string identity, int surveyId);
+        public IEnumerable<Survey> Surveys { get; set; }
+        public IEnumerable<Team> Teams { get; set; }
+
+        [NonNullEmptyOrWhiteSpace(ErrorMessage: "Please enter a Launch Name")]
+        public string LaunchName { get; set; }
+
+        [NonZero(ErrorMessage: "Please select a survey")]
+        public int SurveyId { get; set; }
+
+        [NonNullEmptyOrWhiteSpace(ErrorMessage: "Please enter a start date and time")]
+        [DateTime]
+        public string StartDateTime { get; set; }
+
+        [NonNullEmptyOrWhiteSpace(ErrorMessage: "Please enter an end date and time")]
+        [DateTime]
+        public string EndDateTime { get; set; }
+        
+        [MinCount(1, ErrorMessage: "Please add one or more Peer Groups")]
+        public IEnumerable<int> SelectedTeams { get; set; }
     }
 }

@@ -27,19 +27,16 @@
 // *   THE SOFTWARE.
 // * 
 // **********************************************************************************
-using PEClient.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using PEClient.Models;
 
 namespace PEClient.DAL
 {
     public class SQLRepository : IRepository
     {
-        //
-        // Summary:
-        //     Loads surveys from the database into the model.
         public IEnumerable<Survey> GetAllSurveys(string identity)
         {
             List<Survey> _surveys = new List<Survey>();
@@ -57,9 +54,6 @@ namespace PEClient.DAL
             }
             return _surveys;
         }
-        //
-        // Summary:
-        //     Loads teams from the database into the model.
         public IEnumerable<Team> GetAllTeams(string identity)
         {
             List<Team> _teams = new List<Team>();
@@ -77,9 +71,6 @@ namespace PEClient.DAL
             }
             return _teams;
         }
-        //
-        // Summary:
-        //     Loads launched surveys from the database into the model.
         public IEnumerable<LaunchedSurvey> GetAllLaunchedSurveys(string identity)
         {
             List<LaunchedSurvey> _launchedSurveys = new List<LaunchedSurvey>();
@@ -96,15 +87,14 @@ namespace PEClient.DAL
                     {
                         Id = launchedSurvey.SurveyId,
                         Name = launchedSurvey.Name,
-                        Start = launchedSurvey.StartDate.ToString(),
-                        End = launchedSurvey.EndDate.ToString(),
+                        Start = launchedSurvey.StartDate,
+                        End = launchedSurvey.EndDate,
                         Status = launchedSurvey.Released ? "Not Released" : "Released"
                     }); ;
                 }
             }
             return _launchedSurveys;
         }
-       
         public IEnumerable<Student> GetAllStudents(string identity)
         {
             List<Student> students = new List<Student>();
@@ -117,9 +107,10 @@ namespace PEClient.DAL
                 // Cycle through result of database query and load data into the model
                 foreach (var user in users)
                 {
-                    students.Add(new Student { 
-                        UserName = user.UserName, 
-                        Name = user.FullName, 
+                    students.Add(new Student
+                    {
+                        UserName = user.UserName,
+                        Name = user.FullName,
                         Id = user.UserId,
                     });
                 }
@@ -127,7 +118,39 @@ namespace PEClient.DAL
 
             return students;
         }
+        public IEnumerable<StudentSummary> GetStudentSummaries(string identity, int id)
+        {
+            List<StudentSummary> studentSummaries = new List<StudentSummary>();
 
+            using (var db = new PEClientContext())
+            {
+                // Query database for launched survey name and team members given survey ID
+                var launchedSurveyTeams = db.spLaunchedSurveyTeams_GetById(identity, id).ToList();
+
+                if (launchedSurveyTeams.Count() == 0)
+                {
+                    return null;
+                }
+
+                // Cycle through result of database query and load data into the model
+                foreach (var launchedSurveyTeam in launchedSurveyTeams)
+                {
+                    // create a new student
+                    studentSummaries.Add(new StudentSummary
+                    {
+                        UserName = launchedSurveyTeam.UserName,
+                        Name = launchedSurveyTeam.FullName,
+                        Id = launchedSurveyTeam.UserId,
+                        SurveyId = launchedSurveyTeam.SurveyId,
+                        SurveyName = launchedSurveyTeam.SurveyName,
+                        TeamId = launchedSurveyTeam.TeamId,
+                        TeamName = launchedSurveyTeam.TeamName,
+                        Complete = 0.667f
+                    });
+                }
+                return studentSummaries;
+            }
+        }
         public Survey AddSurvey(string identity, Survey survey)
         {
             try
@@ -283,6 +306,27 @@ namespace PEClient.DAL
                 throw new Exception(ModelUtils.FormatExceptionMessage(ex));
             }
             return team;
+        }
+        public bool AddLaunchedSurvey(string identity, LaunchedSurvey launchedSurvey)
+        {
+            try
+            {
+                using (var db = new PEClientContext())
+                {
+                    db.spLaunch_Create(identity,
+                        launchedSurvey.Name,
+                        launchedSurvey.SurveyId,
+                        launchedSurvey.Start,
+                        launchedSurvey.End,
+                        launchedSurvey.Teams
+                        );
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ModelUtils.FormatExceptionMessage(ex));
+            }
         }
     }
 }

@@ -211,18 +211,20 @@
     <Compile Include="Controllers\ResponseController.cs" />
     <Compile Include="DAL\IRepository.cs" />
     <Compile Include="DAL\SQLRepository.cs" />
-    <Compile Include="Models\CommentsAboutViewModel.cs" />
+    <Compile Include="ViewModels\LaunchedSurveyCommentsAboutViewModel.cs" />
+    <Compile Include="Models\LaunchedSurveyTeams.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\ResponseEditViewModel.cs" />
     <Compile Include="Models\ResponseUpdate.cs" />
     <Compile Include="Models\ResponseViewModel.cs" />
+    <Compile Include="Validation\NonZeroAttribute.cs" />
     <Compile Include="ViewModels\TeamCreateViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="Models\LaunchedSurvey.cs" />
     <Compile Include="Models\ModelUtils.cs" />
     <Compile Include="Models\Survey.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\LaunchViewModel.cs" />
+    <Compile Include="ViewModels\LaunchedSurveyCreateViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -312,10 +314,10 @@
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="Models\Student.cs" />
-    <Compile Include="Models\SurveyResponsesViewModel.cs" />
-    <Compile Include="Models\SurveySummaryStudent.cs" />
-    <Compile Include="Models\SurveyTeam.cs" />
-    <Compile Include="Models\ResultsViewModel.cs" />
+    <Compile Include="ViewModels\LaunchedSurveyCommentsByViewModel.cs" />
+    <Compile Include="Models\StudentSummary.cs" />
+    <Compile Include="Models\TeamStudentSummaries.cs" />
+    <Compile Include="ViewModels\LaunchedSurveyIndexViewModel.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="ViewModels\SurveyCreateViewModel.cs" />
     <Compile Include="Models\ToneAnalysisViewModel.cs" />

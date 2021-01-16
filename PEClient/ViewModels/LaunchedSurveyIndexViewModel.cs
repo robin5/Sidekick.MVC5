@@ -2,7 +2,7 @@
 // * Copyright (c) 2021 Robin Murray
 // **********************************************************************************
 // *
-// * File: IRepository.cs
+// * File: LaunchedSurveyIndexViewModel.cs
 // *
 // * Author: Robin Murray
 // *
@@ -28,26 +28,44 @@
 // * 
 // **********************************************************************************
 
+using System;
 using System.Collections.Generic;
-using PEClient.Models;
+using System.Linq;
+using System.Web;
 
-namespace PEClient.DAL
+namespace PEClient.Models
 {
-    public interface IRepository
+    public class LaunchedSurveyIndexViewModel
     {
-        IEnumerable<Survey> GetAllSurveys(string identity);
-        IEnumerable<Team> GetAllTeams(string identity);
-        IEnumerable<LaunchedSurvey> GetAllLaunchedSurveys(string identity);
-        IEnumerable<Student> GetAllStudents(string identity);
-        Survey AddSurvey(string identity, Survey survey);
-        Survey GetSurvey(string identity, int id);
-        Survey UpdateSurvey(string identity, Survey survey);
-        Survey DeleteSurvey(string identity, int id);
-        bool AddTeam(string identity, string name, IEnumerable<int> members);
-        Team GetTeam(string identity, int id);
-        bool UpdateTeam(string identity, int id, string name, IEnumerable<int> members);
-        Team DeleteTeam(string identity, int id);
-        bool AddLaunchedSurvey(string identity, LaunchedSurvey launchedSurvey);
-        IEnumerable<StudentSummary> GetStudentSummaries(string identity, int surveyId);
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public List<TeamStudentSummaries> Teams { get; set; } = new List<TeamStudentSummaries>();
+        public LaunchedSurveyIndexViewModel(IEnumerable<StudentSummary> summaries)
+        {
+            // Obtain survey name and ID
+            var first = summaries.First();
+            Name = first.SurveyName;
+            Id = first.SurveyId;
+
+            TeamStudentSummaries team = null;
+
+            // Cycle through result of database query and load data into the model
+            foreach (var studentSummary in summaries)
+            {
+                // Add a new team each time the team's name changes
+                if ((null == team) || (team.Id != studentSummary.TeamId))
+                {
+                    team = new TeamStudentSummaries
+                    {
+                        Name = studentSummary.TeamName,
+                        Id = studentSummary.TeamId,
+                        StudentSummaries = new List<StudentSummary>()
+                    };
+                    Teams.Add(team);
+                }
+                // Add the student to the current team
+                team.StudentSummaries.Add(studentSummary);
+            }
+        }
     }
 }

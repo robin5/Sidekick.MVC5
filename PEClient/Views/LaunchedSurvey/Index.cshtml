@@ -1,4 +1,4 @@
-﻿@model PEClient.Models.ResultsViewModel
+﻿@model PEClient.Models.LaunchedSurveyIndexViewModel
 
 @{
     ViewBag.Title = "Survey Summary";
@@ -7,38 +7,37 @@
 
 @{
     var id = 1;
-    var teamId = 0;
 }
 
 <div class="container-md dsh-container">
     <div class="dsh-title">
-        <h2>Survey Results for @Model.SurveyName</h2>
+        <h2>Survey Results for @Model.Name</h2>
     </div>
     <div class="dsh-content container-fluid">
 
-        @foreach (PEClient.Models.SurveyTeam team in Model.Teams)
+        @foreach (var team in Model.Teams)
         {
             <div class="sr-team container-fluid">
                 <div>
-                    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#launched-@teamId" aria-expanded="false" aria-controls="collapseExample">
+                    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#launched-@team.Id" aria-expanded="false" aria-controls="collapseExample">
                         <h4>@team.Name&nbsp;&raquo;</h4>
                     </button>
                 </div><!-- launched surveys button -->
                 <br>
-                <div id="launched-@teamId" class="collapse container-fluid">
+                <div id="launched-@team.Id" class="collapse container-fluid">
 
-                    @foreach (PEClient.Models.SurveySummaryStudent user in team.Users)
+                    @foreach (var studentSummary in team.StudentSummaries)
                     {
                         <div id="sr-student-card-@(id)" class="sr-student-card">
                             <div class="row">
                                 <div class="col reviewee-content">
-                                    <h6><span class="sr-student-name">@(user.Name) (@(user.UserName))</span></h6>
+                                    <h6><span class="sr-student-name">@(studentSummary.Name) (@(studentSummary.UserName))</span></h6>
                                     <ul>
-                                        <li><a href="@Url.Action("CommentsAbout", "LaunchedSurvey", new { surveyId = Model.SurveyId, teamId = team.Id, userId = user.id }, null)">See comments about @(user.Name)</a></li>
-                                        <li><a href="@Url.Action("CommentsBy", "LaunchedSurvey", new { surveyId = Model.SurveyId, teamId = team.Id, userId = user.id  }, null)">Review @user.Name's surveys: @(100 * @user.Complete)% complete</a></li>
+                                        <li><a href="@Url.Action("CommentsAbout", "LaunchedSurvey", new { surveyId = Model.Id, teamId = team.Id, userId = studentSummary.Id }, null)">See comments about @(studentSummary.Name)</a></li>
+                                        <li><a href="@Url.Action("CommentsBy", "LaunchedSurvey", new { surveyId = Model.Id, teamId = team.Id, userId = studentSummary.Id  }, null)">Review @studentSummary.Name's surveys: @(100 * studentSummary.Complete)% complete</a></li>
                                     </ul>
                                 </div>
-                                <div id="pie-chart-@(id)" class="col pie-chart" data="[['A',2],['B',3],['N/A',2]]" style="">
+                                <div id="pie-chart-@(id)" class="col pie-chart" data="@(studentSummary.PieData)" style="">
                                     <figure class="highcharts-figure">
                                         <div id="container-@(id)"></div>
                                     </figure>
@@ -49,7 +48,6 @@
                     }
                 </div>
             </div>
-            teamId++;
         }
     </div>
 </div>

@@ -28,10 +28,10 @@ namespace PEClient.Models
             set;
         }
     }
-    public class CommentsAboutViewModel
+    public class LaunchedSurveyCommentsAboutViewModel
     {
         public string Student { get; private set; }
-        public CommentsAboutViewModel()
+        public LaunchedSurveyCommentsAboutViewModel()
         {
             PeerQuestionAnswers = new List<PeerQuestionAnswers>();
             CreateFakeData();

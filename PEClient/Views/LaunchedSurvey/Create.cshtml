@@ -32,7 +32,7 @@
     **********************************************************************************
 *@
 
-@model  PEClient.Models.LaunchViewModel
+@model  PEClient.Models.LaunchedSurveyCreateViewModel
 
 @{
     ViewBag.Title = "Launch Survey";
@@ -73,11 +73,25 @@
             })
             <br>
 
-            @* -- Templates list -- *@
+            @* -- Surveys list -- *@
 
-            @Html.LabelFor(m => m.Survey, "Survey", new { @class = "control-label" })<br />
-            @Html.ValidationMessageFor(m => m.Survey, "", new { @class = "alert-danger validation-msg" })
-            @Html.DropDownListFor(m => m.Survey, Model.Surveys, "-- select a survey --", new { @class = "form-control" })
+            @Html.LabelFor(m => m.SurveyId, "Survey", new { @class = "control-label" })<br />
+            @Html.ValidationMessageFor(m => m.SurveyId, "", new { @class = "alert-danger validation-msg" })
+
+            <select name="SurveyId" class="form-control flex-grow-1">
+                <option value="0">-- select a survey --</option>
+                @foreach (var survey in Model.Surveys)
+                {
+                    if (survey.Id == Model.SurveyId)
+                    {
+                        <option value="@survey.Id" selected>@survey.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@survey.Id">@survey.Name</option>
+                    }
+                }
+            </select>
             <br>
 
             @* -- Start DateTime -- *@
@@ -96,41 +110,73 @@
 
             @* -- Add Team DropDown -- *@
 
-            @Html.LabelFor(m => m.SelectedCandidate, "Peer Groups", new { @class = "control-label" })<br />
+            @Html.LabelFor(m => m.SelectedTeams, "Peer Groups", new { @class = "control-label" })<br />
             @Html.ValidationMessageFor(m => m.SelectedTeams, "", new { @class = "alert-danger validation-msg" })
-            @Html.DropDownListFor(m => m.SelectedCandidate, Model.liCandidates, "-- select a group --", new { @class = "form-control", style = "display: inline-block; width: 250px;" })
 
-            @* -- Add User Button -- *@
+            <div class="d-flex team-add-students">
+                <select id="SelectedTeam" name="SelectedTeam" class="form-control flex-grow-1">
+                    <option value="">-- select a peer group then press &lt;Add&gt; --</option>
+                    @foreach (var team in Model.Teams)
+                    {
+                        <option value="@team.Id">@team.Name</option>
+                    }
+                </select>
 
-            <button type="button" id="btn-add-team" class="btn btn-primary" name="action" value="add-user" onclick="ShowRow();" style="margin-left: 5px; display: inline;">
-                Add
-            </button>
-            <br />
 
-            @* -- Hidden Peer Group listbox -- *@
+                @* -- Add User Button -- *@
 
-            @Html.ListBoxFor(m => m.SelectedTeams, Model.liTeams, new { @class = "form-control", style = "display: none" })<br />
+                <button type="button" id="btn-add-team" class="btn btn-primary" name="action" value="add-user" onclick="ShowRow();" style="margin-left: 5px; display: inline;">
+                    Add
+                </button>
+            </div>
 
-            <table id="tbl-edit-team" style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; margin-top: 0; margin-bottom: 20px; width: 100%">
-                <tr>
-                    <td colspan="2"><h4 id="table-team-name" style="text-decoration:underline"></h4></td>
-                </tr>
-                <tr>
-                    <th class="table-header">Name</th>
-                    <th class="table-header-badge"></th>
-                </tr>
+            @* -- Hidden Team listbox -- *@
+
+            if (Model.SelectedTeams == null)
+            {
+                Model.SelectedTeams = new List<int>
+                    ();
+            }
+            <select id="SelectedTeams" name="SelectedTeams" class="form-control" style="display: none" multiple>
                 @foreach (var team in Model.Teams)
                 {
-                    <tr id="tr-@(team.Id)" style="display: none">
-                        <td class="table-data">@team.Name</td>
-                        <td class="table-data-badge">
-                            <span class="badge">
-                                <a data-row-id="@(team.Id)" href="#0" onclick="deleteRow(event)">delete</a>
-                            </span>
-                        </td>
-                    </tr>
+                    if (Model.SelectedTeams.Contains(team.Id))
+                    {
+                        <option value="@team.Id" selected></option>
+                    }
+                    else
+                    {
+                        <option value="@team.Id"></option>
+                    }
                 }
-            </table>
+            </select>
+
+            @* -- Peer Group table -- *@
+
+            <div class="table-responsive-md">
+                <table id="tbl-edit-team" class="table table-bordered table-hover tbl-team-create-edit">
+                    <thead class="thead-dark thead-team-create-edit">
+                        <tr>
+                            <th class="table-header">Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var team in Model.Teams)
+                        {
+                            <tr id="tr-@(team.Id)" style="display: none" class="table-warning">
+                                <td id="td-@(team.Id)">@team.Name</td>
+                                <td>
+                                    <a data-row-id="@(team.Id)"
+                                       href="#0"
+                                       onclick="deleteRow(event)"
+                                       class="badge badge-primary badge-letter-spacing">delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
 
             @* -- Submit and Cancel buttons -- *@
@@ -165,15 +211,15 @@
         // Shows the row corresponding to a selected peers user ID
         function ShowRow() {
 
-            var userId = $("#SelectedCandidate").val();
+            var userId = $("#SelectedTeam").val();
 
-            if ("" != userId) {
+            if ("0" != userId) {
 
                 var tableRow = $(`#tr-${userId}`);
 
                 if (tableRow.css("display") == "table-row") {
-                    var name = $(`#SelectedCandidate option[value='${userId}']`).text();
-                    alert(name + " is already a member of the team!");
+                    var name = $(`#SelectedTeam option[value='${userId}']`).text();
+                    alert(name + " has already been added!");
                     return;
                 }
 
@@ -193,7 +239,7 @@
             event.preventDefault();
 
             // Deselect the list item in the hidden listbox specified by User ID
-            $(`#PeerSelection option[value='${userId}']`).prop("selected", false);
+            $(`#SelectedTeams option[value='${userId}']`).prop("selected", false);
         }
     </script>
 }

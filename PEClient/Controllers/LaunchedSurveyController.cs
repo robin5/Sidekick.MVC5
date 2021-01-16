@@ -28,62 +28,101 @@
 // * 
 // **********************************************************************************
 
+using System;
 using System.Web.Mvc;
-using PEClient.Models;
 using Microsoft.AspNet.Identity;
+using PEClient.DAL;
+using PEClient.Models;
 
 namespace PEClient.Controllers
 {
     [Authorize(Roles = "Admin,Instructor")]
     public class LaunchedSurveyController : Controller
     {
-        // GET: Launch
-        public ActionResult Create()
+        private IRepository repository = new SQLRepository();
+
+        [HttpGet]
+        [Route("LaunchedSurvey/Index/{id:int}")]
+        public ActionResult Index(int id)
         {
-            return View(new LaunchViewModel(User.Identity.GetUserId()));
+            try
+            {
+                var studentSummaries = repository.GetStudentSummaries(User.Identity.GetUserId(), id);
+                if (null != studentSummaries)
+                {
+                    return View(new LaunchedSurveyIndexViewModel(studentSummaries));
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log the exception
+            }
+            TempData.ErrorMessage($"Launched survey not found");
+            return RedirectToAction("Index", "Dashboard");
         }
 
-        // POST: Launch
-        [HttpPost]
-        public ActionResult Create(LaunchViewModel model)
+        [HttpGet]
+        public ActionResult Create()
         {
-            // Test for model validation.
-            if (!ModelState.IsValid)
+            try
             {
-                model.LoadData(User.Identity.GetUserId());
-                return View(model);
-            }
+                string identity = User.Identity.GetUserId();
 
-            if (model.Save(User.Identity.GetUserId()))
-            {
-                TempData.SuccessMessage($"Successfully launched {model.LaunchName}.");
+                return View(new LaunchedSurveyCreateViewModel
+                {
+                    Surveys = repository.GetAllSurveys(identity),
+                    Teams = repository.GetAllTeams(identity)
+                });
             }
-            else
+            catch (Exception ex)
             {
-                TempData.ErrorMessage($"Failed to launch {model.LaunchName}. " + model.SaveErrorMessage);
+                // TODO: Log the exception
+                return RedirectToAction("Index", "Dashboard");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Create(LaunchedSurveyCreateViewModel vm)
+        {
+            try
+            {
+                string identity = User.Identity.GetUserId();
+
+                if (!ModelState.IsValid)
+                {
+                    vm.Surveys = repository.GetAllSurveys(identity);
+                    vm.Teams = repository.GetAllTeams(identity);
+                    return View(vm);
+                }
+
+                var launchedSurvey = new LaunchedSurvey
+                {
+                    Name = vm.LaunchName,
+                    SurveyId = vm.SurveyId,
+                    Start = DateTime.Parse(vm.StartDateTime),
+                    End = DateTime.Parse(vm.EndDateTime),
+                    Teams = vm.SelectedTeams
+                };
+                repository.AddLaunchedSurvey(identity, launchedSurvey);
+                TempData.SuccessMessage($"Successfully launched survey");
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log the exception
+                TempData.ErrorMessage($"Failed launching survey");
             }
 
             return RedirectToAction("Index", "Dashboard");
         }
 
-        // GET: LaunchedSurveySummary
-        public ActionResult Index(int? id)
-        {
-            if (null == id)
-            {
-                return RedirectToAction("Index", "Dashboard");
-            }
-            return View(new ResultsViewModel(User.Identity.GetUserId(), (int)id));
-        }
-
-        // GET: CommentsAbout
+        [HttpGet]
         [Route("LaunchedSurvey/CommentsAbout/{surveyId}/{teamId}/{userId}")]
         public ActionResult CommentsAbout(int surveyId, int teamId, int userId)
         {
-            return View(new CommentsAboutViewModel());
+            return View(new LaunchedSurveyCommentsAboutViewModel());
         }
 
-        // GET: CommentsBy
+        [HttpGet]
         [Route("LaunchedSurvey/CommentsBy/{surveyId}/{teamId}/{userId}")]
         public ActionResult CommentsBy(int surveyId, int teamId, int userId)
         {
