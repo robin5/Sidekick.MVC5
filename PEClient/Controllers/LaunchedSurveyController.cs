@@ -126,7 +126,7 @@ namespace PEClient.Controllers
         [Route("LaunchedSurvey/CommentsBy/{surveyId}/{teamId}/{userId}")]
         public ActionResult CommentsBy(int surveyId, int teamId, int userId)
         {
-            return View(new SurveyResponsesViewModel());
+            return View(new LaunchedSurveyCommentsByViewModel());
         }
     }
 }

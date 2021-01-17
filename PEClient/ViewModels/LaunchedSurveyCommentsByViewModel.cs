@@ -20,9 +20,9 @@ namespace PEClient.Models
         public string Peer { get; set; }
         public List<QuestionAnswer> QuestionsAnswers;
     }
-    public class SurveyResponsesViewModel
+    public class LaunchedSurveyCommentsByViewModel
     {
-        public SurveyResponsesViewModel()
+        public LaunchedSurveyCommentsByViewModel()
         {
             SurveyResponses = new List<SurveyResponse>();
             CreateFakeData();
