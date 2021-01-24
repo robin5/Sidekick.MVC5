@@ -40,7 +40,7 @@ namespace PEClient.Controllers
     [Authorize(Roles = "Admin,Instructor")]
     public class SurveyController : Controller
     {
-        private IRepository repository = new SQLRepository();
+        private readonly IRepository repository = new SQLRepository();
 
         [HttpGet]
         [Route("Survey/Index/{id:int}")]
@@ -60,7 +60,7 @@ namespace PEClient.Controllers
                     });
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: Log the exception
             }
@@ -75,7 +75,7 @@ namespace PEClient.Controllers
             {
                 return View(new SurveyCreateViewModel());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: Log the exception
             }
@@ -128,7 +128,7 @@ namespace PEClient.Controllers
                     });
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: Log the exception
             }
@@ -182,7 +182,7 @@ namespace PEClient.Controllers
                     });
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: Log the exception
             }

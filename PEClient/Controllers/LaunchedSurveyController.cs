@@ -2,7 +2,7 @@
 // * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: LaunchController.cs
+// * File: LaunchedSurveyController.cs
 // *
 // * Author: Robin Murray
 // *
@@ -39,7 +39,7 @@ namespace PEClient.Controllers
     [Authorize(Roles = "Admin,Instructor")]
     public class LaunchedSurveyController : Controller
     {
-        private IRepository repository = new SQLRepository();
+        private readonly IRepository repository = new SQLRepository();
 
         [HttpGet]
         [Route("LaunchedSurvey/Index/{id:int}")]
@@ -53,7 +53,7 @@ namespace PEClient.Controllers
                     return View(new LaunchedSurveyIndexViewModel(studentSummaries));
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: Log the exception
             }
@@ -74,7 +74,7 @@ namespace PEClient.Controllers
                     Teams = repository.GetAllTeams(identity)
                 });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: Log the exception
                 return RedirectToAction("Index", "Dashboard");
@@ -106,7 +106,7 @@ namespace PEClient.Controllers
                 repository.AddLaunchedSurvey(identity, launchedSurvey);
                 TempData.SuccessMessage($"Successfully launched survey");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: Log the exception
                 TempData.ErrorMessage($"Failed launching survey");
@@ -116,17 +116,23 @@ namespace PEClient.Controllers
         }
 
         [HttpGet]
-        [Route("LaunchedSurvey/CommentsAbout/{surveyId}/{teamId}/{userId}")]
-        public ActionResult CommentsAbout(int surveyId, int teamId, int userId)
+        [Route("LaunchedSurvey/CommentsAbout/{surveyId}/{teamId}/{revieweeId}")]
+        public ActionResult CommentsAbout(int surveyId, int teamId, int revieweeId)
         {
-            return View(new LaunchedSurveyCommentsAboutViewModel());
+            return View(new LaunchedSurveyCommentsAboutViewModel
+            {
+                CommentsAboutReviewee = repository.GetCommentsAboutReviewee(User.Identity.GetUserId(), surveyId, teamId, revieweeId)
+            });
         }
 
         [HttpGet]
-        [Route("LaunchedSurvey/CommentsBy/{surveyId}/{teamId}/{userId}")]
-        public ActionResult CommentsBy(int surveyId, int teamId, int userId)
+        [Route("LaunchedSurvey/CommentsBy/{surveyId}/{teamId}/{reviewerId}")]
+        public ActionResult CommentsBy(int surveyId, int teamId, int reviewerId)
         {
-            return View(new LaunchedSurveyCommentsByViewModel());
+            return View(new LaunchedSurveyCommentsByViewModel
+            {
+                CommentsByReviewer = repository.GetCommentsByReviewer(User.Identity.GetUserId(), surveyId, teamId, reviewerId)
+            });
         }
     }
 }

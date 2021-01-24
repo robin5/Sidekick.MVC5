@@ -1,8 +1,8 @@
 ﻿// **********************************************************************************
-// * Copyright (c) 2019 Robin Murray
+// * Copyright (c) 2021 Robin Murray
 // **********************************************************************************
 // *
-// * File: LaunchedSurvey.cs
+// * File: CommentsByReviewer.cs
 // *
 // * Author: Robin Murray
 // *
@@ -29,18 +29,24 @@
 // **********************************************************************************
 
 using System;
-using System.Collections.Generic;
 
 namespace PEClient.Models
 {
-    public class LaunchedSurvey
+    public class CommentsByReviewer
     {
-        public int Id { get; set; }
         public int SurveyId { get; set; }
-        public string Name { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
-        public string Status { get; set; }
-        public IEnumerable<int> Teams { get; set; }
+        public string SurveyName { get; set; }
+        public int SurveyQuestionId { get; set; }
+        public int Index { get; set; }
+        public string Question { get; set; }
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
+        public Nullable<int> ReviewerId { get; set; }
+        public string ReviewerName { get; set; }
+        public int RevieweeId { get; set; }
+        public string RevieweeName { get; set; }
+        public string RevieweeUserName { get; set; }
+        public string Grade { get; set; }
+        public string Answer { get; set; }
     }
 }

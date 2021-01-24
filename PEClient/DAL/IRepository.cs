@@ -39,6 +39,8 @@ namespace PEClient.DAL
         IEnumerable<Team> GetAllTeams(string identity);
         IEnumerable<LaunchedSurvey> GetAllLaunchedSurveys(string identity);
         IEnumerable<Student> GetAllStudents(string identity);
+        IEnumerable<CommentsByReviewer> GetCommentsByReviewer(string identity, int launchedSurveyId, int teamId, int reviewerId);
+        IEnumerable<CommentsAboutReviewee> GetCommentsAboutReviewee(string identity, int launchedSurveyId, int teamId, int revieweeId);
         Survey AddSurvey(string identity, Survey survey);
         Survey GetSurvey(string identity, int id);
         Survey UpdateSurvey(string identity, Survey survey);

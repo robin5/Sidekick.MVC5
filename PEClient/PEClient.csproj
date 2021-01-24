@@ -211,6 +211,86 @@
     <Compile Include="Controllers\ResponseController.cs" />
     <Compile Include="DAL\IRepository.cs" />
     <Compile Include="DAL\SQLRepository.cs" />
+    <Compile Include="Models\CommentsAboutReviewee.cs" />
+    <Compile Include="Models\CommentsByReviewer.cs" />
+    <Compile Include="spAspNetUsers_GetAllStudents_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spLaunchedSurveys_GetAll_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spLaunchedSurveyTeams_GetById_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spLaunchedSurvey_GetCommentsAboutReviewee_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spLaunchedSurvey_GetCommentsByReviewer_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spPeerSurveys_GetByAspNetId_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spResponses_GetBySurveyIdTeamId_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spSurvey_GetAll_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spSurvey_GetById_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spTeam_GetAll_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spTeam_GetById_Result.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblGrades.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblLaunchedSurveyQuestions.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblLaunchedSurveys.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblLaunchedTeams.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblLaunchedTeamUsers.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblRoles.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblSubmissionStatus.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblSurveyCompletes.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblSurveyQuestions.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblSurveyResponses.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblSurveys.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblTeams.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblTeamUsers.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblUserRoles.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblUsers.cs">
+      <DependentUpon>PEClientModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\LaunchedSurveyCommentsAboutViewModel.cs" />
     <Compile Include="Models\LaunchedSurveyTeams.cs" />
     <Compile Include="Models\Response.cs" />
@@ -285,33 +365,6 @@
     </Compile>
     <Compile Include="PEClientModelExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="spAspNetUsers_GetAllStudents_Result.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="spLaunchedSurveys_GetAll_Result.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="spLaunchedSurveyTeams_GetById_Result.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="spPeerSurveys_GetByAspNetId_Result.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="spResponses_GetBySurveyIdTeamId_Result.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="spSurvey_GetAll_Result.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="spSurvey_GetById_Result.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="spTeam_GetAll_Result.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="spTeam_GetById_Result.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="ViewModels\LaunchedSurveyCommentsByViewModel.cs" />
@@ -321,51 +374,6 @@
     <Compile Include="Models\Team.cs" />
     <Compile Include="ViewModels\SurveyCreateViewModel.cs" />
     <Compile Include="Models\ToneAnalysisViewModel.cs" />
-    <Compile Include="tblGrades.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblLaunchedSurveyQuestions.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblLaunchedSurveys.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblLaunchedTeams.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblLaunchedTeamUsers.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblRoles.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblSubmissionStatus.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblSurveyCompletes.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblSurveyQuestions.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblSurveyResponses.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblSurveys.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblTeams.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblTeamUsers.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblUserRoles.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblUsers.cs">
-      <DependentUpon>PEClientModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Validation\DateTimeAttribute.cs" />
     <Compile Include="Validation\MinCount.cs" />
     <Compile Include="Validation\NonNullEmptyOrWhiteSpaceAttribute.cs" />

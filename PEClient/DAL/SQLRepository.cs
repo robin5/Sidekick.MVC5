@@ -151,6 +151,64 @@ namespace PEClient.DAL
                 return studentSummaries;
             }
         }
+        public IEnumerable<CommentsByReviewer> GetCommentsByReviewer(string identity, int launchedSurveyId, int teamId, int reviewerId)
+        {
+            List<CommentsByReviewer> commentsByReviewer = new List<CommentsByReviewer>();
+            using (var db = new PEClientContext())
+            {
+                var result = db.spLaunchedSurvey_GetCommentsByReviewer(identity, launchedSurveyId, teamId, reviewerId).ToList();
+                foreach (var comment in result)
+                {
+                    commentsByReviewer.Add(new CommentsByReviewer
+                    {
+                        SurveyId = comment.SurveyId,
+                        SurveyName = comment.SurveyName,
+                        SurveyQuestionId = comment.SurveyQuestionId,
+                        Index = comment.Index,
+                        Question = comment.Question,
+                        TeamId = comment.TeamId,
+                        TeamName = comment.TeamName,
+                        ReviewerId = comment.ReviewerId,
+                        ReviewerName = comment.ReviewerName,
+                        RevieweeId = comment.RevieweeId,
+                        RevieweeName = comment.RevieweeName,
+                        RevieweeUserName = comment.RevieweeUserName,
+                        Grade = comment.Grade,
+                        Answer = comment.Answer,
+                    });
+                }
+            }
+            return commentsByReviewer;
+        }
+        public IEnumerable<CommentsAboutReviewee> GetCommentsAboutReviewee(string identity, int launchedSurveyId, int teamId, int revieweeId)
+        {
+            List<CommentsAboutReviewee> commentsAboutReviewee = new List<CommentsAboutReviewee>();
+            using (var db = new PEClientContext())
+            {
+                var result = db.spLaunchedSurvey_GetCommentsAboutReviewee(identity, launchedSurveyId, teamId, revieweeId).ToList();
+                foreach (var comment in result)
+                {
+                    commentsAboutReviewee.Add(new CommentsAboutReviewee
+                    {
+                        SurveyId = comment.SurveyId,
+                        SurveyName = comment.SurveyName,
+                        SurveyQuestionId = comment.SurveyQuestionId,
+                        Index = comment.Index,
+                        Question = comment.Question,
+                        TeamId = comment.TeamId,
+                        TeamName = comment.TeamName,
+                        RevieweeId = comment.RevieweeId,
+                        RevieweeName = comment.RevieweeName,
+                        ReviewerId = comment.ReviewerId,
+                        ReviewerName = comment.ReviewerName,
+                        ReviewerUserName = comment.ReviewerUserName,
+                        Grade = comment.Grade,
+                        Answer = comment.Answer,
+                    });
+                }
+            }
+            return commentsAboutReviewee;
+        }
         public Survey AddSurvey(string identity, Survey survey)
         {
             try
@@ -227,7 +285,7 @@ namespace PEClient.DAL
         }
         public bool AddTeam(string identity, string name, IEnumerable<int> members)
         {
-            bool success = false;
+            bool success;
             //Team team = null;
 
             try

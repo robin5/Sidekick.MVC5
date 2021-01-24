@@ -1,13 +1,17 @@
 ﻿@model PEClient.Models.LaunchedSurveyCommentsByViewModel
 
 @{
-    ViewBag.Title = "Responses from " + Model.Student;
+    var firstComment = (from c in Model.CommentsByReviewer
+                       select c).ToList().FirstOrDefault();
+
+    ViewBag.Title = "Responses from " + firstComment.ReviewerName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-md dsh-container">
     <div class="dsh-title">
-        <h2>Comments by @(Model.Student)</h2>
+        <h1>@(firstComment.SurveyName)</h1>
+        <h2>@(firstComment.TeamName) - Comments by @(firstComment.ReviewerName)</h2>
     </div>
     <div class="dsh-content container-fluid">
 
@@ -17,15 +21,24 @@
             int peerIndex = 0;
 
             <ul class="nav nav-tabs">
-                @foreach (PEClient.Models.SurveyResponse sr in Model.SurveyResponses)
-                {
-                    <li class="nav-item">
-                        <a class="nav-link @active" href="#peer-@(peerIndex)" data-toggle="tab">@sr.Peer</a>
-                    </li>
-                    active = "";
-                    peerIndex++;
+
+                @{
+                    active = "active";
+
+                    var RevieweeTabs = (from c in Model.CommentsByReviewer
+                                        select new { c.RevieweeId, c.RevieweeName }).Distinct().ToList();
+
+                    foreach (var revieweeTab in RevieweeTabs)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link @active" href="#peer-@(revieweeTab.RevieweeId)" data-toggle="tab">@revieweeTab.RevieweeName</a>
+                        </li>
+                        active = "";
+                    }
                 }
             </ul>
+
+
         }
 
         <div class="tab-content">
@@ -33,31 +46,37 @@
                 peerIndex = 0;
                 active = "active";
                 int toneIndex = 0;
-            }
 
-            @foreach (PEClient.Models.SurveyResponse sr in Model.SurveyResponses)
-            {
-            <div id="peer-@(peerIndex)" class="sur-survey tab-pane fade @active @show">
+                var RevieweeQuestionAnswers = from c in Model.CommentsByReviewer
+                                              group c by c.RevieweeId;
 
-                @foreach (PEClient.Models.QuestionAnswer qa in sr.QuestionsAnswers)
+                foreach (var questionAnswers in RevieweeQuestionAnswers)
                 {
-                    <p><strong>@(qa.Question)</strong></p>
-                    <p><strong>Grade: <span class="badge">@(qa.Grade)</span></strong></p>
-                    <div>
-                        <p class="cb-peer-answer">@(qa.Answer)</p>
+                    <div id="peer-@(questionAnswers.Key)" class="sur-survey tab-pane fade @active @show">
+
+                        @foreach (var qa in questionAnswers)
+                        {
+                            {
+                                <p><strong>@(qa.Question)</strong></p>
+                                <p><strong>Grade: <span class="badge bg-warning">&nbsp;@(qa.Grade)&nbsp;</span></strong></p>
+                                <div>
+                                    <p class="cb-peer-answer">@(qa.Answer)</p>
+                                </div>
+
+                                @Html.Partial("~/Views/Shared/_ToneAnalysis.cshtml", null, new ViewDataDictionary { { "ToneIndex", toneIndex.ToString() } });
+
+                                <div style="margin: 30px"></div>
+                                <hr />
+                                toneIndex++;
+                            }
+                        }
                     </div>
-
-                    @Html.Partial("~/Views/Shared/_ToneAnalysis.cshtml", null, new ViewDataDictionary { { "ToneIndex", toneIndex.ToString() } });
-
-                    <div style="margin: 30px"></div>
-                    <hr />
-                    toneIndex++;
+                    active = "";
+                    show = "";
+                    peerIndex++;
                 }
-            </div>
-                active = "";
-                show = "";
-                peerIndex++;
             }
+
         </div>
     </div>
 </div>

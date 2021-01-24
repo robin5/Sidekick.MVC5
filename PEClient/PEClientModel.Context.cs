@@ -265,5 +265,47 @@ namespace PEClient
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spTeam_Update", aspNetIdParameter, teamIdParameter, teamNameParameter);
         }
+    
+        public virtual ObjectResult<spLaunchedSurvey_GetCommentsAboutReviewee_Result> spLaunchedSurvey_GetCommentsAboutReviewee(string aspNetOwnerId, Nullable<int> surveyId, Nullable<int> teamId, Nullable<int> revieweeId)
+        {
+            var aspNetOwnerIdParameter = aspNetOwnerId != null ?
+                new ObjectParameter("AspNetOwnerId", aspNetOwnerId) :
+                new ObjectParameter("AspNetOwnerId", typeof(string));
+    
+            var surveyIdParameter = surveyId.HasValue ?
+                new ObjectParameter("SurveyId", surveyId) :
+                new ObjectParameter("SurveyId", typeof(int));
+    
+            var teamIdParameter = teamId.HasValue ?
+                new ObjectParameter("TeamId", teamId) :
+                new ObjectParameter("TeamId", typeof(int));
+    
+            var revieweeIdParameter = revieweeId.HasValue ?
+                new ObjectParameter("RevieweeId", revieweeId) :
+                new ObjectParameter("RevieweeId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spLaunchedSurvey_GetCommentsAboutReviewee_Result>("spLaunchedSurvey_GetCommentsAboutReviewee", aspNetOwnerIdParameter, surveyIdParameter, teamIdParameter, revieweeIdParameter);
+        }
+    
+        public virtual ObjectResult<spLaunchedSurvey_GetCommentsByReviewer_Result> spLaunchedSurvey_GetCommentsByReviewer(string aspNetOwnerId, Nullable<int> surveyId, Nullable<int> teamId, Nullable<int> reviewerId)
+        {
+            var aspNetOwnerIdParameter = aspNetOwnerId != null ?
+                new ObjectParameter("AspNetOwnerId", aspNetOwnerId) :
+                new ObjectParameter("AspNetOwnerId", typeof(string));
+    
+            var surveyIdParameter = surveyId.HasValue ?
+                new ObjectParameter("SurveyId", surveyId) :
+                new ObjectParameter("SurveyId", typeof(int));
+    
+            var teamIdParameter = teamId.HasValue ?
+                new ObjectParameter("TeamId", teamId) :
+                new ObjectParameter("TeamId", typeof(int));
+    
+            var reviewerIdParameter = reviewerId.HasValue ?
+                new ObjectParameter("ReviewerId", reviewerId) :
+                new ObjectParameter("ReviewerId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spLaunchedSurvey_GetCommentsByReviewer_Result>("spLaunchedSurvey_GetCommentsByReviewer", aspNetOwnerIdParameter, surveyIdParameter, teamIdParameter, reviewerIdParameter);
+        }
     }
 }

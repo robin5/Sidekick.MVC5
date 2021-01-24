@@ -2,7 +2,7 @@
 // * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: TeamSummary.cs
+// * File: LaunchedSurveyTeams.cs
 // *
 // * Author: Robin Murray
 // *

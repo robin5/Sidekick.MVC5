@@ -40,7 +40,7 @@ namespace PEClient.Controllers
     [Authorize(Roles = "Admin,Instructor")]
     public class TeamController : Controller
     {
-        private IRepository repository = new SQLRepository();
+        private readonly IRepository repository = new SQLRepository();
 
         [HttpGet]
         [Route("Team/Index/{id:int}")]
@@ -60,7 +60,7 @@ namespace PEClient.Controllers
                     });
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: Log the exception
             }
@@ -78,7 +78,7 @@ namespace PEClient.Controllers
                     Students = repository.GetAllStudents(User.Identity.GetUserId())
                 });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: Log the exception
             }
@@ -109,7 +109,7 @@ namespace PEClient.Controllers
                     TempData.ErrorMessage($"Failed adding {model.TeamName} to peer groups");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: Log the exception
                 TempData.ErrorMessage($"Failed adding team");
@@ -139,7 +139,7 @@ namespace PEClient.Controllers
                     });
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: Log the exception
             }
@@ -168,7 +168,7 @@ namespace PEClient.Controllers
                     TempData.ErrorMessage($"Failed updating {vm.TeamName}");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: Log the exception
                 TempData.ErrorMessage($"Failed updating {vm.TeamName}");
@@ -194,7 +194,7 @@ namespace PEClient.Controllers
                     });
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // TODO: Log the exception
             }

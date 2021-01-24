@@ -1,13 +1,17 @@
 ﻿@model PEClient.Models.LaunchedSurveyCommentsAboutViewModel
 
 @{
-    ViewBag.Title = "Comments About " + Model.Student;
+    var firstComment = (from c in Model.CommentsAboutReviewee
+                        select c).ToList().FirstOrDefault();
+
+    ViewBag.Title = "Comments About " + firstComment.RevieweeName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-md dsh-container">
     <div class="dsh-title">
-        <h2>Comments about @(Model.Student)</h2>
+        <h1>@(firstComment.SurveyName)</h1>
+        <h2>@(firstComment.TeamName) - Comments about @(firstComment.RevieweeName)</h2>
     </div>
     <div class="dsh-content container-fluid">
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#summary-tone" aria-expanded="false" aria-controls="view summary tone">
@@ -18,33 +22,33 @@
         @{
             var toneIndex = 0;
             var qIndex = 1;
-        }
 
-        @foreach (PEClient.Models.PeerQuestionAnswers p in Model.PeerQuestionAnswers)
-        {
-            <div class="cb-question-group">
+            var RevieweeQuestionAnswers = from c in Model.CommentsAboutReviewee
+                                          group c by new { c.Index, c.RevieweeId };
 
-                <button class="cb-question" type="button" data-toggle="collapse" data-target="#templates@(qIndex)" aria-expanded="false" aria-controls="collapseExample">
-                    <p>@(qIndex). @(p.Question)</p>
-                </button>
+            foreach (var questionAnswers in RevieweeQuestionAnswers)
+            {
+                <div class="cb-question-group">
+                    <button class="cb-question" type="button" data-toggle="collapse" data-target="#templates@(qIndex)" aria-expanded="false" aria-controls="collapseExample">
+                        <p>@(qIndex). @(questionAnswers.First().Question)</p>
+                    </button>
+                    <div id="templates@(qIndex)" class="collapse">
+                        <div class="cb-answer-group">
 
-                <div id="templates@(qIndex)" class="collapse">
-                    <div class="cb-answer-group">
-                        @foreach (PEClient.Models.PeerAnswer peerAnswer in p.Answers)
-                        {
-                            <p class="cb-student-and-grade">@(peerAnswer.Peer) - Grade: @(peerAnswer.Grade)</p>
-                            <div>
-                                <p class="cb-peer-answer">@(peerAnswer.Answer)</p>
-                            </div>
-
-                            @Html.Partial("~/Views/Shared/_ToneAnalysis.cshtml", null, new ViewDataDictionary { { "ToneIndex", toneIndex.ToString() } });
-
-                            toneIndex++;
-                        }
+                            @foreach (var item in questionAnswers)
+                            {
+                                <p class="cb-student-and-grade">@(item.ReviewerName) - Grade: <span class="badge bg-warning">&nbsp;@(item.Grade)&nbsp;</span></p>
+                                <div>
+                                    <p class="cb-peer-answer">@(item.Answer)</p>
+                                </div>
+                                @Html.Partial("~/Views/Shared/_ToneAnalysis.cshtml", null, new ViewDataDictionary { { "ToneIndex", toneIndex.ToString() } });
+                                toneIndex++;
+                            }
+                        </div>
                     </div>
+                    @{qIndex++; }
                 </div>
-            </div>
-            qIndex++;
+            }
         }
     </div>
 </div>
