@@ -2,7 +2,7 @@
 // * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: EvaluationTemplate.cs
+// * File: Survey.cs
 // *
 // * Author: Robin Murray
 // *
@@ -28,10 +28,7 @@
 // * 
 // **********************************************************************************
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace PEClient.Models
 {

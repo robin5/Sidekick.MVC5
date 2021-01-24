@@ -2,7 +2,7 @@
 // * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: CreateTeamModel.cs
+// * File: TeamCreateViewModel.cs
 // *
 // * Author: Robin Murray
 // *
@@ -28,9 +28,7 @@
 // * 
 // **********************************************************************************
 
-using System;
 using System.Collections.Generic;
-using System.Web.Mvc;
 using PEClient.Validation;
 
 namespace PEClient.Models

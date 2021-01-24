@@ -2,9 +2,9 @@
 // * Copyright (c) 2019 Robin Murray
 // **********************************************************************************
 // *
-// * File: SurveyCreateViewModel.cs
+// * File: SurveyDeleteViewModel.cs
 // *
-// * Description: View model for the survey controller for creating a survey
+// * Description: View model for the survey controller for deleting a survey
 // *
 // * Author: Robin Murray
 // *
@@ -29,11 +29,6 @@
 // *   THE SOFTWARE.
 // * 
 // **********************************************************************************
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace PEClient.Models
 {
